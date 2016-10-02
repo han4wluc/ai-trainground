@@ -6,6 +6,8 @@ export default class Cell extends Component {
   static propTypes = {
     onClick: React.PropTypes.func,
     style: React.PropTypes.object,
+    x: React.PropTypes.number,
+    y: React.PropTypes.number,
   }
 
   render() {

@@ -1,6 +1,13 @@
 
+
+
+
+
+
 const initialState = {
-  //
+  gridState: {
+
+  }
 };
 
 export default function moduleName(state = initialState, action = {}){
