@@ -2,12 +2,20 @@
 import React, { Component } from 'react';
 
 export default class Cell extends Component {
+
+  static propTypes = {
+    onClick: React.PropTypes.func,
+    style: React.PropTypes.object,
+  }
+
   render() {
 
-    const { style } = this.props;
+    const { onClick, style, x, y } = this.props;
 
     return (
-      <div style={{
+      <div
+        onClick={onClick.bind(null,{x,y})}
+        style={{
           width: '36px',
           height: '36px',
           marginTop: '2px',

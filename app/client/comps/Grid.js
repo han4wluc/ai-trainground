@@ -8,6 +8,7 @@ export default class Grid extends Component {
 
   static propTypes = {
     columns: React.PropTypes.number.isRequired,
+    onClick: React.PropTypes.func,
     rows: React.PropTypes.number.isRequired,
   }
 
@@ -15,7 +16,8 @@ export default class Grid extends Component {
 
     const {
       rows,
-      columns
+      columns,
+      onClick,
     } = this.props;
 
     const cells = [];
@@ -27,6 +29,9 @@ export default class Grid extends Component {
         const cell = (
           <Cell
             key={`${iy}_${ix}`}
+            onClick={onClick}
+            x={ix}
+            y={iy}
             style={{
               position: 'absolute',
               backgroundColor:'#ccc',
