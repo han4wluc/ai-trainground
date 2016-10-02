@@ -5,12 +5,17 @@ import * as homeActions from './home.action';
 import { Utils, Comps, } from '../../';
 
 const { Setup } = Utils;
-const { Cell } = Comps;
+const { Cell, Grid } = Comps;
 
 class HomeContainer extends Component {
   render(){
     return (
-      <Cell/>
+      <div>
+        <Grid
+          rows={6}
+          columns={6}
+        />
+      </div>
     );
   }
 }
