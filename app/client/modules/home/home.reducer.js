@@ -27,7 +27,7 @@ export default function moduleName(state = initialState, action = {}){
       color: 'red'
     };
 
-    console.log(gridState);
+    // console.log(gridState);
 
     return {
       ...state,

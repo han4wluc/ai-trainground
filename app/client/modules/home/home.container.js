@@ -4,13 +4,34 @@ import * as homeActions from './home.action';
 
 import { Utils, Comps, } from '../../';
 
-const { Setup } = Utils;
+const { Setup, GridUtil } = Utils;
 const { Cell, Grid } = Comps;
 
 class HomeContainer extends Component {
 
   static propTypes = {
+    actions: React.PropTypes.object,
     state: React.PropTypes.object,
+  }
+
+  componentDidMount() {
+    const {
+      updateCell
+    } = this.props.actions;
+    const {
+      gridState
+    } = this.props.state;
+
+    const coordinate = {x:1,y:2};
+    updateCell(coordinate);
+
+    const finges = GridUtil.getSuccessor({gridState, coordinate});
+
+    finges.forEach((c)=>{
+      updateCell(c);
+    });
+
+
   }
 
   _onClickCell(params){
