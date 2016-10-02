@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha ./app/tests.js",
     "dev:c": "webpack-dev-server --config webpack.client.config.js --hot",
     "dev:s": "node app/server"
   },
