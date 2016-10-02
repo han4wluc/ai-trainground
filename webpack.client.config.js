@@ -7,7 +7,7 @@ module.exports = {
   entry: [
     // 'webpack-dev-server/client?http://0.0.0.0:8080',
     'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-    path.resolve(__dirname, 'app/client/index.js') // Your appʼs entry point
+    path.resolve(__dirname, 'app/client/app.js') // Your app's entry point
   ],
   // entry: path.resolve(__dirname, 'app/client/index.js'),
 
