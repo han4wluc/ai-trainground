@@ -1,6 +1,13 @@
 
-export function addCounter() {
+export function updateCell(params) {
+
+  const { x, y } = params;
+
   return {
-    type: 'ADD_COUNTER'
+    type: 'HOME_UPDATE_CELL',
+    props: {
+      key: `x${x}y${y}`,
+    }
   };
+
 }

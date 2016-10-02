@@ -2,12 +2,13 @@
 
 
 
-
+import { Utils } from '../../.'
+const {
+  GridUtil
+} = Utils;
 
 const initialState = {
-  gridState: {
-
-  }
+  gridState: GridUtil.generateInitialGridState({columns:6,rows:6})
 };
 
 export default function moduleName(state = initialState, action = {}){
@@ -16,6 +17,21 @@ export default function moduleName(state = initialState, action = {}){
     return {
       ...state,
       ...action.props,
+    };
+  }
+
+  if(action.type === 'HOME_UPDATE_CELL'){
+
+    const gridState = state.gridState;
+    gridState[action.props.key] = {
+      color: 'red'
+    };
+
+    console.log(gridState);
+
+    return {
+      ...state,
+      gridState,
     };
   }
 

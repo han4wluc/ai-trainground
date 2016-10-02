@@ -9,14 +9,29 @@ const { Cell, Grid } = Comps;
 
 class HomeContainer extends Component {
 
+  static propTypes = {
+    state: React.PropTypes.object,
+  }
+
   _onClickCell(params){
-    console.log(params);
+    const {
+      updateCell
+    } = this.props.actions;
+    // console.log(params);
+    const { x,y } = params;
+    updateCell({x,y});
   }
 
   render(){
+
+    const {
+      gridState
+    } = this.props.state;
+
     return (
       <div>
         <Grid
+          gridState={gridState}
           onClick={this._onClickCell.bind(this)}
           rows={6}
           columns={6}

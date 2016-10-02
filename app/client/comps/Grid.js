@@ -8,6 +8,7 @@ export default class Grid extends Component {
 
   static propTypes = {
     columns: React.PropTypes.number.isRequired,
+    gridState: React.PropTypes.object.isRequired,
     onClick: React.PropTypes.func,
     rows: React.PropTypes.number.isRequired,
   }
@@ -18,6 +19,7 @@ export default class Grid extends Component {
       rows,
       columns,
       onClick,
+      gridState,
     } = this.props;
 
     const cells = [];
@@ -26,6 +28,11 @@ export default class Grid extends Component {
       const top = iy * 40;
       _.range(columns).forEach((ix)=>{
         const left = ix * 40;
+
+        const coor = `x${ix}y${iy}`;
+
+        const backgroundColor = gridState[coor].color || '#ccc';
+
         const cell = (
           <Cell
             key={`${iy}_${ix}`}
@@ -34,7 +41,8 @@ export default class Grid extends Component {
             y={iy}
             style={{
               position: 'absolute',
-              backgroundColor:'#ccc',
+              backgroundColor,
+              // backgroundColor:'#ccc',
               left: `${left}px`,
               top: `${top}px`,
             }}
