@@ -2,14 +2,15 @@
 import React, { Component } from 'react';
 import * as homeActions from './home.action';
 
-import { Utils} from '../../';
+import { Utils, Comps, } from '../../';
 
 const { Setup } = Utils;
+const { Cell } = Comps;
 
 class HomeContainer extends Component {
   render(){
     return (
-      <div>{'Hello Home'}</div>
+      <Cell/>
     );
   }
 }
