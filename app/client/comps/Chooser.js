@@ -2,6 +2,12 @@
 import React, { Component } from 'react';
 
 export default class Chooser extends Component {
+
+  static propTypes = {
+    onClick: React.PropTypes.func,
+    text: React.PropTypes.string,
+  }
+
   render() {
 
     const {
