@@ -8,7 +8,15 @@ const {
 } = Utils;
 
 const initialState = {
-  gridState: GridUtil.generateInitialGridState({columns:6,rows:6})
+  gridState: {
+    ...GridUtil.generateInitialGridState({columns:6,rows:6}),
+    'x1y2': {
+      isStart: true,
+    },
+    'x5y5': {
+      isGoal: true,
+    }
+  }
 };
 
 export default function moduleName(state = initialState, action = {}){
@@ -24,6 +32,7 @@ export default function moduleName(state = initialState, action = {}){
 
     const gridState = state.gridState;
     gridState[action.props.key] = {
+      ...gridState[action.props.key],
       color: 'red'
     };
 

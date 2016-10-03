@@ -31,7 +31,14 @@ export default class Grid extends Component {
 
         const coor = `x${ix}y${iy}`;
 
-        const backgroundColor = gridState[coor].color || '#ccc';
+        let backgroundColor = gridState[coor].color || '#ccc';
+        if(gridState[coor].isStart){
+          backgroundColor = 'blue';
+        }
+        if(gridState[coor].isGoal){
+          backgroundColor = 'green';
+        }
+
 
         const cell = (
           <Cell
