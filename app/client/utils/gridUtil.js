@@ -22,7 +22,9 @@ const generateInitialGridState = function(params){
 
   _.range(rows).forEach((y)=>{
     _.range(columns).forEach((x)=>{
-      gridState[_coorToKey({x,y})] = {};
+      gridState[_coorToKey({x,y})] = {
+        cost: 1,
+      };
     });
   });
 
@@ -86,7 +88,7 @@ const getSuccessor = function(params){
   const top =    { x, y:y+1};
 
   const finges = [left,right,bottom,top].filter((d)=>{
-    return gridState[_coorToKey(d)];
+    return gridState[_coorToKey(d)] && !gridState[_coorToKey(d)].isWall;
   });
   return finges;
 };

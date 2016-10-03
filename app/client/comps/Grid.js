@@ -33,7 +33,20 @@ export default class Grid extends Component {
 
         // let backgroundColor = '#ccc';
         const showDot = gridState[coor].showDot;
-        let backgroundColor = gridState[coor].color || '#ccc';
+
+        // let backgroundColor = gridState[coor].color || '#ccc';
+
+        let backgroundColor = '#ddd';
+        if(gridState[coor].cost === 1){
+          backgroundColor = '#ccc';
+        }
+        if(gridState[coor].cost === 2){
+          backgroundColor = '#bbb';
+        }
+        if(gridState[coor].cost > 2){
+          backgroundColor = '#aaa';
+        }
+
         if(gridState[coor].isStart){
           backgroundColor = 'blue';
         }
@@ -41,6 +54,13 @@ export default class Grid extends Component {
           backgroundColor = 'green';
         }
 
+        if(gridState[coor].color){
+          backgroundColor = gridState[coor].color;
+        }
+
+        if(gridState[coor].isWall){
+          backgroundColor = 'black';
+        }
 
         const cell = (
           <Cell

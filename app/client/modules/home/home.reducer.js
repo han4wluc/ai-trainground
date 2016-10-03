@@ -11,9 +11,19 @@ const initialState = {
     ...GridUtil.generateInitialGridState({columns:8,rows:8}),
     'x1y2': {
       isStart: true,
+      cost: 0,
+    },
+    'x2y2': {
+      cost: 0,
+      isWall: true,
+    },
+    'x2y3': {
+      cost: 0,
+      isWall: true,
     },
     'x5y5': {
       isGoal: true,
+      cost: 0,
     }
   }
 };
@@ -38,6 +48,16 @@ export default function moduleName(state = initialState, action = {}){
 
     // console.log(gridState);
 
+    return {
+      ...state,
+      gridState,
+    };
+
+  }
+
+  if(action.type === 'HOME_INCREMENT_CELL_COST'){
+    const gridState = _.cloneDeep(state.gridState);
+    gridState[action.props.key].cost++;
     return {
       ...state,
       gridState,

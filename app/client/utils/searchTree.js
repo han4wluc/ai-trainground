@@ -17,17 +17,32 @@ const computeManhattanDistance = function(params){
   return horizontalDistance + verticalDistance;
 };
 
+const computeCost = function(params){
+  const {coordinate, gridState} = params;
+  // console.log('coordinate', coordinate)
+  const key = GridUtil.coorToKey(coordinate);
+  const cost = gridState[key].cost;
+  return cost;
+};
+
 const strategies = {
-  BFS: function(queue){
+  BFS: function(params){
+    const { list:queue } = params;
     const node = queue[0];
     return [node, queue.slice(1,queue.length)];
   },
-  DFS: function(stack){
+  DFS: function(params){
+    const { list:stack } = params;
     const length = stack.length;
     const node = stack[length-1];
     return [node, stack.slice(0,stack.length-1)];
   },
-  greedy: function(queue, goalCoordinate){
+  greedy: function(params){
+    const {
+      list:queue,
+      goalCoordinate
+    } = params;
+
     let index = 0;
     let value = undefined;
 
@@ -50,6 +65,48 @@ const strategies = {
         ...queue.slice(index+1,queue.length)
       ]
     ];
+  },
+  uniform: function(params){
+    const {
+      list,
+      gridState,
+    } = params;
+
+    const costs = list.map((l)=>{
+      let cost = 0;
+
+      const { coordinate, path }=l;
+
+      cost = cost + computeCost({coordinate, gridState});
+
+      let cost2 = 0;
+      path.forEach((p)=>{
+        cost2 = cost2 + computeCost({coordinate:p, gridState});
+      });
+      return cost + cost2;
+    });
+
+    let index = 0;
+    let value = undefined;
+    costs.forEach((c, i)=>{
+      if( value === undefined || c < value){
+        value = c;
+        index = i;
+      }
+    });
+
+    const node = list[index];
+    return [
+      node,
+      [
+        ...list.slice(0,index),
+        ...list.slice(index+1,list.length)
+      ]
+    ];
+    // GridUtil.coorToKey()
+    // gridState
+    // gridState[]
+
   }
 };
 
@@ -125,12 +182,16 @@ class SearchTree {
       return this._nextExhausted.call(this);
     }
 
+    // console.log(this._queue)
+
     // expand the next node depending on the strategy
     let node;
-    [node, this._queue] = this._strategy(
-      this._queue,
-      GridUtil.getGoalCoordinate({gridState}),
-    );
+    [node, this._queue] = this._strategy({
+      list: this._queue,
+      goalCoordinate: GridUtil.getGoalCoordinate({gridState}),
+      gridState,
+    });
+
     const { coordinate } = node;
     const newPath = node.path.concat(coordinate);
 

@@ -65,7 +65,7 @@ class HomeContainer extends Component {
     const res = this._searchTree.next({gridState});
 
     if(res.goalReached){
-      paintCells({coordinates: res.branch});
+      paintCells({coordinates: res.branch.slice(1,-1)});
       return;
     }
 
@@ -80,11 +80,10 @@ class HomeContainer extends Component {
 
   _onClickCell(params){
     const {
-      updateCell
+      incrementCellCost
     } = this.props.actions;
-    // console.log(params);
-    const { x,y } = params;
-    updateCell({x,y});
+    const { x, y } = params;
+    incrementCellCost({x,y});
   }
 
   render(){
@@ -104,6 +103,7 @@ class HomeContainer extends Component {
         <button onClick={this._next.bind(this, {strategy:'BFS'})}>{'BFS'}</button>
         <button onClick={this._next.bind(this, {strategy:'DFS'})}>{'DFS'}</button>
         <button onClick={this._next.bind(this, {strategy:'greedy'})}>{'greedy'}</button>
+        <button onClick={this._next.bind(this, {strategy:'uniform'})}>{'uniform'}</button>
         <button onClick={this._reset.bind(this)}>{'reset'}</button>
       </div>
     );
