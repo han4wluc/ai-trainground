@@ -5,14 +5,28 @@ export default class Cell extends Component {
 
   static propTypes = {
     onClick: React.PropTypes.func,
+    showDot: React.PropTypes.bool,
     style: React.PropTypes.object,
     x: React.PropTypes.number,
     y: React.PropTypes.number,
   }
 
+  _renderDot(){
+    return (
+      <div
+        style={{
+          width: '6px',
+          height: '6px',
+          borderRadius: '3px',
+          backgroundColor: '#eee',
+        }}
+      />
+    );
+  }
+
   render() {
 
-    const { onClick, style, x, y } = this.props;
+    const { onClick, showDot, style, x, y } = this.props;
 
     return (
       <div
@@ -24,9 +38,14 @@ export default class Cell extends Component {
           marginLeft: '2px',
           backgroundColor: 'red',
           border: '1px solid #bbb',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           ...style
         }}
-      />
+      >
+        {showDot && this._renderDot()}
+      </div>
     );
   }
 }

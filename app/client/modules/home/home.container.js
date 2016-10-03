@@ -21,58 +21,56 @@ class HomeContainer extends Component {
   }
 
   componentDidMount() {
+    this._initTree.call(this);
+    // let i = 0;
+    // while(i < 10){
+    //   i++;
+    //   this._next.call(this);
+    // }
+  }
+
+  _reset() {
+    const {
+      resetToInitialState
+    } = this.props.actions;
+    resetToInitialState();
+    this.tree = [];
+    this._initTree.call(this);
+  }
+
+  _initTree(){
     const {
       gridState
     } = this.props.state;
 
     const start = GridUtil.getStartCoordinate({gridState});
     let branch = [start];
-    // this.tree.push(branch);
 
     let finges = GridUtil.getSuccessor({gridState, coordinate:start});
 
     finges = finges.map((f)=>{
       return branch.concat(f);
-    })
-    // .filter((f)=>{
-    //   return !_.find(this.tree, f);
-    // });
-
+    });
     for (var j =0; j<finges.length; j++){
       this.tree.push(finges[j]);
     }
-
-    // let i = 0;
-    // while(i < 1){
-    //   i++;
-
-    // }
-
   }
 
-  _next() {
+  _next(params) {
 
     const {
-      updateCell
+      strategy
+    } = params;
+
+    const {
+      updateCell,
+      paintCells,
     } = this.props.actions;
 
     const {
       gridState
     } = this.props.state;
 
-    // breadth first
-    // const strategy = function(tree){
-    //   return tree.sort((prev, next)=>{
-    //     return prev.length > next.length ? 1 : -1;
-    //   });
-    // };
-
-    // depth first
-    const strategy = function(tree){
-      return tree.sort((prev, next)=>{
-        return prev.length > next.length ? -1 : 1;
-      });
-    };
 
     // console.log('this.tree', JSON.stringify(this.tree, null, 2));
     this.tree = strategy(this.tree);
@@ -82,6 +80,7 @@ class HomeContainer extends Component {
 
     if(GridUtil.isGoalState({gridState, coordinate})){
       console.log('GOAL REACHED');
+      paintCells({coordinates: branch});
       return;
     }
 
@@ -127,6 +126,7 @@ class HomeContainer extends Component {
     }
 
     // graph search
+    // do not repeat already searched leaves
     this.tree = this.tree.filter((t)=>{
       return !_.find(prevCells, _.last(t));
     });
@@ -143,6 +143,21 @@ class HomeContainer extends Component {
 
   render(){
 
+    // breadth first
+    const BFS = function(tree){
+      return tree.sort((prev, next)=>{
+        return prev.length > next.length ? 1 : -1;
+      });
+    };
+
+    // depth first
+    // TODO limit depth
+    const DFS = function(tree){
+      return tree.sort((prev, next)=>{
+        return prev.length > next.length ? -1 : 1;
+      });
+    };
+
     const {
       gridState
     } = this.props.state;
@@ -155,7 +170,9 @@ class HomeContainer extends Component {
           rows={6}
           columns={6}
         />
-        <button onClick={this._next.bind(this)}>{'>'}</button>
+        <button onClick={this._next.bind(this, {strategy:BFS})}>{'BFS'}</button>
+        <button onClick={this._next.bind(this, {strategy:DFS})}>{'DFS'}</button>
+        <button onClick={this._reset.bind(this)}>{'reset'}</button>
       </div>
     );
   }

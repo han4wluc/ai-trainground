@@ -31,6 +31,8 @@ export default class Grid extends Component {
 
         const coor = `x${ix}y${iy}`;
 
+        // let backgroundColor = '#ccc';
+        const showDot = gridState[coor].showDot;
         let backgroundColor = gridState[coor].color || '#ccc';
         if(gridState[coor].isStart){
           backgroundColor = 'blue';
@@ -46,6 +48,7 @@ export default class Grid extends Component {
             onClick={onClick}
             x={ix}
             y={iy}
+            showDot={showDot}
             style={{
               position: 'absolute',
               backgroundColor,

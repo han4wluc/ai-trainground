@@ -1,8 +1,9 @@
 
 
 
+import _ from 'lodash';
+import { Utils } from '../../.';
 
-import { Utils } from '../../.'
 const {
   GridUtil
 } = Utils;
@@ -30,14 +31,26 @@ export default function moduleName(state = initialState, action = {}){
 
   if(action.type === 'HOME_UPDATE_CELL'){
 
-    const gridState = state.gridState;
+    const gridState = _.cloneDeep(state.gridState);
     gridState[action.props.key] = {
       ...gridState[action.props.key],
-      color: 'red'
+      showDot: true,
+      // color: 'red'
     };
 
     // console.log(gridState);
 
+    return {
+      ...state,
+      gridState,
+    };
+  }
+
+  if(action.type === 'HOME_PAINT_CELLS'){
+    const gridState = _.cloneDeep(state.gridState);
+    action.props.coordinates.forEach((c)=>{
+      gridState[c].color = 'red';
+    });
     return {
       ...state,
       gridState,

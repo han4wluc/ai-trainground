@@ -11,3 +11,25 @@ export function updateCell(params) {
   };
 
 }
+
+export function paintCells(params){
+  const {
+    coordinates
+  } = params;
+
+  return {
+    type: 'HOME_PAINT_CELLS',
+    props: {
+      coordinates: coordinates.map((c)=>{
+        return `x${c.x}y${c.y}`;
+      }),
+    }
+  };
+
+}
+
+export function resetToInitialState(){
+  return {
+    type: 'HOME_RESET_TO_INITIAL_STATE',
+  };
+}
