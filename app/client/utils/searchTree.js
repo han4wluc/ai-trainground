@@ -25,6 +25,17 @@ const computeCost = function(params){
   return cost;
 };
 
+const mapCosts = function(gridState, l){
+  let cost = 0;
+  const { coordinate, path }=l;
+  cost = cost + computeCost({coordinate, gridState});
+  let cost2 = 0;
+  path.forEach((p)=>{
+    cost2 = cost2 + computeCost({coordinate:p, gridState});
+  });
+  return cost + cost2;
+};
+
 const strategies = {
   BFS: function(params){
     const { list:queue } = params;
@@ -72,19 +83,7 @@ const strategies = {
       gridState,
     } = params;
 
-    const costs = list.map((l)=>{
-      let cost = 0;
-
-      const { coordinate, path }=l;
-
-      cost = cost + computeCost({coordinate, gridState});
-
-      let cost2 = 0;
-      path.forEach((p)=>{
-        cost2 = cost2 + computeCost({coordinate:p, gridState});
-      });
-      return cost + cost2;
-    });
+    const costs = list.map(mapCosts.bind(null,gridState));
 
     let index = 0;
     let value = undefined;
@@ -107,7 +106,53 @@ const strategies = {
     // gridState
     // gridState[]
 
+  },
+
+  astar: function(params){
+    const {
+      list,
+      gridState,
+      goalCoordinate
+    } = params;
+
+    const distances = list.map((l)=>{
+      return computeManhattanDistance({
+        start: l.coordinate,
+        end: goalCoordinate
+      });
+    });
+
+    // console.log('distances', distances);
+
+    const costs = list.map(mapCosts.bind(null,gridState));
+
+    // console.log('costs', costs);
+
+    const heuristics = distances.map((d,i)=>{
+      const c = costs[i];
+      return d + c;
+    });
+
+    let index = 0;
+    let value = undefined;
+    heuristics.forEach((h, i)=>{
+      if(value === undefined || h < value){
+        index = i;
+        value = h;
+      }
+    });
+
+    const node = list[index];
+    return [
+      node,
+      [
+        ...list.slice(0,index),
+        ...list.slice(index+1,list.length)
+      ]
+    ];
+
   }
+
 };
 
 class SearchTree {
@@ -153,11 +198,23 @@ class SearchTree {
     };
   }
 
-  _nextGoalReached(path){
-    // console.log('GOAL REACHED', this._expansions);
+  _nextGoalReached(params){
+    const {
+      path,
+      gridState
+    } = params;
+    // console.log('path', path);
+    let cost = 0;
+    path.forEach((p)=>{
+      cost = cost + computeCost({coordinate:p, gridState});
+    });
+    // console.log('costs', costs);
+    // console.log('GOAL REACHED', this._expansions, cost);
+
     return {
+      cost,
       goalReached: true,
-      branch: path,
+      path: path,
       expansions: this._expansions,
     };
   }
@@ -196,7 +253,7 @@ class SearchTree {
     const newPath = node.path.concat(coordinate);
 
     if(GridUtil.isGoalState({gridState, coordinate})){
-      return this._nextGoalReached.call(this, newPath);
+      return this._nextGoalReached.call(this, {path:newPath,gridState});
     }
 
     this._visited.push({

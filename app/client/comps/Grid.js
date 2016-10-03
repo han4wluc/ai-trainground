@@ -43,15 +43,8 @@ export default class Grid extends Component {
         if(gridState[coor].cost === 2){
           backgroundColor = '#bbb';
         }
-        if(gridState[coor].cost > 2){
+        if(gridState[coor].cost === 3){
           backgroundColor = '#aaa';
-        }
-
-        if(gridState[coor].isStart){
-          backgroundColor = 'blue';
-        }
-        if(gridState[coor].isGoal){
-          backgroundColor = 'green';
         }
 
         if(gridState[coor].color){
@@ -61,6 +54,18 @@ export default class Grid extends Component {
         if(gridState[coor].isWall){
           backgroundColor = 'black';
         }
+
+        if(gridState[coor].isHighlighted){
+          backgroundColor = 'red';
+        }
+
+        if(gridState[coor].isStart){
+          backgroundColor = 'blue';
+        }
+        if(gridState[coor].isGoal){
+          backgroundColor = 'green';
+        }
+
 
         const cell = (
           <Cell

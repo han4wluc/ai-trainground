@@ -6,26 +6,13 @@ const {
   GridUtil
 } = Utils;
 
+import Grids from './grids';
+
 const initialState = {
-  gridState: {
-    ...GridUtil.generateInitialGridState({columns:8,rows:8}),
-    'x1y2': {
-      isStart: true,
-      cost: 0,
-    },
-    'x2y2': {
-      cost: 0,
-      isWall: true,
-    },
-    'x2y3': {
-      cost: 0,
-      isWall: true,
-    },
-    'x5y5': {
-      isGoal: true,
-      cost: 0,
-    }
-  }
+  columns: 5,
+  rows: 5,
+  gridState: Grids['grid_1'],
+  resultTable: []
 };
 
 export default function moduleName(state = initialState, action = {}){
@@ -55,9 +42,39 @@ export default function moduleName(state = initialState, action = {}){
 
   }
 
+  if(action.type === 'HOME_UPDATE_CELLS'){
+    const gridState = _.cloneDeep(state.gridState);
+    action.props.keys.forEach((key)=>{
+      gridState[key].showDot = true;
+    });
+    return {
+      ...state,
+      gridState,
+    };
+  }
+
+  if(action.type === 'HOME_CLEAR_PATH'){
+    const gridState = _.cloneDeep(state.gridState);
+    for (var key in gridState){
+      const cell = gridState[key];
+      cell.showDot = false;
+      cell.isHighlighted = false;
+    }
+    return {
+      ...state,
+      gridState,
+    };
+  }
+
   if(action.type === 'HOME_INCREMENT_CELL_COST'){
     const gridState = _.cloneDeep(state.gridState);
-    gridState[action.props.key].cost++;
+    const cost = gridState[action.props.key].cost;
+    if(cost > 2){
+      gridState[action.props.key].isWall = true;
+    } else {
+      gridState[action.props.key].cost++;
+    }
+
     return {
       ...state,
       gridState,
@@ -67,11 +84,19 @@ export default function moduleName(state = initialState, action = {}){
   if(action.type === 'HOME_PAINT_CELLS'){
     const gridState = _.cloneDeep(state.gridState);
     action.props.coordinates.forEach((c)=>{
-      gridState[c].color = 'red';
+      // gridState[c].color = 'red';
+      gridState[c].isHighlighted = true;
     });
     return {
       ...state,
       gridState,
+    };
+  }
+
+  if(action.type === 'HOME_UPDATE_RESULT_TABLE'){
+    return {
+      ...state,
+      resultTable: action.props.resultTable,
     };
   }
 
