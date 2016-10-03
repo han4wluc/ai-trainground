@@ -38,13 +38,13 @@ export default class Grid extends Component {
 
         let backgroundColor = '#ddd';
         if(gridState[coor].cost === 1){
-          backgroundColor = '#ccc';
+          backgroundColor = '#ddd';
         }
         if(gridState[coor].cost === 2){
-          backgroundColor = '#bbb';
+          backgroundColor = '#ccc';
         }
         if(gridState[coor].cost === 3){
-          backgroundColor = '#aaa';
+          backgroundColor = '#bbb';
         }
 
         if(gridState[coor].color){

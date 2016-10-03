@@ -18,7 +18,7 @@ export default class Cell extends Component {
           width: '6px',
           height: '6px',
           borderRadius: '3px',
-          backgroundColor: '#eee',
+          backgroundColor: '#222',
         }}
       />
     );

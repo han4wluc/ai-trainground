@@ -240,6 +240,9 @@ class HomeContainer extends Component {
           <button onClick={this._next.bind(this, {strategy:'uniform'})}>{'uniform'}</button>
           <button onClick={this._next.bind(this, {strategy:'astar'})}>{'astar'}</button>
           <button onClick={this._reset.bind(this)}>{'reset'}</button>
+
+          <br/>
+          <button onClick={this._computeAll.bind(this)}>{'computall'}</button>
         </div>
         {this._renderTable.call(this)}
 
