@@ -2,52 +2,55 @@
 import _ from 'lodash';
 import GridUtil from './gridUtil';
 
+const computeManhattanDistance = function(params){
+  const { start, end } = params;
+  const {
+    x: sx,
+    y: sy,
+  } = start;
+  const {
+    x: ex,
+    y: ey,
+  } = end;
+  const horizontalDistance = Math.abs(sx - ex);
+  const verticalDistance = Math.abs(sy - ey);
+  return horizontalDistance + verticalDistance;
+};
+
 const strategies = {
-  // Breadth First Search
-  BFS:function(tree){
-    return tree.sort((prev, next)=>{
-      return prev.length > next.length ? 1 : -1;
-    });
+  BFS: function(queue){
+    const node = queue[0];
+    return [node, queue.slice(1,queue.length)];
   },
-
-  // Depth First Search
-  // TODO limit depth
-  DFS:function(tree){
-    return tree.sort((prev, next)=>{
-      return prev.length > next.length ? -1 : 1;
-    });
+  DFS: function(stack){
+    const length = stack.length;
+    const node = stack[length-1];
+    return [node, stack.slice(0,stack.length-1)];
   },
+  greedy: function(queue, goalCoordinate){
+    let index = 0;
+    let value = undefined;
 
-  // Greedy Search
-  greedy: function(tree, goalCoordinate){
-    const computeManhattanDistance = function(params){
-      const { start, end } = params;
-      const {
-        x: sx,
-        y: sy,
-      } = start;
-      const {
-        x: ex,
-        y: ey,
-      } = end;
-      const horizontalDistance = Math.abs(sx - ex);
-      const verticalDistance = Math.abs(sy - ey);
-      return horizontalDistance + verticalDistance;
-    };
-
-    return tree.sort((prev, next)=>{
-      const prevDistance = computeManhattanDistance({
-        start:_.last(prev),
-        end: goalCoordinate,
+    queue.forEach((q, i)=>{
+      const distance = computeManhattanDistance({
+        start: q.coordinate,
+        end: goalCoordinate
       });
-      const nextDistance = computeManhattanDistance({
-        start:_.last(next),
-        end: goalCoordinate,
-      });
-      return prevDistance > nextDistance ? 1 : -1;
+      if(value === undefined || distance < value){
+        value = distance;
+        index = i;
+      }
     });
+
+    const node = queue[index];
+    return [
+      node,
+      [
+        ...queue.slice(0,index),
+        ...queue.slice(index+1,queue.length)
+      ]
+    ];
   }
-
 };
 
 class SearchTree {
@@ -61,6 +64,7 @@ class SearchTree {
 
     this.setStrategy({strategy});
     this._reset({gridState});
+
   }
 
   _reset(params){
@@ -71,22 +75,11 @@ class SearchTree {
     this._expansions = 0;
 
     const start = GridUtil.getStartCoordinate({gridState});
-
-    this._expandedCells = [start];
-
-    const branch = [start];
-    let finges = GridUtil.getSuccessor({
-      gridState,
-      coordinate:start
-    }).map((f)=>{
-      return branch.concat(f);
-    });
-
-    this._tree = [];
-    for (var j =0; j<finges.length; j++){
-      this._tree.push(finges[j]);
-    }
-    console.log(this._tree)
+    this._queue = [{
+      coordinate: start,
+      path: [],
+    }];
+    this._visited = [];
   }
 
   setStrategy(params){
@@ -94,67 +87,77 @@ class SearchTree {
     this._strategy = strategies[strategy];
   }
 
+  _nextExhausted(){
+    return {
+      goalReached: false,
+      exhausted: true,
+      // tree: this._tree,
+      expansions: this._expansions,
+    };
+  }
+
+  _nextGoalReached(path){
+    // console.log('GOAL REACHED', this._expansions);
+    return {
+      goalReached: true,
+      branch: path,
+      expansions: this._expansions,
+    };
+  }
+
+  _nextCoordinate(coordinate){
+    return {
+      goalReached: false,
+      coordinate,
+      // tree: this._tree,
+      expansions: this._expansions,
+    };
+  }
+
   next(params){
     const {
       gridState
     } = params;
 
-    // console.log('this.tree', JSON.stringify(this.tree, null, 2));
+    this._expansions++;
 
-    // console.log(this._tree)
-    if(this._tree.length === 0){
-      console.log('EXHAUSTED');
-      return {
-        goalReached: false,
-        exhausted: true,
-        tree: this._tree,
-        expansions: this._expansions,
-      };
+    if(this._queue.length === 0){
+      return this._nextExhausted.call(this);
     }
 
-    const goalCoordinate = GridUtil.getGoalCoordinate({gridState});
-    this._tree = this._strategy(this._tree, goalCoordinate);
-    const branch = this._tree[0];
-
-    const coordinate = _.last(branch);
+    // expand the next node depending on the strategy
+    let node;
+    [node, this._queue] = this._strategy(
+      this._queue,
+      GridUtil.getGoalCoordinate({gridState}),
+    );
+    const { coordinate } = node;
+    const newPath = node.path.concat(coordinate);
 
     if(GridUtil.isGoalState({gridState, coordinate})){
-      console.log('GOAL REACHED', this._expansions);
-      return {
-        goalReached: true,
-        branch: branch,
-        tree: this._tree,
-        expansions: this._expansions,
-      };
+      return this._nextGoalReached.call(this, newPath);
     }
 
-    // expand the node
-    this._expansions++;
-    this._tree = this._tree.slice(1,this._tree.length);
-
-    // console.log('coordinate', coordinate);
-
-    if(!_.find(this._expandedCells, coordinate)){
-      this._expandedCells.push(coordinate);
-    }
-
-    let finges = GridUtil
-      .getSuccessor({gridState, coordinate:coordinate})
-      .map((f) => branch.concat(f));
-
-    // graph search
-    // do not repeat already searched leaves
-    // excude the cells that were already explored
-    this._tree = this._tree
-      .concat(finges)
-      .filter((t)=> !_.find(this._expandedCells, _.last(t)));
-
-    return {
-      goalReached: false,
+    this._visited.push({
       coordinate,
-      tree: this._tree,
-      expansions: this._expansions,
-    };
+      path: newPath
+    });
+
+    const finges = GridUtil.getSuccessor({gridState, coordinate})
+      .map((f)=>{
+        return {
+          coordinate: f,
+          path: newPath
+        };
+      });
+
+    const visitedCoordinates = this._visited.map((v)=>v.coordinate);
+    this._queue = this._queue
+      .concat(finges)
+      .filter((f)=> !_.find(visitedCoordinates, f.coordinate));
+
+    return this._nextCoordinate.call(this, coordinate);
+
   }
 }
 
