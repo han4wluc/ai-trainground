@@ -1,6 +1,20 @@
 
 import _ from 'lodash';
 
+const _keyToCoor = function(params){
+  const { key } = params;
+  const r = /x(\d+)y(\d+)/g;
+  const match = r.exec(key);
+  const x = parseInt(match[1],10);
+  const y = parseInt(match[2],10);
+  return {x, y};
+};
+
+const _coorToKey = function(params){
+  const {x,y} = params;
+  return `x${x}y${y}`;
+};
+
 const generateInitialGridState = function(params){
   const { rows, columns } = params;
 
@@ -24,11 +38,7 @@ const getStartCoordinate = function(params){
   for (var key in gridState){
     const cell = gridState[key];
     if(cell.isStart){
-      const r = /x(\d+)y(\d+)/g;
-      const match = r.exec(key);
-      const x = parseInt(match[1],10);
-      const y = parseInt(match[2],10);
-      return {x, y};
+      return _keyToCoor({key});
     }
   }
 };
@@ -40,7 +50,7 @@ const isGoalState = function(params){
   } = params;
 
   const { x, y } = coordinate;
-  const key = `x${x}y${y}`;
+  const key = _coorToKey({x,y});
 
   if(gridState[key].isGoal){
     return true;
@@ -56,31 +66,15 @@ const getSuccessor = function(params){
   } = params;
 
   const {x,y} = coordinate;
-  // console.log()
+
   const left =   { x:x-1, y};
   const right =  { x:x+1, y};
   const bottom = { x, y:y-1};
   const top =    { x, y:y+1};
 
-  const leftKey   = `x${x-1}y${y}`;
-  const rightKey  = `x${x+1}y${y}`;
-  const bottomKey = `x${x}y${y-1}`;
-  const topKey    = `x${x}y${y+1}`;
-
-  const finges = [];
-  if (gridState[leftKey]){
-    finges.push(left);
-  }
-  if (gridState[rightKey]){
-    finges.push(right);
-  }
-  if (gridState[bottomKey]){
-    finges.push(bottom);
-  }
-  if (gridState[topKey]){
-    finges.push(top);
-  }
-
+  const finges = [left,right,bottom,top].filter((d)=>{
+    return gridState[_coorToKey(d)];
+  });
   return finges;
 };
 
@@ -89,4 +83,6 @@ export default {
   getSuccessor,
   getStartCoordinate,
   isGoalState,
+  coorToKey: _coorToKey,
+  keyToCoor: _keyToCoor,
 };

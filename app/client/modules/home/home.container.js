@@ -167,8 +167,8 @@ class HomeContainer extends Component {
         <Grid
           gridState={gridState}
           onClick={this._onClickCell.bind(this)}
-          rows={6}
-          columns={6}
+          rows={8}
+          columns={8}
         />
         <button onClick={this._next.bind(this, {strategy:BFS})}>{'BFS'}</button>
         <button onClick={this._next.bind(this, {strategy:DFS})}>{'DFS'}</button>

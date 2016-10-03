@@ -4,6 +4,22 @@ import GridUtil from '../gridUtil';
 import chai from 'chai';
 const should = chai.should();
 
+describe('GridUtil.keyToCoor', function(){
+  it('should', function(){
+    const expected = { x:2, y:3};
+    const actual = GridUtil.keyToCoor({key:'x2y3'});
+    expected.should.deep.equal(actual);
+  });
+});
+
+describe('GridUtil.coorToKey', function(){
+  it('should', function(){
+    const expected = 'x2y3';
+    const actual = GridUtil.coorToKey({x:2,y:3});
+    expected.should.deep.equal(actual);
+  });
+});
+
 describe('GridUtil.generateInitialGridState', function(){
   it('should succeed', function(){
     const gridState = GridUtil.generateInitialGridState({
@@ -93,7 +109,6 @@ describe('GridUtil.getSuccessor', function(){
     let expectedFinges = [ { x: 1, y: 0 }, { x: 0, y: 1 } ];
 
     expectedFinges.should.deep.equal(finges);
-
 
     coordinate = {x:2, y:2};
     finges = GridUtil.getSuccessor({

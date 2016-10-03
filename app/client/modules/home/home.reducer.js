@@ -1,6 +1,4 @@
 
-
-
 import _ from 'lodash';
 import { Utils } from '../../.';
 
@@ -10,7 +8,7 @@ const {
 
 const initialState = {
   gridState: {
-    ...GridUtil.generateInitialGridState({columns:6,rows:6}),
+    ...GridUtil.generateInitialGridState({columns:8,rows:8}),
     'x1y2': {
       isStart: true,
     },
