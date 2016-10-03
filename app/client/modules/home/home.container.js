@@ -4,7 +4,7 @@ import * as homeActions from './home.action';
 
 import { Utils, Comps, } from '../../';
 
-const { Setup, GridUtil } = Utils;
+const { Setup, GridUtil, SearchTree } = Utils;
 const { Cell, Grid } = Comps;
 
 class HomeContainer extends Component {
@@ -22,11 +22,6 @@ class HomeContainer extends Component {
 
   componentDidMount() {
     this._initTree.call(this);
-    // let i = 0;
-    // while(i < 10){
-    //   i++;
-    //   this._next.call(this);
-    // }
   }
 
   _reset() {
@@ -34,7 +29,7 @@ class HomeContainer extends Component {
       resetToInitialState
     } = this.props.actions;
     resetToInitialState();
-    this.tree = [];
+    // this.tree = [];
     this._initTree.call(this);
   }
 
@@ -43,17 +38,10 @@ class HomeContainer extends Component {
       gridState
     } = this.props.state;
 
-    const start = GridUtil.getStartCoordinate({gridState});
-    let branch = [start];
-
-    let finges = GridUtil.getSuccessor({gridState, coordinate:start});
-
-    finges = finges.map((f)=>{
-      return branch.concat(f);
+    this._searchTree = new SearchTree({
+      gridState,
+      strategy: 'BFS',
     });
-    for (var j =0; j<finges.length; j++){
-      this.tree.push(finges[j]);
-    }
   }
 
   _next(params) {
@@ -63,73 +51,30 @@ class HomeContainer extends Component {
     } = params;
 
     const {
-      updateCell,
-      paintCells,
-    } = this.props.actions;
+      state: {
+        gridState
+      },
+      actions: {
+        updateCell,
+        paintCells
+      }
+    } = this.props;
 
-    const {
-      gridState
-    } = this.props.state;
+    // this._searchTree._strategy = strategy;
+    if(strategy){
+      this._searchTree.setStrategy({strategy});
+    }
 
+    const res = this._searchTree.next({gridState});
 
-    // console.log('this.tree', JSON.stringify(this.tree, null, 2));
-    this.tree = strategy(this.tree);
-    const branch = this.tree[0];
-
-    const coordinate = _.last(branch);
-
-    if(GridUtil.isGoalState({gridState, coordinate})){
-      console.log('GOAL REACHED');
-      paintCells({coordinates: branch});
+    if(res.goalReached){
+      paintCells({coordinates: res.branch});
       return;
     }
 
-    this.tree = this.tree.slice(1,this.tree.length);
+    updateCell(res.coordinate);
 
-    // console.log(_.last(branch))
-
-    console.log('coordinate', coordinate);
-
-    updateCell(coordinate);
-
-    let finges = GridUtil.getSuccessor({gridState, coordinate:coordinate});
-    const prevCells = [];
-    prevCells.push(coordinate);
-
-    this.tree.forEach((t)=>{
-      const arr = t.slice(0,-1);
-      arr.forEach((a)=>{
-        if (!_.find(prevCells, a)){
-          prevCells.push(a);
-        }
-      });
-    });
-
-    // console.log('prevCells', prevCells);
-
-    // console.log('f1', finges)
-
-
-    finges = finges.map((f)=>{
-      return branch.concat(f);
-    }).filter((f)=>{
-
-      // console.log('ff', prevCells, _.last(f));
-      return !_.find(prevCells, _.last(f));
-
-      // return !_.find(this.tree, f) && ;
-    });
-    // console.log('f2', finges)
-
-    for (var j =0; j<finges.length; j++){
-      this.tree.push(finges[j]);
-    }
-
-    // graph search
-    // do not repeat already searched leaves
-    this.tree = this.tree.filter((t)=>{
-      return !_.find(prevCells, _.last(t));
-    });
+    return;
   }
 
   _onClickCell(params){
@@ -142,22 +87,6 @@ class HomeContainer extends Component {
   }
 
   render(){
-
-    // breadth first
-    const BFS = function(tree){
-      return tree.sort((prev, next)=>{
-        return prev.length > next.length ? 1 : -1;
-      });
-    };
-
-    // depth first
-    // TODO limit depth
-    const DFS = function(tree){
-      return tree.sort((prev, next)=>{
-        return prev.length > next.length ? -1 : 1;
-      });
-    };
-
     const {
       gridState
     } = this.props.state;
@@ -170,8 +99,10 @@ class HomeContainer extends Component {
           rows={8}
           columns={8}
         />
-        <button onClick={this._next.bind(this, {strategy:BFS})}>{'BFS'}</button>
-        <button onClick={this._next.bind(this, {strategy:DFS})}>{'DFS'}</button>
+        <br/>
+        <button onClick={this._next.bind(this, {strategy:'BFS'})}>{'BFS'}</button>
+        <button onClick={this._next.bind(this, {strategy:'DFS'})}>{'DFS'}</button>
+        <button onClick={this._next.bind(this, {strategy:'greedy'})}>{'greedy'}</button>
         <button onClick={this._reset.bind(this)}>{'reset'}</button>
       </div>
     );

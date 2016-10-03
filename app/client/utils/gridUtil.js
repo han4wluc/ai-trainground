@@ -20,9 +20,9 @@ const generateInitialGridState = function(params){
 
   const gridState = {};
 
-  _.range(rows).forEach((iy)=>{
-    _.range(columns).forEach((ix)=>{
-      gridState[`x${ix}y${iy}`] = {};
+  _.range(rows).forEach((y)=>{
+    _.range(columns).forEach((x)=>{
+      gridState[_coorToKey({x,y})] = {};
     });
   });
 
@@ -38,6 +38,19 @@ const getStartCoordinate = function(params){
   for (var key in gridState){
     const cell = gridState[key];
     if(cell.isStart){
+      return _keyToCoor({key});
+    }
+  }
+};
+
+const getGoalCoordinate = function(params){
+  const {
+    gridState,
+  } = params;
+
+  for (var key in gridState){
+    const cell = gridState[key];
+    if(cell.isGoal){
       return _keyToCoor({key});
     }
   }
@@ -82,6 +95,7 @@ export default {
   generateInitialGridState,
   getSuccessor,
   getStartCoordinate,
+  getGoalCoordinate,
   isGoalState,
   coorToKey: _coorToKey,
   keyToCoor: _keyToCoor,
