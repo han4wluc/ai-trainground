@@ -2,16 +2,15 @@
 import _ from 'lodash';
 import GridUtil from './gridUtil';
 
-
 const strategies = {
-  // breadth first
+  // Breadth First Search
   BFS:function(tree){
     return tree.sort((prev, next)=>{
       return prev.length > next.length ? 1 : -1;
     });
   },
 
-  // depth first
+  // Depth First Search
   // TODO limit depth
   DFS:function(tree){
     return tree.sort((prev, next)=>{
@@ -19,6 +18,7 @@ const strategies = {
     });
   },
 
+  // Greedy Search
   greedy: function(tree, goalCoordinate){
     const computeManhattanDistance = function(params){
       const { start, end } = params;
@@ -68,7 +68,12 @@ class SearchTree {
       gridState
     } = params;
 
+    this._expansions = 0;
+
     const start = GridUtil.getStartCoordinate({gridState});
+
+    this._expandedCells = [start];
+
     const branch = [start];
     let finges = GridUtil.getSuccessor({
       gridState,
@@ -81,6 +86,7 @@ class SearchTree {
     for (var j =0; j<finges.length; j++){
       this._tree.push(finges[j]);
     }
+    console.log(this._tree)
   }
 
   setStrategy(params){
@@ -94,6 +100,18 @@ class SearchTree {
     } = params;
 
     // console.log('this.tree', JSON.stringify(this.tree, null, 2));
+
+    // console.log(this._tree)
+    if(this._tree.length === 0){
+      console.log('EXHAUSTED');
+      return {
+        goalReached: false,
+        exhausted: true,
+        tree: this._tree,
+        expansions: this._expansions,
+      };
+    }
+
     const goalCoordinate = GridUtil.getGoalCoordinate({gridState});
     this._tree = this._strategy(this._tree, goalCoordinate);
     const branch = this._tree[0];
@@ -101,73 +119,43 @@ class SearchTree {
     const coordinate = _.last(branch);
 
     if(GridUtil.isGoalState({gridState, coordinate})){
-      console.log('GOAL REACHED');
-      // paintCells({coordinates: branch});
+      console.log('GOAL REACHED', this._expansions);
       return {
         goalReached: true,
         branch: branch,
         tree: this._tree,
+        expansions: this._expansions,
       };
     }
 
+    // expand the node
+    this._expansions++;
     this._tree = this._tree.slice(1,this._tree.length);
 
-    // console.log(_.last(branch))
+    // console.log('coordinate', coordinate);
 
-    console.log('coordinate', coordinate);
-
-    // updateCell(coordinate);
-
-    let finges = GridUtil.getSuccessor({gridState, coordinate:coordinate});
-    const prevCells = [];
-    prevCells.push(coordinate);
-
-    this._tree.forEach((t)=>{
-      const arr = t.slice(0,-1);
-      arr.forEach((a)=>{
-        if (!_.find(prevCells, a)){
-          prevCells.push(a);
-        }
-      });
-    });
-
-    // console.log('prevCells', prevCells);
-
-    // console.log('f1', finges)
-
-
-    finges = finges.map((f)=>{
-      return branch.concat(f);
-    }).filter((f)=>{
-
-      // console.log('ff', prevCells, _.last(f));
-      return !_.find(prevCells, _.last(f));
-
-      // return !_.find(this.tree, f) && ;
-    });
-    // console.log('f2', finges)
-
-    for (var j =0; j<finges.length; j++){
-      this._tree.push(finges[j]);
+    if(!_.find(this._expandedCells, coordinate)){
+      this._expandedCells.push(coordinate);
     }
+
+    let finges = GridUtil
+      .getSuccessor({gridState, coordinate:coordinate})
+      .map((f) => branch.concat(f));
 
     // graph search
     // do not repeat already searched leaves
-    this._tree = this._tree.filter((t)=>{
-      return !_.find(prevCells, _.last(t));
-    });
+    // excude the cells that were already explored
+    this._tree = this._tree
+      .concat(finges)
+      .filter((t)=> !_.find(this._expandedCells, _.last(t)));
 
     return {
       goalReached: false,
       coordinate,
       tree: this._tree,
+      expansions: this._expansions,
     };
   }
-
-
-
 }
 
-
 export default SearchTree;
-

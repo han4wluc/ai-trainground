@@ -5,12 +5,12 @@ import { render } from 'react-dom';
 
 import store from './store';
 
-import containers from './containers'
+import containers from './containers';
 
 
-const Container = containers['home']
+const Container = containers['home'];
 
-// export default 
+// export default
 class App extends Component {
   render() {
     return (

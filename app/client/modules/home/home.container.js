@@ -16,8 +16,6 @@ class HomeContainer extends Component {
 
   constructor(props) {
     super(props);
-
-    this.tree = [];
   }
 
   componentDidMount() {
@@ -29,7 +27,6 @@ class HomeContainer extends Component {
       resetToInitialState
     } = this.props.actions;
     resetToInitialState();
-    // this.tree = [];
     this._initTree.call(this);
   }
 
@@ -69,6 +66,10 @@ class HomeContainer extends Component {
 
     if(res.goalReached){
       paintCells({coordinates: res.branch});
+      return;
+    }
+
+    if(res.exhausted){
       return;
     }
 
