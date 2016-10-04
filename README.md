@@ -18,7 +18,7 @@ Work on progress
 
 
 ## How to use
-`npm install`
-`npm run dev`
-open your browser at `http://localhost:8080/webpack-dev-server/`
+* `npm install`
+* `npm run dev`
+* open your browser at `http://localhost:8080/webpack-dev-server/`
 
