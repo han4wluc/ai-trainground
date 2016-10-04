@@ -8,7 +8,7 @@ import store from './store';
 import containers from './containers';
 
 
-// const Container = containers['grid'];
+// const Container = containers['home'];
 // const Container = containers['nine'];
 const Container = containers['ttt'];
 

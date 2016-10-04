@@ -79,7 +79,7 @@ class TttContainer extends Component {
       <table>
         <thead>
           <tr>
-            <th>{''}</th>
+            <th >{''}</th>
             <th>{'Win'}</th>
             <th>{'Lose'}</th>
             <th>{'Draw'}</th>
@@ -118,11 +118,16 @@ class TttContainer extends Component {
     return (
       <div>
         <Board
+          height={300}
           boardState={boardState}
           onClick={this._makeMove.bind(this)}
         />
 
+        <br/>
+
         {this._renderResultTable.call(this)}
+
+        <br/>
 
         <button onClick={resetBoard}>clear board</button>
 
