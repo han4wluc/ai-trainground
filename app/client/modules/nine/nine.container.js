@@ -4,6 +4,9 @@ import * as nineActions from './nine.action';
 import { Utils, } from '../../';
 import Comps from './comps';
 
+import NineUtils from './utils';
+const { NineUtil } = NineUtils;
+
 const {
   Piece,
   Board,
@@ -13,9 +16,10 @@ const { Setup } = Utils;
 
 class NineContainer extends Component {
 
-  // static propTypes = {
-  //   boardState: React.PropTypes.object,
-  // }
+  static propTypes = {
+    actions: React.PropTypes.object,
+    state: React.PropTypes.object,
+  }
 
   render(){
 
@@ -25,10 +29,16 @@ class NineContainer extends Component {
     } = this.props;
 
     return (
-      <Board
-        move={move}
-        boardState={boardState}
-      />
+      <div>
+        <Board
+          move={move}
+          boardState={boardState}
+        />
+        <button onClick={()=>{
+          const n = NineUtil.getSuccessor({boardState});
+          console.log(n);
+        }}>{'next'}</button>
+      </div>
     );
   }
 }
