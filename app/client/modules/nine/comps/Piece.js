@@ -5,19 +5,23 @@ export default class Piece extends Component {
 
   static propTypes = {
     coordinate: React.PropTypes.array,
+    index: React.PropTypes.number,
+    onClick: React.PropTypes.func,
     style: React.PropTypes.object,
-    text: React.PropTypes.string,
+    value: React.PropTypes.number,
   }
 
   render() {
     const {
-      text,
+      value,
       style,
-      coordinate
+      coordinate,
+      onClick,
+      index,
     } = this.props;
     return (
       <div
-        // onClick={onClick.bind(null,{x,y})}
+        onClick={onClick.bind(null,{value,index})}
         style={{
           width: '36px',
           height: '36px',
@@ -34,7 +38,7 @@ export default class Piece extends Component {
           ...style
         }}
       >
-        {text}
+        {value}
       </div>
     );
   }

@@ -12,9 +12,23 @@ const {
 const { Setup } = Utils;
 
 class NineContainer extends Component {
+
+  // static propTypes = {
+  //   boardState: React.PropTypes.object,
+  // }
+
   render(){
+
+    const {
+      state: {boardState},
+      actions: {move}
+    } = this.props;
+
     return (
-      <Board/>
+      <Board
+        move={move}
+        boardState={boardState}
+      />
     );
   }
 }

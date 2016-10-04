@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 
 import Piece from './piece';
+import NineUtils from '../utils';
+const { NineUtil } = NineUtils;
 
 const positions = {
   1: ['2px' ,'2px'],
@@ -15,30 +17,46 @@ const positions = {
   9: ['82px','82px'],
 };
 
-
 export default class Board extends Component {
 
-  // static propTypes = {
-  //   text: React.PropTypes.string,
-  // }
+  static propTypes = {
+    boardState: React.PropTypes.object,
+    move: React.PropTypes.func,
+  }
 
   render() {
 
-    const state = [null,7,6,5,4,3,2,1,8];
+    const {
+      boardState,
+      move,
+    } = this.props;
 
-    const pieces = state.map((s,i)=>{
-      if(!s){ return null; }
+    const pieces = Object.keys(boardState).map((k)=>{
+      const value = boardState[k];
+      if(!value){ return null; }
       return (
         <Piece
-          text={s}
-          coordinate={positions[i+1]}
+          key={k}
+          onClick={(params)=>{
+            const { index, value } = params;
+            const {emptyIndex,finges} = NineUtil.getSuccessor({boardState});
+            // console.log(finges, index);
+            if(_.includes(finges, parseInt(index,10))){
+              // console.log('sshould move');
+              move({fr:index,to:emptyIndex});
+              return;
+            }
+            // console.log('invalid move');
+          }}
+          index={parseInt(k,10)}
+          value={value}
+          coordinate={positions[k]}
         />
       );
     });
 
     return (
       <div
-        // onClick={onClick.bind(null,{x,y})}
         style={{
           width: '122px',
           height: '122px',

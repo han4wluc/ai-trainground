@@ -6,3 +6,4 @@ require('babel-core/register')({
 require('babel-polyfill');
 
 require('./client/utils/tests');
+require('./client/modules/nine/utils/tests');
