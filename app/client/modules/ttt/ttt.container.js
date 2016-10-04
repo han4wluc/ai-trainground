@@ -28,6 +28,7 @@ class TttContainer extends Component {
     //   state: { boardState },
       actions: {
         makeMove,
+        updateScore,
       }
     } = this.props;
 
@@ -37,31 +38,72 @@ class TttContainer extends Component {
 
 
     let { boardState } = this.props.state;
-    let { gameEnded } = TttUtil.isGoalState({boardState});
-
-    if(gameEnded){ return; }
-
+    let res1 = TttUtil.isGoalState({boardState});
+    if(res1.gameEnded){ return; }
 
     await makeMove({key:index,player:1});
 
-    const self = this;
 
     // get boardState value AFTER makeMove
-    boardState = self.props.state.boardState;
-    gameEnded = TttUtil.isGoalState({boardState}).gameEnded;
-    if(gameEnded){ return; }
+    boardState = this.props.state.boardState;
+    const res2 = TttUtil.isGoalState({boardState});
+    if(res2.gameEnded){
+      updateScore({
+        winner: res2.winner,
+      });
+      return;
+    }
 
-    const res = TttUtil.isGoalState({boardState});
-    console.log(res);
 
     const finges = TttUtil.getSuccessors({boardState});
-    console.log('finges', finges);
-    setTimeout(function(){
-       makeMove({key:finges[0],player:-1});
-       boardState = self.props.state.boardState;
-       gameEnded = TttUtil.isGoalState({boardState}).gameEnded;
+    await makeMove({key:finges[0],player:-1});
+    // await new Promise((resolve)=>{
+    //   setTimeout(resolve,500);
+    // });
+    boardState = this.props.state.boardState;
+    const res3 = TttUtil.isGoalState({boardState});
+    if(res3.gameEnded){
+      updateScore({
+        winner: res3.winner,
+      });
+    }
+  }
 
-    },100);
+  _renderResultTable(){
+
+    const { score: {
+      win,lose,draw,total
+    }} = this.props.state;
+
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>{''}</th>
+            <th>{'Win'}</th>
+            <th>{'Lose'}</th>
+            <th>{'Draw'}</th>
+            <th>{'WinRate'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>{'Player'}</b></td>
+            <td>{win}</td>
+            <td>{lose}</td>
+            <td>{draw}</td>
+            <td>{Math.round(win * 100 /total)+'%'}</td>
+          </tr>
+          <tr>
+            <td><b>{'AI'}</b></td>
+            <td>{lose}</td>
+            <td>{win}</td>
+            <td>{draw}</td>
+            <td>{Math.round(lose * 100/total)+'%'}</td>
+          </tr>
+        </tbody>
+      </table>
+    );
   }
 
   render(){
@@ -69,7 +111,7 @@ class TttContainer extends Component {
     const {
       state: { boardState },
       actions: {
-        makeMove,
+        makeMove, resetBoard,
       }
     } = this.props;
 
@@ -79,6 +121,11 @@ class TttContainer extends Component {
           boardState={boardState}
           onClick={this._makeMove.bind(this)}
         />
+
+        {this._renderResultTable.call(this)}
+
+        <button onClick={resetBoard}>clear board</button>
+
       </div>
     );
   }

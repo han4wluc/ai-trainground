@@ -24,5 +24,31 @@ export function makeMove(params) {
     return Promise.resolve();
   };
 
+}
 
+export function resetBoard(){
+  return {
+    type: 'TTT_RESET_BOARD'
+  };
+}
+
+export function updateScore(params){
+  const {
+    winner
+  } = params;
+
+  var type = 'DRAW';
+  if(winner === 1){
+    type = 'WIN';
+  }
+  if(winner === -1){
+    type = 'LOSE';
+  }
+
+  return {
+    type: 'TTT_INCREMENT_SCORE',
+    props: {
+      type,
+    }
+  };
 }
