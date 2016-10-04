@@ -12,7 +12,7 @@ export function makeMove(params) {
     const boardState = _.cloneDeep(getState().ttt.boardState);
     boardState[key] = player;
 
-    console.log(boardState);
+    // console.log(boardState);
 
     dispatch({
       type: 'TTT_SET_STATE',
@@ -20,6 +20,8 @@ export function makeMove(params) {
         boardState,
       }
     });
+
+    return Promise.resolve();
   };
 
 
