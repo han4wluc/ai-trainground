@@ -1,14 +1,20 @@
 {
-  "name": "h6r1",
-  "version": "0.0.1",
-  "description": "",
+  "name": "ai-trainground",
+  "version": "0.1.0",
+  "description": "Visualization for problem solving algorithms",
+  "licence": "MIT",
+  "author": {
+    "name": "Luciano Hanyon Wu",
+    "url": "https://github.com/han4wluc"
+  },
+  "bugs": {
+    "url": "https://github.com/han4wluc/ai-trainground/issues"
+  },
   "main": "index.js",
   "scripts": {
     "test": "mocha ./app/tests.js",
-    "dev:c": "webpack-dev-server --config webpack.client.config.js --hot",
-    "dev:s": "node app/server"
+    "dev": "webpack-dev-server --config webpack.client.config.js --hot"
   },
-  "author": "",
   "dependencies": {
     "babel-polyfill": "^6.13.0",
     "body-parser": "^1.15.0",
