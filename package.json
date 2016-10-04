@@ -14,7 +14,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha ./app/tests.js",
-    "dev": "webpack-dev-server --config webpack.client.config.js --hot"
+    "dev": "webpack-dev-server --config webpack.client.config.js --hot",
+    "build": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --config webpack.client.config.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.13.0",
@@ -23,13 +24,13 @@
     "http-proxy": "^1.13.2",
     "jsdom": "^9.0.0",
     "radium": "^0.17.1",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7",
+    "react": "^0.14.8",
+    "react-dom": "^0.14.8",
     "react-redux": "^4.4.0",
     "react-redux-form": "^0.12.1",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.6",
-    "redux": "^3.3.1",
+    "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "request": "^2.69.0",
     "rx": "^4.0.8",
