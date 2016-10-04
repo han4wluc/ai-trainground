@@ -5,6 +5,9 @@ import { Utils, } from '../../';
 
 import TttComps from './comps';
 import TttUtils from './utils';
+
+import { Link, browserHistory } from 'react-router'
+
 const {
   Board
 } = TttComps;

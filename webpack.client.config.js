@@ -18,10 +18,14 @@ module.exports = {
     filename: 'bundle.js'
   },
 
+  // historyApiFallback: true,
   // comment for server rendering
   // devServer: {
   //   contentBase: 'http://localhost:8000'
   // },
+  devServer: {
+    historyApiFallback: true
+  },
 
   module: {
     loaders: [{

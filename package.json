@@ -2,7 +2,8 @@
   "name": "ai-trainground",
   "version": "0.1.0",
   "description": "Visualization for problem solving algorithms",
-  "licence": "MIT",
+  "repository": "han4wluc/ai-trainground",
+  "license": "MIT",
   "author": {
     "name": "Luciano Hanyon Wu",
     "url": "https://github.com/han4wluc"
@@ -26,6 +27,8 @@
     "react-dom": "^0.14.7",
     "react-redux": "^4.4.0",
     "react-redux-form": "^0.12.1",
+    "react-router": "^2.8.1",
+    "react-router-redux": "^4.0.6",
     "redux": "^3.3.1",
     "redux-thunk": "^2.1.0",
     "request": "^2.69.0",
