@@ -8,3 +8,4 @@ require('babel-polyfill');
 require('./client/utils/tests');
 require('./client/modules/nine/utils/tests');
 require('./client/modules/ttt/utils/tests');
+require('./client/modules/border/utils/tests');
