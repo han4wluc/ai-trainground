@@ -18,28 +18,23 @@
     "build": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --config webpack.client.config.js"
   },
   "dependencies": {
-    "babel-polyfill": "^6.13.0",
-    "body-parser": "^1.15.0",
-    "express": "^4.13.4",
-    "http-proxy": "^1.13.2",
     "jsdom": "^9.0.0",
     "radium": "^0.17.1",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-redux": "^4.4.0",
-    "react-redux-form": "^0.12.1",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.6",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "request": "^2.69.0",
-    "rx": "^4.0.8",
-    "webpack": "^1.13.2"
+    "rx": "^4.0.8"
   },
   "devDependencies": {
     "babel-core": "^6.5.2",
     "babel-eslint": "^6.0.2",
     "babel-loader": "^6.2.3",
+    "babel-polyfill": "^6.13.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.3.13",
@@ -49,9 +44,10 @@
     "eslint": "^2.7.0",
     "eslint-plugin-react": "^4.3.0",
     "gulp": "^3.9.1",
-    "gulp-mocha": "^2.2.0",
+    "gulp-shell": "^0.5.2",
     "react-addons-test-utils": "^15.0.2",
     "react-hot-loader": "^1.3.0",
-    "sinon": "^1.17.3"
+    "sinon": "^1.17.3",
+    "webpack": "^1.13.2"
   }
 }
