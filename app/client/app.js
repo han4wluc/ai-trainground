@@ -7,7 +7,7 @@ import store from './store';
 
 import containers from './containers';
 
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, IndexRedirect } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
 const history = syncHistoryWithStore(browserHistory, store);
@@ -23,9 +23,11 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history}>
           <Route path="/" component={containers['nav']}>
+            <IndexRedirect to="/border" />
             <Route path="grid" component={containers['home']}/>
-            <Route path="/nine" component={containers['nine']}/>
-            <Route path="/ttt" component={containers['ttt']}/>
+            <Route path="nine" component={containers['nine']}/>
+            <Route path="ttt" component={containers['ttt']}/>
+            <Route path="border" component={containers['border']}/>
           </Route>
         </Router>
       </Provider>

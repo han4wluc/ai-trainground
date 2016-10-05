@@ -17,7 +17,8 @@ class NavContainer extends Component {
         <Link to="/nine">nine</Link>
         {'   '}
         <Link to="/ttt">ttt</Link>
-
+        {'   '}
+        <Link to="/border">border</Link>
         <br/>
         <br/>
 
