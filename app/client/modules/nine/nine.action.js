@@ -16,3 +16,13 @@ export function move(params){
     });
   };
 }
+
+export function updateBoard(params){
+  const { boardState } = params;
+  return {
+    type: 'NINE_SET_STATE',
+    props: {
+      boardState,
+    }
+  };
+}

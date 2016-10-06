@@ -25,21 +25,22 @@ class NineContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.history = ['a'];
+    this._intialBoardState = this.props.state.boardState;
+    this._pathIndex = 0;
   }
 
   componentDidMount() {
     const {
       state: {boardState},
     } = this.props;
-    const search = new NineSearch({boardState});    
+    this.search = new NineSearch({boardState});
   }
 
   render(){
 
     const {
       state: {boardState},
-      actions: {move}
+      actions: {move, updateBoard}
     } = this.props;
 
     return (
@@ -49,18 +50,38 @@ class NineContainer extends Component {
           boardState={boardState}
         />
         <button onClick={()=>{
-          const n = NineUtil.getSuccessor({boardState});
-          // console.log('n', boardState, n);
-          let { finges, emptyIndex } = n;
 
-          let last = this.history[this.history.length-1];
-          finges = finges.filter((f)=>f!==last);
+          var i = 0;
+          while(i < 10000){
+            i++;
+            this._path = this.search.next();
+            // updateBoard({boardState:newBoard});
+          }
 
-          const r  = _.random(0,finges.length-1);
-          move({fr:finges[r],to:emptyIndex});
-          this.history.push(emptyIndex)
+          // const n = NineUtil.getSuccessor({boardState});
+          // // console.log('n', boardState, n);
+          // let { finges, emptyIndex } = n;
+
+          // let last = this.history[this.history.length-1];
+          // finges = finges.filter((f)=>f!==last);
+
+          // const r  = _.random(0,finges.length-1);
+          // move({fr:finges[r],to:emptyIndex});
+          // this.history.push(emptyIndex)
           // console.log(n);
         }}>{'next'}</button>
+        <button onClick={()=>{
+          updateBoard({boardState:this._intialBoardState});
+        }}>
+          {'reset'}
+        </button>
+        <button onClick={()=>{
+          console.log(this._path, this._pathIndex)
+          updateBoard({boardState:this._path[this._pathIndex]});
+          this._pathIndex++;
+        }}>
+          {'solution'}
+        </button>
       </div>
     );
   }

@@ -86,6 +86,35 @@ const getSuccessor = function(params){
   }
 };
 
+const _move = function (params){
+  const {boardState, fr, to} = params;
+  const newBoardState = _.cloneDeep(boardState);
+  newBoardState[fr] = boardState[to];
+  newBoardState[to] = boardState[fr];
+  return newBoardState;
+};
+
+const getSuccessorStates = function(params){
+  const { boardState } = params;
+
+  const {
+    finges,
+    emptyIndex,
+  } = getSuccessor({boardState});
+
+  const completeFinges = finges.map((f)=>{
+    const fingeBoardState = _move({boardState,fr:emptyIndex,to:f});
+    return {
+      boardState: fingeBoardState,
+      move: f,
+      heuristic: computeHeuristics({boardState:fingeBoardState})
+    };
+  });
+
+  return completeFinges;
+
+};
+
 const isGoalState = function(params){
   const {
     boardState,
@@ -104,9 +133,11 @@ const isGoalState = function(params){
 };
 
 export default {
+  _calcDistance,
+  _move,
   generateRandomBoard,
   getSuccessor,
   isGoalState,
   computeHeuristics,
-  _calcDistance,
+  getSuccessorStates,
 };

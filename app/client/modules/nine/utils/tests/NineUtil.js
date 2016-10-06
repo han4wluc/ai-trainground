@@ -120,3 +120,88 @@ describe('NineUtil.computeHeuristics', function(){
     distance.should.equal(16);
   });
 });
+
+describe('NineUtil._move', function(){
+  it('should', function(){
+
+    const expected = {
+      1: 8,
+      2: 3,
+      3: 4,
+      4: 7,
+      5: 6,
+      6: null,
+      7: 2,
+      8: 1,
+      9: 5,
+    };
+
+    const boardState = {
+      1: 8,
+      2: 3,
+      3: 4,
+      4: 7,
+      5: 6,
+      6: 5,
+      7: 2,
+      8: 1,
+      9: null,
+    };
+    const fr = 6;
+    const to = 9;
+
+    const actual = NineUtil._move({boardState, fr, to});
+    expected.should.deep.equal(actual);
+  });
+});
+
+describe('NineUtil.getSuccessorStates', function(){
+  it('should', function(){
+
+    const expected = [{
+      boardState: {
+        1: 8,
+        2: 3,
+        3: 4,
+        4: 7,
+        5: 6,
+        6: null,
+        7: 2,
+        8: 1,
+        9: 5,
+      },
+      move: 6,
+      heuristic: 17,
+    }, {
+      boardState: {
+        1: 8,
+        2: 3,
+        3: 4,
+        4: 7,
+        5: 6,
+        6: 5,
+        7: 2,
+        8: null,
+        9: 1,
+      },
+      move: 8,
+      heuristic: 17,
+    }];
+
+    const boardState = {
+      1: 8,
+      2: 3,
+      3: 4,
+      4: 7,
+      5: 6,
+      6: 5,
+      7: 2,
+      8: 1,
+      9: null,
+    };
+
+    const actual = NineUtil.getSuccessorStates({boardState});
+    expected.should.deep.equal(actual);
+  });
+});
+
