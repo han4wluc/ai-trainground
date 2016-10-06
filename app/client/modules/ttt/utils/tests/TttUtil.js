@@ -131,3 +131,103 @@ describe('TttUtil.isGoalState', function(){
   });
 
 });
+
+describe('TttUtil.nextMove', function(){
+
+  it('should return correct next boardState', function(){
+    const boardState = {
+      '0,0' : 0, '0,1' : 0, '0,2' :  0,
+      '1,0' : 0, '1,1' : 0, '1,2' :  0,
+      '2,0' : 0, '2,1' : 0, '2,2' :  0
+    };
+    const move = '0,0';
+    const player = -1;
+
+    const expectedBoardState = {
+      '0,0' : -1, '0,1' : 0, '0,2' :  0,
+      '1,0' : 0, '1,1' : 0, '1,2' :  0,
+      '2,0' : 0, '2,1' : 0, '2,2' :  0
+    };
+    const expected = {
+      isIllegalMove:false,
+      boardState:expectedBoardState,
+      gameEnded: false,
+    };
+    const actual = TttUtil.nextMove({boardState,move,player});
+    expected.should.deep.equal(actual);
+
+  });
+
+  it('should return correct next boardState', function(){
+    const boardState = {
+      '0,0' : 0, '0,1' : 0, '0,2' :  0,
+      '1,0' : 0, '1,1' : 0, '1,2' :  1,
+      '2,0' : 0, '2,1' : 0, '2,2' : -1
+    };
+    const move = '0,0';
+    const player = 1;
+
+    const expectedBoardState = {
+      '0,0' : 1, '0,1' : 0, '0,2' :  0,
+      '1,0' : 0, '1,1' : 0, '1,2' :  1,
+      '2,0' : 0, '2,1' : 0, '2,2' : -1
+    };
+    const expected = {
+      isIllegalMove:false,
+      boardState:expectedBoardState,
+      gameEnded: false,
+    };
+    const actual = TttUtil.nextMove({boardState,move,player});
+    expected.should.deep.equal(actual);
+
+  });
+
+  it('should return correct next boardState with gameEnded true', function(){
+    const boardState = {
+      '0,0' : 0, '0,1' :  0, '0,2' :  0,
+      '1,0' : 0, '1,1' :  1, '1,2' :  1,
+      '2,0' : 0, '2,1' : -1, '2,2' : -1
+    };
+    const move = '1,0';
+    const player = 1;
+
+    const expectedBoardState = {
+      '0,0' : 0, '0,1' :  0, '0,2' :  0,
+      '1,0' : 1, '1,1' :  1, '1,2' :  1,
+      '2,0' : 0, '2,1' : -1, '2,2' : -1
+    };
+    const expected = {
+      isIllegalMove:false,
+      boardState: expectedBoardState,
+      gameEnded: true,
+      winner: 1,
+      winningPosition: [
+        '1,0',
+        '1,1',
+        '1,2',
+      ]
+    };
+    const actual = TttUtil.nextMove({boardState,move,player});
+    expected.should.deep.equal(actual);
+
+  });
+
+
+  it('should return isIllegalMove true', function(){
+    const boardState = {
+      '0,0' : 0, '0,1' :  0, '0,2' :  0,
+      '1,0' : 0, '1,1' :  1, '1,2' :  1,
+      '2,0' : 0, '2,1' : -1, '2,2' : -1
+    };
+    const move = '1,2';
+    const player = 1;
+
+    const expected = {
+      isIllegalMove:true,
+    };
+    const actual = TttUtil.nextMove({boardState,move,player});
+    expected.should.deep.equal(actual);
+
+  });
+
+});

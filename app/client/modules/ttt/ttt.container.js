@@ -6,7 +6,7 @@ import { Utils, } from '../../';
 import TttComps from './comps';
 import TttUtils from './utils';
 
-import { Link, browserHistory } from 'react-router'
+import { Link, browserHistory } from 'react-router';
 
 import Network from './ttt.network';
 
@@ -30,61 +30,19 @@ class TttContainer extends Component {
   async _makeMove(params){
 
     const {
-    //   state: { boardState },
+      state: { boardState },
       actions: {
-        makeMove,
-        updateScore,
+        playerMakeMove,
+        aiMakeMove,
       }
     } = this.props;
 
-    const { player, index } = params;
-    // console.log(params);
-    if(player !== 0) { return; }
+    const { index } = params;
+    await playerMakeMove({boardState,move:index});
 
+    // User new board state
+    await aiMakeMove({boardState:this.props.state.boardState});
 
-    let { boardState } = this.props.state;
-    let res1 = TttUtil.isGoalState({boardState});
-    if(res1.gameEnded){ return; }
-
-    await makeMove({key:index,player:1});
-
-
-    // get boardState value AFTER makeMove
-    boardState = this.props.state.boardState;
-    const res2 = TttUtil.isGoalState({boardState});
-    if(res2.gameEnded){
-      updateScore({
-        winner: res2.winner,
-      });
-      return;
-    }
-
-    const finges = TttUtil.getSuccessors({boardState});
-    try {
-      const nextMove = await Network.doRequest({boardState});
-
-      if(!_.includes(finges, nextMove.action)){
-        console.log('ILLEGAL MOVE')
-        return;
-      }
-
-      console.log('nextMove', nextMove)
-
-      await makeMove({key:nextMove.action,player:-1});
-      // await new Promise((resolve)=>{
-      //   setTimeout(resolve,500);
-      // });
-      boardState = this.props.state.boardState;
-      const res3 = TttUtil.isGoalState({boardState});
-      if(res3.gameEnded){
-        updateScore({
-          winner: res3.winner,
-        });
-      }
-    } catch (error){
-      console.log('error', error);
-      return;
-    }
   }
 
   _renderResultTable(){
@@ -129,7 +87,7 @@ class TttContainer extends Component {
     const {
       state: { boardState },
       actions: {
-        makeMove, resetBoard,
+        makeMove, resetBoard, aiMakeMove
       }
     } = this.props;
 
@@ -147,36 +105,8 @@ class TttContainer extends Component {
 
         <br/>
 
-        <button onClick={resetBoard}>clear board</button>
-
-        <button onClick={ async ()=>{
-
-          // const {
-          //   state: { boardState },
-          // } = this.props;
-          const finges = TttUtil.getSuccessors({boardState});
-          const nextMove = await Network.doRequest({boardState});
-
-          if(!_.includes(finges, nextMove.action)){
-            console.log('ILLEGAL MOVE');
-            return;
-          }
-
-          console.log('nextMove', nextMove);
-
-          await makeMove({key:nextMove.action,player:-1});
-          // await new Promise((resolve)=>{
-          //   setTimeout(resolve,500);
-          // });
-          const newBoardState = this.props.state.boardState;
-          const res3 = TttUtil.isGoalState({boardState:newBoardState});
-          if(res3.gameEnded){
-            updateScore({
-              winner: res3.winner,
-            });
-          }
-          // Network.doRequest();
-        }}>request</button>
+        <button onClick={resetBoard}>{'clear board'}</button>
+        <button onClick={aiMakeMove.bind(null,{boardState})}>{'ai move'}</button>
 
       </div>
     );

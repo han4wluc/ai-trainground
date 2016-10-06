@@ -14,7 +14,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha ./app/tests.js",
-    "dev": "webpack-dev-server --config webpack.client.config.js --hot",
+    "dev": "webpack-dev-server --config webpack.client.config.js --hot --host 0.0.0.0",
     "build": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --config webpack.client.config.js"
   },
   "dependencies": {

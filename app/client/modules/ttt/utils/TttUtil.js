@@ -1,4 +1,6 @@
 
+import _ from 'lodash';
+
 const isGoalState = function(params){
   const { boardState } = params;
   const winConditions = [
@@ -62,7 +64,33 @@ const getSuccessors = function(params){
   return finges;
 };
 
+const nextMove = function(params){
+  const {
+    boardState,
+    move,
+    player,
+  } = params;
+
+  const legalMoves = getSuccessors({boardState});
+  if(!_.includes(legalMoves, move)){
+    return {
+      isIllegalMove: true,
+    };
+  }
+
+  const newBoardState = _.cloneDeep(boardState);
+  newBoardState[move] = player;
+
+  return {
+    isIllegalMove: false,
+    boardState: newBoardState,
+    ...isGoalState({boardState:newBoardState}),
+  };
+
+};
+
 export default {
   isGoalState,
   getSuccessors,
+  nextMove,
 };
