@@ -205,3 +205,105 @@ describe('NineUtil.getSuccessorStates', function(){
   });
 });
 
+describe('NineUtil.getTransition', function(){
+  it('should', function(){
+    const boardStateA = {
+      1: 8,
+      2: 3,
+      3: 4,
+      4: 7,
+      5: 6,
+      6: 5,
+      7: 2,
+      8: 1,
+      9: null,
+    };
+
+    const boardStateB = {
+      1: 8,
+      2: 3,
+      3: 4,
+      4: 7,
+      5: 6,
+      6: 5,
+      7: 2,
+      8: null,
+      9: 1,
+    };
+
+    const expected = {
+      isValid: true,
+      move: 9
+    };
+
+    const actual = NineUtil.getTransition({boardStateA,boardStateB});
+    expected.should.deep.equal(actual);
+  });
+
+  it('should', function(){
+    const boardStateA = {
+      1: 3,
+      2: 8,
+      3: 4,
+      4: 7,
+      5: 6,
+      6: 5,
+      7: 2,
+      8: 1,
+      9: null,
+    };
+
+    const boardStateB = {
+      1: 8,
+      2: 3,
+      3: 4,
+      4: 7,
+      5: 6,
+      6: 5,
+      7: 2,
+      8: null,
+      9: 1,
+    };
+
+    const expected = {
+      isValid: false,
+    };
+
+    const actual = NineUtil.getTransition({boardStateA,boardStateB});
+    expected.should.deep.equal(actual);
+  });
+
+  it('should', function(){
+    const boardStateA = {
+      1: 8,
+      2: 3,
+      3: 4,
+      4: 7,
+      5: 6,
+      6: 5,
+      7: 2,
+      8: null,
+      9: 1,
+    };
+
+    const boardStateB = {
+      1: 8,
+      2: 3,
+      3: 4,
+      4: 7,
+      5: 6,
+      6: 5,
+      7: 2,
+      8: null,
+      9: 1,
+    };
+
+    const expected = {
+      isValid: false,
+    };
+
+    const actual = NineUtil.getTransition({boardStateA,boardStateB});
+    expected.should.deep.equal(actual);
+  });
+
+});

@@ -52,7 +52,7 @@ class NineContainer extends Component {
         <button onClick={()=>{
 
           var i = 0;
-          while(i < 1000){
+          while(i < 1){
             i++;
             this._path = this.search.next();
             // updateBoard({boardState:newBoard});
@@ -72,6 +72,7 @@ class NineContainer extends Component {
         }}>{'next'}</button>
         <button onClick={()=>{
           updateBoard({boardState:this._intialBoardState});
+          this._pathIndex = 0;
         }}>
           {'reset'}
         </button>

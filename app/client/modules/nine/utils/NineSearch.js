@@ -54,7 +54,7 @@ export default class NineSearch {
 
   next(){
 
-    // console.log('this._finges', this._finges);
+    console.log('this._finges', this._finges);
 
 
     this._expansions++;
@@ -106,6 +106,10 @@ export default class NineSearch {
     // BFS
     const newBoard = this._finges[0].boardState;
     const path = this._finges[0].path;
+    const newPath = path.concat(newBoard);
+    this._path = newPath;
+
+
     this._finges = this._finges.slice(1,this._finges.length);
 
     // DFS
@@ -115,13 +119,12 @@ export default class NineSearch {
 
 
 
-    this._path = path.concat(newBoard);
 
     this._finges = this._finges.concat(NineUtil.getSuccessorStates({
       boardState: this._boardState
     })
     .filter((f) => {
-      return this._history.indexOf(JSON.stringify(f.boardState)) === -1
+      return this._history.indexOf(JSON.stringify(f.boardState)) === -1;
        // &&
        //  this._path.length < 16;
       // let a = !_.includes(this._history, f.boardState);
@@ -134,7 +137,7 @@ export default class NineSearch {
     .map((f)=>{
       return {
         ...f,
-        path: path.concat(newBoard),
+        path: newPath,
         heuristic: NineUtil.computeHeuristics({boardState:f.boardState})
       };
     }))
@@ -143,6 +146,7 @@ export default class NineSearch {
     });
 
     this._boardState = newBoard;
+
     this._history.push(JSON.stringify(newBoard));
     return newBoard;
     // this._history.push(newBoard);

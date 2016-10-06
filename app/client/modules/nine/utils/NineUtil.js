@@ -42,11 +42,16 @@ const computeHeuristics = function(params){
     const posB = boardState[posA];
     if(posB === null){ continue; }
 
+    // distance, moves
     const coorA = coordinates[posA];
     const coorB = coordinates[posB];
 
     distances += _calcDistance(coorA, coorB);
 
+    // // if is right position or not
+    // if(posA != posB){
+    //   distances++;
+    // }
   }
 
   return distances;
@@ -132,6 +137,50 @@ const isGoalState = function(params){
   }, boardState);
 };
 
+const getTransition = function(params){
+
+  const { boardStateA, boardStateB } = params;
+
+  var emptyA;
+  var emptyB;
+
+  let isValid = true;
+
+  for(let key in boardStateA){
+    if((boardStateA[key]) === null){
+      emptyA = key;
+      break;
+    }
+  }
+
+  for(let key in boardStateB){
+    if((boardStateB[key]) === null){
+      emptyB = key;
+      break;
+    }
+  }
+
+  for(let key in boardStateA){
+    if (key === emptyA){ continue; }
+    if (key === emptyB){ continue; }
+    if(boardStateA[key] !== boardStateB[key]){
+      isValid = false;
+    }
+  }
+
+  if(!isValid || boardStateA[emptyB] !== boardStateB[emptyA] || emptyA === emptyB){
+    return {
+      isValid: false,
+    };
+  }
+
+  return {
+    isValid: true,
+    move: parseInt(emptyA,10),
+  };
+
+};
+
 export default {
   _calcDistance,
   _move,
@@ -140,4 +189,5 @@ export default {
   isGoalState,
   computeHeuristics,
   getSuccessorStates,
+  getTransition,
 };
