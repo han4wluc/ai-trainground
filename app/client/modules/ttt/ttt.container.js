@@ -8,6 +8,8 @@ import TttUtils from './utils';
 
 import { Link, browserHistory } from 'react-router'
 
+import Network from './ttt.network';
+
 const {
   Board
 } = TttComps;
@@ -57,18 +59,31 @@ class TttContainer extends Component {
       return;
     }
 
-
     const finges = TttUtil.getSuccessors({boardState});
-    await makeMove({key:finges[0],player:-1});
-    // await new Promise((resolve)=>{
-    //   setTimeout(resolve,500);
-    // });
-    boardState = this.props.state.boardState;
-    const res3 = TttUtil.isGoalState({boardState});
-    if(res3.gameEnded){
-      updateScore({
-        winner: res3.winner,
-      });
+    try {
+      const nextMove = await Network.doRequest({boardState});
+
+      if(!_.includes(finges, nextMove.action)){
+        console.log('ILLEGAL MOVE')
+        return;
+      }
+
+      console.log('nextMove', nextMove)
+
+      await makeMove({key:nextMove.action,player:-1});
+      // await new Promise((resolve)=>{
+      //   setTimeout(resolve,500);
+      // });
+      boardState = this.props.state.boardState;
+      const res3 = TttUtil.isGoalState({boardState});
+      if(res3.gameEnded){
+        updateScore({
+          winner: res3.winner,
+        });
+      }
+    } catch (error){
+      console.log('error', error);
+      return;
     }
   }
 
@@ -133,6 +148,35 @@ class TttContainer extends Component {
         <br/>
 
         <button onClick={resetBoard}>clear board</button>
+
+        <button onClick={ async ()=>{
+
+          // const {
+          //   state: { boardState },
+          // } = this.props;
+          const finges = TttUtil.getSuccessors({boardState});
+          const nextMove = await Network.doRequest({boardState});
+
+          if(!_.includes(finges, nextMove.action)){
+            console.log('ILLEGAL MOVE');
+            return;
+          }
+
+          console.log('nextMove', nextMove);
+
+          await makeMove({key:nextMove.action,player:-1});
+          // await new Promise((resolve)=>{
+          //   setTimeout(resolve,500);
+          // });
+          const newBoardState = this.props.state.boardState;
+          const res3 = TttUtil.isGoalState({boardState:newBoardState});
+          if(res3.gameEnded){
+            updateScore({
+              winner: res3.winner,
+            });
+          }
+          // Network.doRequest();
+        }}>request</button>
 
       </div>
     );
