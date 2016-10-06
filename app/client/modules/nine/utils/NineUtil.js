@@ -13,6 +13,45 @@ const finges = {
   9: [6,8],
 };
 
+const coordinates = {
+  1: [1,1],
+  2: [2,1],
+  3: [3,1],
+  4: [1,2],
+  5: [2,2],
+  6: [3,2],
+  7: [1,3],
+  8: [2,3],
+  9: [3,3],
+};
+
+const _calcDistance = function(a,b){
+  const [x1,y1] = a;
+  const [x2,y2] = b;
+  const horizontalDistance = Math.abs(x1-x2);
+  const verticalDistance = Math.abs(y1-y2);
+  return horizontalDistance + verticalDistance;
+};
+
+const computeHeuristics = function(params){
+  const { boardState } = params;
+
+  let distances = 0;
+
+  for(let posA in boardState){
+    const posB = boardState[posA];
+    if(posB === null){ continue; }
+
+    const coorA = coordinates[posA];
+    const coorB = coordinates[posB];
+
+    distances += _calcDistance(coorA, coorB);
+
+  }
+
+  return distances;
+};
+
 const generateRandomBoard = function(){
   const values = _.shuffle([1,2,3,4,5,6,7,8,null]);
   const board = {
@@ -68,4 +107,6 @@ export default {
   generateRandomBoard,
   getSuccessor,
   isGoalState,
+  computeHeuristics,
+  _calcDistance,
 };

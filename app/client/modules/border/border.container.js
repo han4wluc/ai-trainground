@@ -12,8 +12,6 @@ const {
   BorderUtil
 } = BorderUtils;
 
-console.log('BorderUtil', BorderUtil)
-
 const { Setup } = Utils;
 class BorderContainer extends Component {
 

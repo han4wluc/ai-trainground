@@ -5,7 +5,7 @@ import { Utils, } from '../../';
 import Comps from './comps';
 
 import NineUtils from './utils';
-const { NineUtil } = NineUtils;
+const { NineUtil, NineSearch } = NineUtils;
 import _ from 'lodash';
 
 const {
@@ -26,6 +26,13 @@ class NineContainer extends Component {
     super(props);
 
     this.history = ['a'];
+  }
+
+  componentDidMount() {
+    const {
+      state: {boardState},
+    } = this.props;
+    const search = new NineSearch({boardState});    
   }
 
   render(){

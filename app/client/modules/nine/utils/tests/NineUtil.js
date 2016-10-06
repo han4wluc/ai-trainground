@@ -71,3 +71,52 @@ describe('NineUtil.getSuccessor', function(){
   });
 });
 
+describe('NineUtil.computeHeuristics', function(){
+  it('should return correct distance', function(){
+    const boardState = {
+      1: 1,
+      2: 2,
+      3: 3,
+      4: 4,
+      5: 5,
+      6: 6,
+      7: 7,
+      8: 8,
+      9: null,
+    };
+    const distance = NineUtil.computeHeuristics({boardState});
+    distance.should.equal(0);
+  });
+
+  it('should return correct distance', function(){
+    const boardState = {
+      1: 2,
+      2: 1,
+      3: 3,
+      4: 4,
+      5: 5,
+      6: 6,
+      7: 7,
+      8: 8,
+      9: null,
+    };
+    const distance = NineUtil.computeHeuristics({boardState});
+    distance.should.equal(2);
+  });
+
+  it('should return correct distance', function(){
+    const boardState = {
+      1: 8, // 3
+      2: 3, // 1
+      3: 4, // 3
+      4: 7, // 1
+      5: 6, // 1
+      6: 5, // 1
+      7: 2, // 3
+      8: 1, // 3
+      9: null,
+    };
+    const distance = NineUtil.computeHeuristics({boardState});
+    distance.should.equal(16);
+  });
+});
