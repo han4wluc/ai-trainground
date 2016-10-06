@@ -62,7 +62,8 @@ export default class NineSearch {
     const heuristic = NineUtil.computeHeuristics({boardState: this._boardState});
 
 
-    if(this._expansions % 500 === 0){
+    if(this._expansions % 1000 === 0){
+      console.log('_finge', this._finges);
       console.log(this._expansions, this._history.length, this._finges.length, heuristic, this._path.length);
     }
 
@@ -133,13 +134,13 @@ export default class NineSearch {
     .map((f)=>{
       return {
         ...f,
-        path: this._path,
-        // heuristic: NineUtil.computeHeuristics({boardState:f.boardState})
+        path: path.concat(newBoard),
+        heuristic: NineUtil.computeHeuristics({boardState:f.boardState})
       };
     }))
-    // .sort((p,n)=>{
-    //   return p.path.heuristic > n.path.heuristic ? -1 : 1;
-    // });
+    .sort((p,n)=>{
+      return p.heuristic > n.heuristic ? 1 : -1;
+    });
 
     this._boardState = newBoard;
     this._history.push(JSON.stringify(newBoard));
