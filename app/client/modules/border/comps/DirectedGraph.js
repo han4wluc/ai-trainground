@@ -85,6 +85,9 @@ export default class DirectedGraph extends Component {
       .attr('dy', 4)
       .text((d)=>d.id);
 
+    cont.exit()
+      .remove();
+
   }
 
   render(){

@@ -9,8 +9,11 @@ import {
 } from './comps';
 import BorderUtils from './utils';
 const {
-  BorderUtil
+  BorderUtil,
+  BorderSearch,
 } = BorderUtils;
+
+console.log('BorderSearch', BorderSearch);
 
 const { Setup } = Utils;
 class BorderContainer extends Component {
@@ -18,10 +21,13 @@ class BorderContainer extends Component {
   // constructor(props) {
   //   super(props);
   // }
-
-  // componentDidMount() {
-  //   const self = this;
-  // }
+  componentDidMount() {
+    const {
+      nodes,
+      links
+    } = this.props.state;
+    this._borderSearch = new BorderSearch({nodes,links,});    
+  }
 
   render(){
 
@@ -38,15 +44,45 @@ class BorderContainer extends Component {
           links={links}
         />
         <button onClick={()=>{
+          let isGoal = false;
+          let res;
+          let nodes;
+          let i = 0;
+          while(i<1000 && !isGoal){
+            i++;
+            res = this._borderSearch.next();
+            nodes = res.nodes;
+            // move({nodes})
+            isGoal = res.isGoal;
 
-          const { nodes, links } = this.props.state;
+            if(i % 100 === 0){
+              console.log(i);
+            }
 
-          const { isGoal } = BorderUtil.isGoalState({nodes,links});
-          if(isGoal){
-            return;
+            if(isGoal){
+              console.log('GOAL REACHED', res.expansions, nodes);
+              move({nodes});
+            }
+
+            // console.log('nodes', nodes);
+            // isGoal = move({nodes}).isGoal;
           }
 
-          move({nodes});
+          // const { node, color } = res;
+          // move({
+          //   nodes: this.props.state.nodes,
+          //   color,
+          //   node,
+          // });
+
+          // const { nodes, links } = this.props.state;
+
+          // const { isGoal } = BorderUtil.isGoalState({nodes,links});
+          // if(isGoal){
+          //   return;
+          // }
+
+          // move({nodes});
 
           // let points = _.cloneDeep(this.state.points);
           // const r = _.random(0,points.length-1)
@@ -56,6 +92,23 @@ class BorderContainer extends Component {
           //   points,
           // })
         }}>change</button>
+
+        <button onClick={()=>{
+const x1 = 80;
+const x2 = 160;
+const x3 = 240;
+          move({
+            nodes: [
+  { id:1, x:x1, y:x2, color: 'purple' },
+  { id:2, x:x2, y:x1, color: 'purple' },
+  { id:3, x:x2, y:x2, color: 'purple' },
+
+  { id:4, x:x3, y:x1, color: 'purple' },
+  { id:5, x:x3, y:x2, color: 'white' },
+  { id:6, x:x3, y:x3, color: 'white' },
+            ]
+          })
+        }}>clear</button>
       </div>
     );
   }
