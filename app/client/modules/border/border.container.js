@@ -48,11 +48,11 @@ class BorderContainer extends Component {
           let res;
           let nodes;
           let i = 0;
-          while(i<1000 && !isGoal){
+          while(i<1 && !isGoal){
             i++;
             res = this._borderSearch.next();
             nodes = res.nodes;
-            // move({nodes})
+            move({nodes})
             isGoal = res.isGoal;
 
             if(i % 100 === 0){

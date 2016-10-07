@@ -26,6 +26,32 @@ const isGoalState = function(params){
 
 };
 
+const isConstrainViolated = function(params){
+  const {
+    nodes, links
+  } = params;
+
+  for(let i in links){
+    const { fr, to } = links[i];
+    const node1 = _.find(nodes, { id: fr });
+    const node2 = _.find(nodes, { id: to });
+
+    if(node1.color === 'white' || node2.color === 'white'){
+      continue;
+    }
+
+    if(node1.color === node2.color){
+      return {
+        isViolated: true,
+      };
+    }
+  }
+
+  return {
+    isViolated: false,
+  };
+};
+
 const _colorNode = function(params){
   const {
     nodes,
@@ -66,5 +92,6 @@ const getSuccessors = function(params){
 export default {
   isGoalState,
   getSuccessors,
+  isConstrainViolated,
   _colorNode,
 };

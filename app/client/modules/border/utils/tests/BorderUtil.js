@@ -113,18 +113,6 @@ describe('BorderUtil.isGoalState', function(){
 
 
 describe('BorderUtil._colorNode', function(){
-  const links = [
-    { fr:1, to:2 },
-    { fr:1, to:3 },
-    { fr:2, to:3 },
-    { fr:2, to:4 },
-    { fr:3, to:4 },
-    { fr:3, to:5 },
-    { fr:3, to:6 },
-    { fr:4, to:5 },
-    { fr:5, to:6 },
-  ];
-
   it('should return valid', function(){
     const nodes = [
       { id:1, color: 'white' },
@@ -166,3 +154,62 @@ describe('BorderUtil._colorNode', function(){
   });
 
 });
+
+
+describe('BorderUtil.isConstrainViolated', function(){
+  const links = [
+    { fr:1, to:2 },
+    { fr:1, to:3 },
+    { fr:2, to:3 },
+    { fr:2, to:4 },
+    { fr:3, to:4 },
+    { fr:3, to:5 },
+    { fr:3, to:6 },
+    { fr:4, to:5 },
+    { fr:5, to:6 },
+  ];
+
+  it('should return isViolated false', function(){
+    const nodes = [
+      { id:1, color: 'white' },
+      { id:2, color: 'white' },
+      { id:3, color: 'white' },
+      { id:4, color: 'white' },
+      { id:5, color: 'white' },
+      { id:6, color: 'red' },
+    ];
+    const expected = { isViolated: false, };
+    const actual = BorderUtil.isConstrainViolated({nodes,links,});
+    expected.should.deep.equal(actual);
+  });
+
+  it('should return isViolated false', function(){
+    const nodes = [
+      { id:1, color: 'red' },
+      { id:2, color: 'green' },
+      { id:3, color: 'blue' },
+      { id:4, color: 'red' },
+      { id:5, color: 'green' },
+      { id:6, color: 'red' },
+    ];
+    const expected = { isViolated: false, };
+    const actual = BorderUtil.isConstrainViolated({nodes,links,});
+    expected.should.deep.equal(actual);
+  });
+
+  it('should return isViolated true', function(){
+    const nodes = [
+      { id:1, color: 'white' },
+      { id:2, color: 'white' },
+      { id:3, color: 'white' },
+      { id:4, color: 'white' },
+      { id:5, color: 'red' },
+      { id:6, color: 'red' },
+    ];
+    const expected = { isViolated: true, };
+    const actual = BorderUtil.isConstrainViolated({nodes,links,});
+    expected.should.deep.equal(actual);
+  });
+
+});
+

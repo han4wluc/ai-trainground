@@ -23,12 +23,12 @@ export default class BorderSearch {
 
   next(){
     // BFS
-    const newNodes = this._finges[0];
-    this._finges = this._finges.slice(1,this._finges.length);
+    // const newNodes = this._finges[0];
+    // this._finges = this._finges.slice(1,this._finges.length);
 
     // DFS
-    // const newNodes = this._finges[this._finges.length-1];
-    // this._finges = this._finges.slice(0,this._finges.length-1);
+    const newNodes = this._finges[this._finges.length-1];
+    this._finges = this._finges.slice(0,this._finges.length-1);
 
     // graph search
     if(this._history.indexOf(JSON.stringify(newNodes)) !== -1){
@@ -39,6 +39,18 @@ export default class BorderSearch {
       };
     }
     this._expansions++;
+
+    // Backtracking
+    const { isViolated } = BorderUtil.isConstrainViolated({nodes:newNodes,links:this._links});
+    if(isViolated){
+      return {
+        isGoal: false,
+        nodes: newNodes,
+        expansions: this._expansions,
+        // node,
+        // color,
+      };
+    }
 
     const finges = BorderUtil.getSuccessors({nodes:newNodes});
     this._finges = this._finges.concat(finges);
