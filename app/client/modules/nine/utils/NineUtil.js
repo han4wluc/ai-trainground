@@ -48,10 +48,10 @@ const computeHeuristics = function(params){
 
     distances += _calcDistance(coorA, coorB);
 
-    // // if is right position or not
-    // if(posA != posB){
-    //   distances++;
-    // }
+    // if is right position or not
+    if(posA != posB){
+      distances++;
+    }
   }
 
   return distances;

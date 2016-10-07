@@ -100,8 +100,9 @@ describe('NineUtil.computeHeuristics', function(){
       8: 8,
       9: null,
     };
-    const distance = NineUtil.computeHeuristics({boardState});
-    distance.should.equal(2);
+    const actual = NineUtil.computeHeuristics({boardState});
+    const expected = 4; //2
+    expected.should.equal(actual);
   });
 
   it('should return correct distance', function(){
@@ -116,8 +117,9 @@ describe('NineUtil.computeHeuristics', function(){
       8: 1, // 3
       9: null,
     };
-    const distance = NineUtil.computeHeuristics({boardState});
-    distance.should.equal(16);
+    const actual = NineUtil.computeHeuristics({boardState});
+    const expected = 24; //16
+    expected.should.equal(actual);
   });
 });
 
@@ -171,7 +173,7 @@ describe('NineUtil.getSuccessorStates', function(){
         9: 5,
       },
       move: 6,
-      heuristic: 17,
+      heuristic: 25,
     }, {
       boardState: {
         1: 8,
@@ -185,7 +187,7 @@ describe('NineUtil.getSuccessorStates', function(){
         9: 1,
       },
       move: 8,
-      heuristic: 17,
+      heuristic: 25,
     }];
 
     const boardState = {

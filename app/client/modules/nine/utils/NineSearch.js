@@ -44,18 +44,18 @@ export default class NineSearch {
     this._finges = this._finges.map((f)=>{
       return {
         ...f,
-        path: [],
+        path: [boardState],
         heuristic: NineUtil.computeHeuristics({boardState:f.boardState})
       };
     });
 
+    // console.log('this._finges', this._finges);
 
   }
 
   next(){
 
-    console.log('this._finges', this._finges);
-
+    // console.log('this._finges', this._finges);
 
     this._expansions++;
     // console.log(this._finges[0].heuristic);
@@ -86,9 +86,7 @@ export default class NineSearch {
     }
 
     // console.log('')
-
     // console.log(this._finges);
-
     // const states = NineUtil.getSuccessorStates({
     //   boardState: this._boardState
     // }).filter((o)=>{
@@ -104,9 +102,31 @@ export default class NineSearch {
     // console.log(states[0].heuristic);
 
     // BFS
-    const newBoard = this._finges[0].boardState;
-    const path = this._finges[0].path;
+    const newBoard = _.cloneDeep(this._finges[0].boardState);
+    const path = _.cloneDeep(this._finges[0].path);
     const newPath = path.concat(newBoard);
+
+    // console.log('newBoard', newBoard);
+    // console.log('newPath', newPath);
+    let transRes;
+    if(newPath.length > 1){
+      for(let i=0; i<newPath.length-1;i++){
+        transRes = NineUtil.getTransition({
+          boardStateA: newPath[i],
+          boardStateB: newPath[i+1],
+        });
+        if(!transRes.isValid){
+          console.log('INVALID PATH');
+          return;
+        }
+      }
+      // newPath.forEach((p, i)=>{
+      //   NineUtil.getTransition()
+      // });
+      // newPath
+    }
+    // NineUtil.getTransition
+
     this._path = newPath;
 
 
@@ -121,7 +141,7 @@ export default class NineSearch {
 
 
     this._finges = this._finges.concat(NineUtil.getSuccessorStates({
-      boardState: this._boardState
+      boardState: newBoard
     })
     .filter((f) => {
       return this._history.indexOf(JSON.stringify(f.boardState)) === -1;

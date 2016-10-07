@@ -6,15 +6,15 @@ const { NineUtil } = NineUtils;
 const initialState = {
   boardState: NineUtil.generateRandomBoard(),
   // boardState: {
-  //   1: 1,
-  //   2: 2,
-  //   3: 3,
-  //   4: 4,
-  //   5: 5,
-  //   6: 6,
-  //   7: null,
-  //   8: 8,
-  //   9: 7,
+  //   1: null,
+  //   2: 5,
+  //   3: 4,
+  //   4: 7,
+  //   5: 6,
+  //   6: 3,
+  //   7: 8,
+  //   8: 1,
+  //   9: 2,
   // },
 };
 
