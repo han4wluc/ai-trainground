@@ -4,9 +4,11 @@ import * as homeActions from './home.action';
 
 import { Utils, Comps, } from '../../';
 
+import _ from 'lodash';
+
 const { Setup, GridUtil, SearchTree } = Utils;
 
-const { Cell, Grid, Chooser } = Comps;
+const { Cell, Chooser, CommonGrid } = Comps;
 
 class HomeContainer extends Component {
 
@@ -208,12 +210,84 @@ class HomeContainer extends Component {
     );
   }
 
+  _renderCells(params){
+    const { rows,columns,gridState, onClick } = params;
+    const cells = [];
+    _.range(rows).forEach((iy)=>{
+      const top = iy * 40;
+      _.range(columns).forEach((ix)=>{
+        const left = ix * 40;
+
+        const coor = `x${ix}y${iy}`;
+
+        // let backgroundColor = '#ccc';
+        const showDot = gridState[coor].showDot;
+
+        // let backgroundColor = gridState[coor].color || '#ccc';
+
+        let backgroundColor = '#ddd';
+        if(gridState[coor].cost === 1){
+          backgroundColor = '#ddd';
+        }
+        if(gridState[coor].cost === 2){
+          backgroundColor = '#ccc';
+        }
+        if(gridState[coor].cost === 3){
+          backgroundColor = '#bbb';
+        }
+
+        if(gridState[coor].color){
+          backgroundColor = gridState[coor].color;
+        }
+
+        if(gridState[coor].isWall){
+          backgroundColor = 'black';
+        }
+
+        if(gridState[coor].isHighlighted){
+          backgroundColor = 'red';
+        }
+
+        if(gridState[coor].isStart){
+          backgroundColor = 'blue';
+        }
+        if(gridState[coor].isGoal){
+          backgroundColor = 'green';
+        }
+
+
+        const cell = (
+          <Cell
+            key={`${iy}_${ix}`}
+            onClick={onClick}
+            x={ix}
+            y={iy}
+            showDot={showDot}
+            style={{
+              // position: 'absolute',
+              backgroundColor,
+              // backgroundColor:'#ccc',
+              // left: `${left}px`,
+              // top: `${top}px`,
+            }}
+          />
+        );
+        cells.push(cell);
+      });
+    });
+    return cells;
+  }
+
   render(){
     const {
       gridState,
       columns,
       rows,
     } = this.props.state;
+
+    const cells = this._renderCells({gridState,columns,rows,onClick:this._onClickCell});
+
+    // cells
 
     return (
       <div style={{
@@ -223,11 +297,12 @@ class HomeContainer extends Component {
         <div style={{
           display: 'flex'
         }}>
-          <Grid
-            gridState={gridState}
-            onClick={this._onClickCell.bind(this)}
-            rows={columns}
-            columns={rows}
+          <CommonGrid
+            columns={columns}
+            rows={rows}
+            size={50}
+            cells={cells}
+            borderWidth={4}
           />
         </div>
 

@@ -32,15 +32,12 @@ export default class Cell extends Component {
       <div
         onClick={onClick.bind(null,{x,y})}
         style={{
-          width: '36px',
-          height: '36px',
-          marginTop: '2px',
-          marginLeft: '2px',
-          backgroundColor: 'red',
-          border: '1px solid #bbb',
           display: 'flex',
+          flex: 1,
+          height: '100%',
           alignItems: 'center',
           justifyContent: 'center',
+
           ...style
         }}
       >
