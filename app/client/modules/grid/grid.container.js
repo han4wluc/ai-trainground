@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import * as homeActions from './home.action';
+import * as gridActions from './grid.action';
 
 import { Utils, Comps, } from '../../';
 
@@ -10,7 +10,7 @@ const { Setup, GridUtil, SearchTree } = Utils;
 
 const { Cell, Chooser, CommonGrid } = Comps;
 
-class HomeContainer extends Component {
+class GridContainer extends Component {
 
   static propTypes = {
     actions: React.PropTypes.object,
@@ -89,6 +89,7 @@ class HomeContainer extends Component {
       incrementCellCost
     } = this.props.actions;
     const { x, y } = params;
+
     incrementCellCost({x,y});
   }
 
@@ -285,7 +286,7 @@ class HomeContainer extends Component {
       rows,
     } = this.props.state;
 
-    const cells = this._renderCells({gridState,columns,rows,onClick:this._onClickCell});
+    const cells = this._renderCells({gridState,columns,rows,onClick:this._onClickCell.bind(this)});
 
     // cells
 
@@ -326,4 +327,4 @@ class HomeContainer extends Component {
   }
 }
 
-export default Setup.customConnect('home', homeActions, HomeContainer);
+export default Setup.customConnect('grid', gridActions, GridContainer);

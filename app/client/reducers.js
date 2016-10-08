@@ -1,5 +1,5 @@
 
-import home from './modules/home/home.reducer';
+import grid from './modules/grid/grid.reducer';
 import nine from './modules/nine/nine.reducer';
 import ttt from './modules/ttt/ttt.reducer';
 import nav from './modules/nav/nav.reducer';
@@ -8,7 +8,7 @@ import maze from './modules/maze/maze.reducer';
 /**YEOMAN_HOOK_1**/
 
 export {
-  home,
+  grid,
   nine,
   ttt,
   nav,

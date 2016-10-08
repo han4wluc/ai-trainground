@@ -17,14 +17,14 @@ const initialState = {
 
 export default function moduleName(state = initialState, action = {}){
 
-  if(action.type === 'HOME_SET_STATE'){
+  if(action.type === 'GRID_SET_STATE'){
     return {
       ...state,
       ...action.props,
     };
   }
 
-  if(action.type === 'HOME_UPDATE_CELL'){
+  if(action.type === 'GRID_UPDATE_CELL'){
 
     const gridState = _.cloneDeep(state.gridState);
     gridState[action.props.key] = {
@@ -42,7 +42,7 @@ export default function moduleName(state = initialState, action = {}){
 
   }
 
-  if(action.type === 'HOME_UPDATE_CELLS'){
+  if(action.type === 'GRID_UPDATE_CELLS'){
     const gridState = _.cloneDeep(state.gridState);
     action.props.keys.forEach((key)=>{
       gridState[key].showDot = true;
@@ -53,7 +53,7 @@ export default function moduleName(state = initialState, action = {}){
     };
   }
 
-  if(action.type === 'HOME_CLEAR_PATH'){
+  if(action.type === 'GRID_CLEAR_PATH'){
     const gridState = _.cloneDeep(state.gridState);
     for (var key in gridState){
       const cell = gridState[key];
@@ -66,7 +66,7 @@ export default function moduleName(state = initialState, action = {}){
     };
   }
 
-  if(action.type === 'HOME_INCREMENT_CELL_COST'){
+  if(action.type === 'GRID_INCREMENT_CELL_COST'){
     const gridState = _.cloneDeep(state.gridState);
     const cost = gridState[action.props.key].cost;
     if(cost > 2){
@@ -81,7 +81,7 @@ export default function moduleName(state = initialState, action = {}){
     };
   }
 
-  if(action.type === 'HOME_PAINT_CELLS'){
+  if(action.type === 'GRID_PAINT_CELLS'){
     const gridState = _.cloneDeep(state.gridState);
     action.props.coordinates.forEach((c)=>{
       // gridState[c].color = 'red';
@@ -93,14 +93,14 @@ export default function moduleName(state = initialState, action = {}){
     };
   }
 
-  if(action.type === 'HOME_UPDATE_RESULT_TABLE'){
+  if(action.type === 'GRID_UPDATE_RESULT_TABLE'){
     return {
       ...state,
       resultTable: action.props.resultTable,
     };
   }
 
-  if(action.type === 'HOME_RESET_TO_INITIAL_STATE'){
+  if(action.type === 'GRID_RESET_TO_INITIAL_STATE'){
     return initialState;
   }
 

@@ -24,7 +24,7 @@ class App extends Component {
         <Router history={history}>
           <Route path="/" component={containers['nav']}>
             <IndexRedirect to="/grid" />
-            <Route path="grid" component={containers['home']}/>
+            <Route path="grid" component={containers['grid']}/>
             <Route path="nine" component={containers['nine']}/>
             <Route path="ttt" component={containers['ttt']}/>
             <Route path="border" component={containers['border']}/>
