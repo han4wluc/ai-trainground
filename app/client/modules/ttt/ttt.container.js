@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import * as tttActions from './ttt.action';
-import { Utils, } from '../../';
+import { Utils, Comps as CommonComps} from '../../';
 
 import TttComps from './comps';
 import TttUtils from './utils';
@@ -11,7 +11,7 @@ import { Link, browserHistory } from 'react-router';
 import Network from './ttt.network';
 
 const {
-  Board
+  Piece,
 } = TttComps;
 
 const {
@@ -19,6 +19,10 @@ const {
 } = TttUtils;
 
 const { Setup } = Utils;
+
+const {
+  CommonGrid,
+} = CommonComps;
 
 class TttContainer extends Component {
 
@@ -82,6 +86,30 @@ class TttContainer extends Component {
     );
   }
 
+  _renderCells(params){
+
+    const { boardState, makeMove } = params;
+
+    const pieces = Object.keys(boardState).map((k)=>{
+      const player = boardState[k];
+      return (
+        <Piece
+          key={k}
+          player={player}
+          onClick={(params)=>{
+            const { index, player } = params;
+            makeMove({player:1,index});
+          }}
+          index={k}
+          height={50}
+        />
+      );
+    });
+
+    return pieces;
+
+  }
+
   render(){
 
     const {
@@ -91,13 +119,25 @@ class TttContainer extends Component {
       }
     } = this.props;
 
+    const cells = this._renderCells({boardState,makeMove});
+
+    // console.log('cells[0]', cells[0]);
+
     return (
       <div>
-        <Board
+        {<CommonGrid
+          columns={3}
+          rows={3}
+          size={100}
+          cells={cells}
+          borderWidth={10}
+        />}
+
+        {/*<Board
           height={300}
           boardState={boardState}
           onClick={this._makeMove.bind(this)}
-        />
+        />*/}
 
         <br/>
 

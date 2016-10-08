@@ -23,7 +23,7 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history}>
           <Route path="/" component={containers['nav']}>
-            <IndexRedirect to="/nine" />
+            <IndexRedirect to="/ttt" />
             <Route path="grid" component={containers['home']}/>
             <Route path="nine" component={containers['nine']}/>
             <Route path="ttt" component={containers['ttt']}/>

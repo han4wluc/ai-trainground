@@ -19,13 +19,14 @@ class Piece extends Component {
       <div
         onClick={onClick.bind(null,{player,index})}
         style={{
-          width: `${height}px`,
-          height: `${height}px`,
+          height: '100%',
+          // width: `${height}px`,
+          // height: `${height}px`,
           // margin: '4px',
           borderRadius: `${height/2}px`,
-          position: 'absolute',
-          left: coordinate[0],
-          top: coordinate[1],
+          // position: 'absolute',
+          // left: coordinate[0],
+          // top: coordinate[1],
           // backgroundColor: 'red',
           display: 'flex',
           alignItems: 'center',
@@ -50,17 +51,19 @@ class Piece extends Component {
         onClick={onClick.bind(null,{player,index})}
         style={{
           content: 'X',
-          width: `${height}px`,
-          height: `${height}px`,
+          height: '100%',
+          // width: `${height}px`,
+          // height: `${height}px`,
           // margin: '4px',
           // content: 'X',
           borderRadius: `${height/2}px`,
-          position: 'absolute',
-          left: coordinate[0],
-          top: coordinate[1],
+          // position: 'absolute',
+          // left: coordinate[0],
+          // top: coordinate[1],
             // color: 'red',
           // fontFamily: 'monospace',
           // backgroundColor: 'blue',
+
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -84,13 +87,17 @@ class Piece extends Component {
     return (
       <div
         onClick={onClick.bind(null,{player,index})}
+        // onClick={()=>{
+        //   console.log('asdf');
+        // }}
         style={{
-          width: `${height}px`,
-          height: `${height}px`,
+          height: '100%',
+          // width: `${height}px`,
+          // height: `${height}px`,
           // margin: '4px',
-          position: 'absolute',
-          left: coordinate[0],
-          top: coordinate[1],
+          // position: 'absolute',
+          // left: coordinate[0],
+          // top: coordinate[1],
           // backgroundColor: '#ccc',
         }}
       />
@@ -98,8 +105,10 @@ class Piece extends Component {
   }
 
   render() {
+
+
     const {
-      coordinate,
+      // coordinate,
       onClick,
       index,
       player,
@@ -110,13 +119,13 @@ class Piece extends Component {
     // const 
 
     const props = {
-      coordinate,
+      // coordinate,
       onClick,
       player,
       index,
       height,
       // height: 80,
-      // borderWidth: 
+      // borderWidth:
     };
 
     if(player === 1){

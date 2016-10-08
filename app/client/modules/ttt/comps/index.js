@@ -1,6 +1,6 @@
 
-import Board from './Board';
+import Piece from './Piece';
 
 export default {
-  Board,
+  Piece,
 };
