@@ -62,8 +62,8 @@ const calcScores = function(params){
 
     console.log('gameEnded', res);
 
-    if(res.winner === 0){ return 0; }
-    return res.winner === originalPlayer ? 1 : -1;
+    if(res.winner === 0){ return [0]; }
+    return res.winner === originalPlayer ? [1] : [-1];
   }
 
   const opponent = player === -1 ? 1 : -1;
@@ -75,10 +75,12 @@ const calcScores = function(params){
 
   console.log('calc', scores);
 
-  if(player === originalPlayer){
-    return Math.max(...scores);
-  }
-  return Math.min(...scores)
+  return _.uniq(scores.reduce((p,n)=>p.concat(n),[]));
+
+  // if(player === originalPlayer){
+  //   return Math.max(...scores);
+  // }
+  // return Math.min(...scores);
 
 
   // const sum = scores.reduce((p,n)=>p+n,0);
