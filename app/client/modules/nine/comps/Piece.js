@@ -21,18 +21,12 @@ export default class Piece extends Component {
     } = this.props;
     return (
       <div
-        onClick={onClick.bind(null,{value,index})}
+        onClick={onClick && onClick.bind(null,{value,index})}
         style={{
-          width: '36px',
-          height: '36px',
-          position: 'absolute',
-          left: coordinate[0],
-          top: coordinate[1],
-          // marginTop: '2px',
-          // marginLeft: '2px',
-          backgroundColor: '#ccc',
-          border: '1px solid #bbb',
+          backgroundColor: '#eee',
           display: 'flex',
+          flex: 1,
+          height: '100%',
           alignItems: 'center',
           justifyContent: 'center',
           ...style
