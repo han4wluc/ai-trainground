@@ -118,10 +118,16 @@ export function aiMakeMove(params){
 
   const { boardState } = params;
 
-  return async (dispatch, getState) => {
+  const originalPlayer = -1;
+  const player = -1;
 
-    const player = -1;
-    const { action:move } = await TttNetwork.requestNextMove({boardState});
+
+  return async (dispatch, getState) => {
+    const move =  TttUtil.getNextAIMoveWithMinMaxScores({boardState,player,originalPlayer});
+
+    // console.log(res);
+    // const player = -1;
+    // const { action:move } = await TttNetwork.requestNextMove({boardState});
 
     return await _makeMove({boardState, move, player,dispatch});
   };

@@ -10,4 +10,4 @@ export default {
   homeContainer,
   homeNetwork,
   homeReducer,
-}
+};

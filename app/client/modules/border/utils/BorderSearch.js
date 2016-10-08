@@ -40,11 +40,9 @@ export default class BorderSearch {
     }
 
 
-
-
     this._expansions++;
 
-    // Backtracking
+    // // Backtracking
     const { isViolated } = BorderUtil.isConstrainViolated({nodes:newNodes,links:this._links});
     if(isViolated){
       return {
@@ -70,6 +68,9 @@ export default class BorderSearch {
       };
     }
 
+    // filtering constraint propagation
+    // enforcing arc consistency
+    //
 
     const finges = BorderUtil.getSuccessors({nodes:newNodes});
     this._finges = this._finges.concat(finges);

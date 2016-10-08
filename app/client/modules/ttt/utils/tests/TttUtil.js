@@ -231,3 +231,52 @@ describe('TttUtil.nextMove', function(){
   });
 
 });
+
+describe('TttUtil.getSuccessorsStates', function(){
+
+  it('should return correct next boardState', function(){
+    const boardState = {
+      '0,0' : 1, '0,1' : -1, '0,2' :  1,
+      '1,0' : 0, '1,1' : -1, '1,2' :  0,
+      '2,0' : 0, '2,1' :  1, '2,2' : -1
+    };
+    const player = -1;
+
+    const b1 = {
+      '0,0' :  1, '0,1' : -1, '0,2' :  1,
+      '1,0' : -1, '1,1' : -1, '1,2' :  0,
+      '2,0' :  0, '2,1' :  1, '2,2' : -1
+    };
+    const b2 = {
+      '0,0' :  1, '0,1' : -1, '0,2' :  1,
+      '1,0' :  0, '1,1' : -1, '1,2' : -1,
+      '2,0' :  0, '2,1' :  1, '2,2' : -1
+    };
+    const b3 = {
+      '0,0' :  1, '0,1' : -1, '0,2' :  1,
+      '1,0' :  0, '1,1' : -1, '1,2' :  0,
+      '2,0' : -1, '2,1' :  1, '2,2' : -1
+    };
+    const expected = [b1, b2 ,b3];
+    const actual = TttUtil.getSuccessorsStates({boardState,player});
+    expected.should.deep.equal(actual);
+
+  });
+
+});
+
+describe('TttUtil.calcScores', function(){
+  it('should ', function(){
+    const boardState = {
+      '0,0' : 1, '0,1' : -1, '0,2' :  1,
+      '1,0' : 0, '1,1' : -1, '1,2' :  0,
+      '2,0' : 0, '2,1' :  1, '2,2' : -1
+    };
+    const player = 1;
+    const expected = 1;
+    const actual = TttUtil.calcScores({boardState,player,originalPlayer:player});
+    expected.should.deep.equal(actual);
+  });
+});
+
+// getSuccessorsStates

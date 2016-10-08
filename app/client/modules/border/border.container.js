@@ -13,8 +13,6 @@ const {
   BorderSearch,
 } = BorderUtils;
 
-console.log('BorderSearch', BorderSearch);
-
 const { Setup } = Utils;
 class BorderContainer extends Component {
 
@@ -48,11 +46,11 @@ class BorderContainer extends Component {
           let res;
           let nodes;
           let i = 0;
-          while(i < 100 && !isGoal){
+          while(i < 1 && !isGoal){
             i++;
             res = this._borderSearch.next();
             nodes = res.nodes;
-            move({nodes})
+            move({nodes});
             isGoal = res.isGoal;
 
             if(i % 100 === 0){
