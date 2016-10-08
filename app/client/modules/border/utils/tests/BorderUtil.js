@@ -213,3 +213,47 @@ describe('BorderUtil.isConstrainViolated', function(){
 
 });
 
+describe('BorderUtil.forwardCheck', function(){
+  const links = [
+    { fr:1, to:2 },
+    { fr:1, to:3 },
+    { fr:2, to:3 },
+    { fr:2, to:4 },
+    { fr:3, to:4 },
+    { fr:3, to:5 },
+    { fr:3, to:6 },
+    { fr:4, to:5 },
+    { fr:5, to:6 },
+  ];
+
+  // it('should return isViolated false', function(){
+  //   const nodes = [
+  //     { id:1, color: 'white' },
+  //     { id:2, color: 'white' },
+  //     { id:3, color: 'white' },
+  //     { id:4, color: 'white' },
+  //     { id:5, color: 'white' },
+  //     { id:6, color: 'red' },
+  //   ];
+  //   const expected = { isViolated: false, };
+  //   const actual = BorderUtil.forwardCheck({nodes,links,});
+  //   expected.should.deep.equal(actual);
+  // });
+
+
+  it('should return isViolated true', function(){
+    const nodes = [
+      { id:1, color: 'red' },
+      { id:2, color: 'white' },
+      { id:3, color: 'white' },
+      { id:4, color: 'green' },
+      { id:5, color: 'white' },
+      { id:6, color: 'blue' },
+    ];
+    const expected = { isViolated: true, };
+    const actual = BorderUtil.forwardCheck({nodes,links,});
+    expected.should.deep.equal(actual);
+  });
+
+});
+

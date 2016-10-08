@@ -17,7 +17,7 @@ export default class BorderSearch {
     // this._links = initialLinks;
 
     this._finges = BorderUtil.getSuccessors({nodes:this._nodes});
-    console.log(this._finges)
+    console.log(this._finges);
     this._history　=　[JSON.stringify(this._nodes)];
   }
 
@@ -38,6 +38,10 @@ export default class BorderSearch {
         expansions: this._expansions,
       };
     }
+
+
+
+
     this._expansions++;
 
     // Backtracking
@@ -51,6 +55,21 @@ export default class BorderSearch {
         // color,
       };
     }
+
+    // filtering forward checking
+    // forwardCheck
+    const { isViolated:isViolated2 } = BorderUtil.forwardCheck({nodes:newNodes,links:this._links});
+    if(isViolated2){
+      console.log('FOWARD CHECK');
+      return {
+        isGoal: false,
+        nodes: newNodes,
+        expansions: this._expansions,
+        // node,
+        // color,
+      };
+    }
+
 
     const finges = BorderUtil.getSuccessors({nodes:newNodes});
     this._finges = this._finges.concat(finges);

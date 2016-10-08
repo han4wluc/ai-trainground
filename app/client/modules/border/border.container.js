@@ -48,7 +48,7 @@ class BorderContainer extends Component {
           let res;
           let nodes;
           let i = 0;
-          while(i<1 && !isGoal){
+          while(i < 100 && !isGoal){
             i++;
             res = this._borderSearch.next();
             nodes = res.nodes;
@@ -94,20 +94,7 @@ class BorderContainer extends Component {
         }}>change</button>
 
         <button onClick={()=>{
-const x1 = 80;
-const x2 = 160;
-const x3 = 240;
-          move({
-            nodes: [
-  { id:1, x:x1, y:x2, color: 'purple' },
-  { id:2, x:x2, y:x1, color: 'purple' },
-  { id:3, x:x2, y:x2, color: 'purple' },
-
-  { id:4, x:x3, y:x1, color: 'purple' },
-  { id:5, x:x3, y:x2, color: 'white' },
-  { id:6, x:x3, y:x3, color: 'white' },
-            ]
-          })
+          // 
         }}>clear</button>
       </div>
     );

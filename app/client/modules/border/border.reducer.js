@@ -3,8 +3,18 @@ const x1 = 80;
 const x2 = 160;
 const x3 = 240;
 
+// const initialNodes = [
+//   { id:1, x:x1, y:x2, color: 'white' },
+//   { id:2, x:x2, y:x1, color: 'white' },
+//   { id:3, x:x2, y:x2, color: 'white' },
+
+//   { id:4, x:x3, y:x1, color: 'white' },
+//   { id:5, x:x3, y:x2, color: 'white' },
+//   { id:6, x:x3, y:x3, color: 'white' },
+// ];
+
 const initialNodes = [
-  { id:1, x:x1, y:x2, color: 'white' },
+  { id:1, x:x1, y:x2, color: 'red' },
   { id:2, x:x2, y:x1, color: 'white' },
   { id:3, x:x2, y:x2, color: 'white' },
 

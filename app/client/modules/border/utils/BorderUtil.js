@@ -74,7 +74,48 @@ const _colorNode = function(params){
   };
 };
 
-const getSuccessors = function(params){
+// filtering forward checking
+// get all white nodes
+// get successorsMoves
+// filter only valid successorsMoves
+// check that each white node has a possible move
+const forwardCheck = function(params){
+  const { nodes, links } = params;
+
+  const whiteNodes = [];
+
+  const openOptions = {};
+  nodes.forEach((node)=>{
+    if(node.color === 'white'){
+      whiteNodes.push(node.id);
+    }
+  });
+
+  const successorsMoves = _getSuccessorsMoves({nodes}).filter((node)=>{
+    const newNodes = _colorNode({nodes, node:node.node, color: node.color}).nodes;
+
+    const { isViolated } = isConstrainViolated({nodes:newNodes, links});
+
+    return !isViolated;
+  });
+
+  for(let i in whiteNodes){
+    let nodeId = whiteNodes[i];
+
+    let index = _.findIndex(successorsMoves, { node: nodeId});
+    if(index === -1){
+      return {
+        isViolated: true,
+      };
+    }
+  }
+
+  return {
+    isViolated: false,
+  };
+};
+
+const _getSuccessorsMoves = function(params){
   const { nodes } = params;
   return nodes.filter((n)=>{
     return n.color === 'white';
@@ -83,15 +124,21 @@ const getSuccessors = function(params){
       {node:n.id,color:'red'},
       {node:n.id,color:'green'},
       {node:n.id,color:'blue'},
-    ].map((n)=>{
-      return _colorNode({nodes, node:n.node, color:n.color }).nodes;
-    });
+    ];
   }).reduce((p,n) => p.concat(n), []);
+};
+
+const getSuccessors = function(params){
+  const { nodes } = params;
+  return _getSuccessorsMoves({nodes}).map((n)=>{
+    return _colorNode({nodes, node:n.node, color:n.color }).nodes;
+  });
 };
 
 export default {
   isGoalState,
   getSuccessors,
   isConstrainViolated,
+  forwardCheck,
   _colorNode,
 };
