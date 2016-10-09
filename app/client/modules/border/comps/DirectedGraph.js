@@ -19,6 +19,22 @@ export default class DirectedGraph extends Component {
     svg.append('g')
       .attr('class', 'd3-points');
 
+
+    // const defs = svg.append('defs');
+    // const marker = defs.append('marker')
+    //   .attr('id', 'arrow')
+    //   .attr('markerWidth', 10)
+    //   .attr('markerHeight', 10)
+    //   .attr('refx', 0)
+    //   .attr('refy', 3)
+    //   .attr('orient', 'auto')
+    //   .attr('markerUnits', 'strokeWidth');
+
+    // marker.append('path')
+    //   .attr('d', 'M0,0 L0,6 L9,3 z')
+    //   .attr('fill', '#f00');
+
+
     const { nodes, links } = this.props;
 
     this._update.call(this,{nodes, links});
@@ -58,8 +74,32 @@ export default class DirectedGraph extends Component {
       .attr('y1', (d)=>d.y1 )
       .attr('x2', (d)=>d.x2 )
       .attr('y2', (d)=>d.y2 )
+      // .attr('x2', (d)=> {
+      //   const diffX = d.x2 - d.x1;
+      //   const diffY = d.y2 - d.y1;
+
+      //   let diagonalMultiplier = 0;
+      //   if(Math.abs(diffX) > 10 && Math.abs(diffY) > 10){
+      //     diagonalMultiplier = 0.1;
+      //   }
+
+      //   return d.x1 + (diffX * (0.6 + diagonalMultiplier));
+      // })
+      // .attr('y2', (d)=> {
+      //   const diffX = d.x2 - d.x1;
+      //   const diffY = d.y2 - d.y1;
+
+      //   let diagonalMultiplier = 0;
+      //   if(Math.abs(diffX) > 10 && Math.abs(diffY) > 10){
+      //     diagonalMultiplier = 0.1;
+      //   }
+
+      //   return d.y1 + (diffY*(0.6 + diagonalMultiplier));
+      // })
       .attr('stroke-width', 2)
-      .attr('stroke', 'black');
+      .attr('stroke', 'black')
+      .attr('marker-end', 'url(#arrow)');
+// marker-end="url(#arrow)"
 
     line.exit()
         .remove();

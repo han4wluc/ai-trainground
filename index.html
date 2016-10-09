@@ -7,11 +7,21 @@
               border: 1px solid black;
               border-collapse: collapse;
           }
+
         </style>
     </head>
     <body>
       <div id="root"></div>
+
+      <svg width="600px" height="100px">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refx="0" refy="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" fill="black" />
+          </marker>
+        </defs>
+      </svg>
     </body>
+
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
     <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>   
     <script src="./app/server/static/bundle.js"></script>

@@ -21,6 +21,8 @@ class NavContainer extends Component {
         <Link to="/border">border</Link>
         {'   '}
         <Link to="/maze">maze</Link>
+        {'   '}
+        <Link to="/mdp">mdp</Link>
         <br/>
         <br/>
 
