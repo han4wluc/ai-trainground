@@ -1,12 +1,13 @@
 
 import React, { Component } from 'react';
 import * as borderActions from './border.action';
-import { Utils, } from '../../';
+import { Utils, Comps } from '../../';
 
 import _ from 'lodash';
-import {
-  DirectedGraph
-} from './comps';
+const {
+  Graph
+} = Comps;
+
 import BorderUtils from './utils';
 const {
   BorderUtil,
@@ -16,9 +17,6 @@ const {
 const { Setup } = Utils;
 class BorderContainer extends Component {
 
-  // constructor(props) {
-  //   super(props);
-  // }
   componentDidMount() {
     const {
       nodes,
@@ -37,9 +35,10 @@ class BorderContainer extends Component {
 
     return (
       <div>
-        <DirectedGraph
+        <Graph
           nodes={nodes}
           links={links}
+          graphType={'line'}
         />
         <button onClick={()=>{
           let isGoal = false;
@@ -66,29 +65,6 @@ class BorderContainer extends Component {
             // isGoal = move({nodes}).isGoal;
           }
 
-          // const { node, color } = res;
-          // move({
-          //   nodes: this.props.state.nodes,
-          //   color,
-          //   node,
-          // });
-
-          // const { nodes, links } = this.props.state;
-
-          // const { isGoal } = BorderUtil.isGoalState({nodes,links});
-          // if(isGoal){
-          //   return;
-          // }
-
-          // move({nodes});
-
-          // let points = _.cloneDeep(this.state.points);
-          // const r = _.random(0,points.length-1)
-          // points[r].color = 'yellow';
-
-          // this.setState({
-          //   points,
-          // })
         }}>change</button>
 
         <button onClick={()=>{
