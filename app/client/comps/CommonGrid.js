@@ -22,7 +22,7 @@ export default class CommonGrid extends Component {
       _.range(columns).forEach((ix)=>{
         const left = ix * size;
 
-        console.log(left, top);
+        // console.log(left, top);
 
         const comp = (
           <div

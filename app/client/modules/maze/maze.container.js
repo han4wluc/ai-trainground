@@ -17,6 +17,56 @@ class MazeContainer extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    console.log('didmount');
+
+    document.onkeydown = checkKey;
+
+    const {
+      actions: { move }
+    } = this.props;
+
+    let self = this;
+    function checkKey(e) {
+
+      const { mazeState } = self.props.state;
+
+        e = e || window.event;
+
+
+        // console.log(e.keyCode)
+
+        let direction;
+
+        if (e.keyCode == '38') {
+            // up arrow
+            direction = 'top';
+        }
+        else if (e.keyCode == '40') {
+            // down arrow
+            direction = 'bottom';
+        }
+        else if (e.keyCode == '37') {
+           // left arrow
+           direction = 'left';
+        }
+        else if (e.keyCode == '39') {
+           // right arrow
+           direction = 'right';
+        }
+
+        move({mazeState,direction});
+
+
+    }
+
+  }
+
+  componentWillUnmount(){
+    console.log('willunmount')
+    document.onkeydown = undefined;
+  }
+
   _renderCells(params){
     const { mazeState, rows, columns } = params;
 
