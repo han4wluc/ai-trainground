@@ -25,6 +25,7 @@ const initialState = {
   },
   columns: 4,
   rows: 3,
+  reward: 0,
 };
 
 export default function moduleName(state = initialState, action = {}){

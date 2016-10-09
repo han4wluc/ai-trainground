@@ -55,7 +55,7 @@ class MazeContainer extends Component {
            direction = 'right';
         }
 
-        move({mazeState,direction});
+        move({mazeState,direction,reward:self.props.state.reward});
 
 
     }
@@ -150,7 +150,9 @@ class MazeContainer extends Component {
         mazeState,
         columns,
         rows,
-      }
+        reward,
+      },
+      actions: { calc, reset }
     } = this.props;
 
     const cells = this._renderCells({mazeState,columns,rows});
@@ -164,6 +166,9 @@ class MazeContainer extends Component {
           cells={cells}
           borderWidth={4}
         />
+        <div>{`Reward: ${reward}`}</div>
+        <button onClick={reset}>{'reset'}</button>
+        <button onClick={calc}>{'calc'}</button>
       </div>
     );
   }
