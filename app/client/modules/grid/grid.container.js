@@ -215,10 +215,7 @@ class GridContainer extends Component {
     const { rows,columns,gridState, onClick } = params;
     const cells = [];
     _.range(rows).forEach((iy)=>{
-      const top = iy * 40;
       _.range(columns).forEach((ix)=>{
-        const left = ix * 40;
-
         const coor = `x${ix}y${iy}`;
 
         // let backgroundColor = '#ccc';
@@ -265,11 +262,7 @@ class GridContainer extends Component {
             y={iy}
             showDot={showDot}
             style={{
-              // position: 'absolute',
               backgroundColor,
-              // backgroundColor:'#ccc',
-              // left: `${left}px`,
-              // top: `${top}px`,
             }}
           />
         );

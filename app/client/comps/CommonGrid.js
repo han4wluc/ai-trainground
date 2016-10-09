@@ -21,6 +21,9 @@ export default class CommonGrid extends Component {
       const top = iy * size;
       _.range(columns).forEach((ix)=>{
         const left = ix * size;
+
+        console.log(left, top);
+
         const comp = (
           <div
             key={`${ix}_${iy}`}
@@ -58,8 +61,8 @@ export default class CommonGrid extends Component {
       style,
     } = this.props;
 
-    const width = size * rows + borderWidth*(rows+1);
-    const height = size * columns + borderWidth*(columns+1);
+    const width = size * columns + borderWidth*(columns+1);
+    const height = size * rows + borderWidth*(rows+1);
 
     const components = this._renderCells({rows,columns,cells,borderWidth,size});
 

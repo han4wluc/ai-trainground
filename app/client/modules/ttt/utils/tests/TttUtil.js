@@ -265,18 +265,18 @@ describe('TttUtil.getSuccessorsStates', function(){
 
 });
 
-describe('TttUtil.calcScores', function(){
-  it('should ', function(){
-    const boardState = {
-      '0,0' : 1, '0,1' : -1, '0,2' :  1,
-      '1,0' : 0, '1,1' : -1, '1,2' :  0,
-      '2,0' : 0, '2,1' :  1, '2,2' : -1
-    };
-    const player = 1;
-    const expected = 1;
-    const actual = TttUtil.calcScores({boardState,player,originalPlayer:player});
-    expected.should.deep.equal(actual);
-  });
-});
+// describe('TttUtil.calcScores', function(){
+//   it('should ', function(){
+//     const boardState = {
+//       '0,0' : 1, '0,1' : -1, '0,2' :  1,
+//       '1,0' : 0, '1,1' : -1, '1,2' :  0,
+//       '2,0' : 0, '2,1' :  1, '2,2' : -1
+//     };
+//     const player = 1;
+//     const expected = 1;
+//     const actual = TttUtil.calcScores({boardState,player,originalPlayer:player});
+//     expected.should.deep.equal(actual);
+//   });
+// });
 
 // getSuccessorsStates
