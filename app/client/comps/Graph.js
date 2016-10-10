@@ -41,7 +41,7 @@ export default class Graph extends Component {
     svg.append('g')
       .attr('class', 'd3-points');
 
-    const { nodes, links, graphType } = this.props;
+    const { nodes, links, graphType, radius } = this.props;
 
     if(graphType === 'line'){
       this._updateLinksLine({nodes, links, element});
@@ -49,7 +49,7 @@ export default class Graph extends Component {
       this._updateLinksMdp({nodes, links, element});
     }
 
-    this._updateNodes({nodes, links, element});
+    this._updateNodes({nodes, links, element, radius});
   }
 
   componentDidUpdate() {
@@ -60,7 +60,7 @@ export default class Graph extends Component {
   }
 
   _updateNodes(params){
-    const { nodes, links, element } = params;
+    const { nodes, links, element, radius } = params;
     const g = d3.select(element).selectAll('.d3-points');
     var cont = g.selectAll('g')
       .data(nodes, (d) => d.id + d.color);
@@ -75,11 +75,12 @@ export default class Graph extends Component {
       // .attr('cy', (d, i) => d.y)
       .attr('stroke-width', 1)
       .attr('stroke', 'black')
-      .attr('r', (d,i) => 20)
+      .attr('r', (d,i) => radius || 20)
       .attr('fill', (d) => d.color);
 
     entered.append('text')
-      .attr('dx', -4)
+    .attr('text-anchor', 'middle')
+      // .attr('dx', -4)
       .attr('dy', 4)
       .text((d)=>d.id);
 

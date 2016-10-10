@@ -1,6 +1,8 @@
 
 import MazeUtil from './MazeUtil';
+import MazeSearch from './MazeSearch';
 
 export {
-  MazeUtil
+  MazeUtil,
+  MazeSearch,
 };

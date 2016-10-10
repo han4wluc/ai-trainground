@@ -11,6 +11,8 @@ const {
   CommonGrid
 } = Comps;
 
+import { MazeSearch } from './utils';
+
 class MazeContainer extends Component {
 
   constructor(props) {
@@ -23,7 +25,8 @@ class MazeContainer extends Component {
     document.onkeydown = checkKey;
 
     const {
-      actions: { move }
+      state: { mazeState },
+      actions: { move, displayUtility }
     } = this.props;
 
     let self = this;
@@ -60,6 +63,10 @@ class MazeContainer extends Component {
 
     }
 
+
+    this._mazeSearch = new MazeSearch({mazeState});
+    const utilities = this._mazeSearch.next();
+    displayUtility({utilities})
   }
 
   componentWillUnmount(){
@@ -68,7 +75,7 @@ class MazeContainer extends Component {
   }
 
   _renderCells(params){
-    const { mazeState, rows, columns } = params;
+    const { mazeState, rows, columns, utilities } = params;
 
     // console.log('mazeState', mazeState);
     // const cells = _.range(5*5).map(()=>{
@@ -122,9 +129,12 @@ class MazeContainer extends Component {
           );
         }
 
+        const utility = utilities[key];
+
         children = (
           <div>
-            {mazeState[key].reward}
+            {/*mazeState[key].reward*/}
+            {utility}
             {image}
           </div>
         );
@@ -151,11 +161,12 @@ class MazeContainer extends Component {
         columns,
         rows,
         reward,
+        utilities,
       },
       actions: { calc, reset }
     } = this.props;
 
-    const cells = this._renderCells({mazeState,columns,rows});
+    const cells = this._renderCells({mazeState,columns,rows,utilities});
 
     return (
       <div>

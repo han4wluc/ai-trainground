@@ -19,9 +19,12 @@ const initialState = {
       backgroundColor: 'red',
     },
     'x2y2': {
-      isPlayer: true,
-      direction: 'right',
+      // isPlayer: true,
+      // direction: 'right',
     }
+  },
+  utilities: {
+    // 'x2y1': 100,
   },
   columns: 4,
   rows: 3,

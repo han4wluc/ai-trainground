@@ -7,6 +7,16 @@ const {
 
 import { MazeUtil } from './utils';
 
+export function displayUtility(params){
+  const { utilities } = params;
+  return {
+    type: 'MAZE_SET_STATE',
+    props: {
+      utilities,
+    }
+  };
+}
+
 export function move(params){
   const {
     mazeState,
@@ -18,6 +28,18 @@ export function move(params){
     mazeState: newMazeState,
     reward: changeReward,
   } = MazeUtil.nextMove({mazeState,direction});
+
+// MDP
+  // States S
+  // Actions A
+  // Transtion Probabilities
+  // Rewards/Discounts
+  // Start State
+// Quantities
+  // Policy
+  // Utility
+  // Values
+  // Q-Values
 
   return {
     type: 'MAZE_SET_STATE',

@@ -5,7 +5,7 @@ const {
 } = Utils;
 
 
-const getDirection = function(params){
+const getRandomDirection = function(params){
   const { direction } = params;
 
   const probabilities = {};
@@ -26,6 +26,19 @@ const getDirection = function(params){
   return probability[2];
 };
 
+const _getAdjacentCoordiantes = function(params){
+  const { coordinateKey } = params;
+
+  const { x, y } = GridUtil.keyToCoor({key:coordinateKey});
+  const dirs = {};
+  dirs.left   = { x:x-1, y};
+  dirs.right  = { x:x+1, y};
+  dirs.top    = { x, y:y-1};
+  dirs.bottom = { x, y:y+1};
+
+  return dirs;
+};
+
 const nextMove = function(params){
 
   const {
@@ -34,6 +47,27 @@ const nextMove = function(params){
   } = params;
 
   const currentCoor = _.findKey(mazeState, { isPlayer: true });
+
+  if(!currentCoor){
+    console.log('game already ended');
+    return {
+      mazeState,
+      reward: 0,
+    };
+  }
+
+  if(mazeState[currentCoor].isGoal){
+    const newMazeState = _.cloneDeep(mazeState);
+    const reward = newMazeState[currentCoor].reward;
+    newMazeState[currentCoor].isPlayer = undefined;
+    newMazeState[currentCoor].direction = undefined;
+    console.log('exit action');
+    return {
+      mazeState: newMazeState,
+      reward,
+    };
+  }
+
   const { x, y } = GridUtil.keyToCoor({key:currentCoor});
 
   const dirs = {};
@@ -44,7 +78,7 @@ const nextMove = function(params){
 
   const newMazeState = _.cloneDeep(mazeState);
 
-  const actualDirection = getDirection({direction});
+  const actualDirection = getRandomDirection({direction});
 
   const newCoor = GridUtil.coorToKey(dirs[actualDirection]);
 
@@ -56,9 +90,9 @@ const nextMove = function(params){
 
     newMazeState[newCoor].isPlayer = true;
     newMazeState[newCoor].direction = actualDirection;
-    if(newMazeState[newCoor].reward !== undefined){
-      reward = reward + newMazeState[newCoor].reward;
-    }
+    // if(newMazeState[newCoor].reward !== undefined){
+    //   reward = reward + newMazeState[newCoor].reward;
+    // }
   } else {
     newMazeState[currentCoor].direction = actualDirection;
   }
@@ -71,6 +105,8 @@ const nextMove = function(params){
 };
 
 
+
 export default {
   nextMove,
+  getAdjacentCoordiantes: _getAdjacentCoordiantes
 };
