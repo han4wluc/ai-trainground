@@ -34,11 +34,20 @@ export default class MazeSearch {
     const { mazeState, livingReward } = params;
     this._mazeState = mazeState;
     this._iterations = 0;
+    this._history = {};
   }
 
   _expectMax(params){
+    const { cell, key:coordinateKey, mazeState, k, depth, decayRate, } = params;
+
+    // console.log('this._history', this._history);
+    if(_.has(this._history, coordinateKey+'_'+(depth+1))){
+      // console.log('aaa');
+      // return this._history[coordinateKey+'_'+(depth+1)];
+    }
+
     this._iterations++;
-    const { cell, key, mazeState, k, depth, decayRate, } = params;
+
 
     if(!cell){
       return {
@@ -72,8 +81,8 @@ export default class MazeSearch {
       return 0;
     }
 
-    console.log('key', key);
-    const directions = MazeUtil.getAdjacentCoordiantes({coordinateKey:key});
+    // console.log('key', key);
+    const directions = MazeUtil.getAdjacentCoordiantes({coordinateKey:coordinateKey});
 
     // console.log('directions.right', directions.right);
     // const rightKey = GridUtil.coorToKey(directions.right);
@@ -143,12 +152,15 @@ export default class MazeSearch {
       // return res;
 
       const expct = addDirs(expct1, expct2, expct3);
+
+      this._history[coordinateKey+'_'+(depth+1)] = expct;
+
       return expct;
 
       // return expct;
     });
 
-    console.log('utilities', utilities);
+    // console.log('utilities', utilities);
 
 
     return {
@@ -171,22 +183,22 @@ export default class MazeSearch {
 
     const mazeState = this._mazeState;
     const utilities = {};
-    const key = 'x2y0';
+    // const key = 'x2y0';
 
 
-    // for(let key in this._mazeState){
+    for(let key in this._mazeState){
       let cell = mazeState[key];
-      // if(!cell || cell.isWall){ continue; }
+      if(!cell || cell.isWall){ continue; }
       utilities[key] = this._expectMax({
         mazeState,
         cell,
         key:key,
-        k:4,
+        k:3,
         depth: 0,
         // reward: 0,
         decayRate: 0.1,
       });
-    // }
+    }
 
     console.log('iterations', this._iterations);
 

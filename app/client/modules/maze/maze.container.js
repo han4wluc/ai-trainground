@@ -178,7 +178,7 @@ class MazeContainer extends Component {
         <CommonGrid
           columns={columns}
           rows={rows}
-          size={50}
+          size={80}
           cells={cells}
           borderWidth={4}
         />

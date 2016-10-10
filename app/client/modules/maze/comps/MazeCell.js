@@ -19,10 +19,10 @@ class Cell extends Component {
     const baseStyle = {
       position: 'absolute',
       display: 'flex',
-      fontSize: '12px',
+      fontSize: '14px',
       justifyContent: 'center',
       alignItems: 'center',
-      lineHeight: '12px',
+      lineHeight: '14px',
     };
 
     return (
@@ -38,8 +38,8 @@ class Cell extends Component {
 
         <div style={{
           ...baseStyle,
-          top: '1px',
-          left: '0px',
+          top: '2px',
+          left: '2px',
           width: '100%',
         }}>
           {top}
@@ -47,8 +47,8 @@ class Cell extends Component {
 
         <div style={{
           ...baseStyle,
-          bottom: '0px',
-          left: '0px',
+          bottom: '1px',
+          left: '2px',
           width: '100%',
         }}>
           {bottom}
@@ -56,8 +56,8 @@ class Cell extends Component {
 
         <div style={{
           ...baseStyle,
-          bottom: '0px',
-          left: '0px',
+          bottom: '1px',
+          left: '2px',
           height: '100%',
         }}>
           {left}
@@ -65,8 +65,8 @@ class Cell extends Component {
 
         <div style={{
           ...baseStyle,
-          bottom: '0px',
-          right: '0px',
+          bottom: '1px',
+          right: '2px',
           height: '100%',
         }}>
           {right}
