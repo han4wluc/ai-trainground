@@ -34,32 +34,31 @@ class MazeContainer extends Component {
 
       const { mazeState } = self.props.state;
 
-        e = e || window.event;
+      e = e || window.event;
 
 
-        // console.log(e.keyCode)
+      // console.log(e.keyCode)
 
-        let direction;
+      let direction;
 
-        if (e.keyCode == '38') {
-            // up arrow
-            direction = 'top';
-        }
-        else if (e.keyCode == '40') {
-            // down arrow
-            direction = 'bottom';
-        }
-        else if (e.keyCode == '37') {
-           // left arrow
-           direction = 'left';
-        }
-        else if (e.keyCode == '39') {
-           // right arrow
-           direction = 'right';
-        }
+      if (e.keyCode == '38') {
+          // up arrow
+          direction = 'top';
+      }
+      else if (e.keyCode == '40') {
+          // down arrow
+          direction = 'bottom';
+      }
+      else if (e.keyCode == '37') {
+         // left arrow
+         direction = 'left';
+      }
+      else if (e.keyCode == '39') {
+         // right arrow
+         direction = 'right';
+      }
 
-        move({mazeState,direction,reward:self.props.state.reward});
-
+      move({mazeState,direction,reward:self.props.state.reward});
 
     }
 
@@ -132,15 +131,21 @@ class MazeContainer extends Component {
         const utility = utilities[key];
 
         children = (
-          <div>
+          <div
+            style={{
+              top: '0px,'
+            }}
+          >
             {/*mazeState[key].reward*/}
-            {utility}
+            {/*utility*/}
             {image}
           </div>
         );
 
         cells.push(
           <MazeCell
+            crossed={true}
+            utility={utility}
             style={{
               backgroundColor,
             }}
