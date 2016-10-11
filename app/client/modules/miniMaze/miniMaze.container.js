@@ -26,7 +26,6 @@ class MiniMazeContainer extends Component {
     } = this.props;
     const self = this;
     this._keyDownSubscription = Events.keyDown((direction)=>{
-      // console.log('direction_1', direction);
       moveNext({
         mazeState: self.props.state.mazeState,
         direction,
