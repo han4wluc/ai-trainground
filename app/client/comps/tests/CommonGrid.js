@@ -10,7 +10,7 @@ import _ from 'lodash';
 
 describe('<CommonGrid/>', () => {
 
-  it('calls componentDidMount', () => {
+  it('should have rows * columns number of children', () => {
 
     const cells = _.range(9).map(()=><div></div>);
 

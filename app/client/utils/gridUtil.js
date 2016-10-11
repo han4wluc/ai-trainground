@@ -93,12 +93,28 @@ const getSuccessor = function(params){
   return finges;
 };
 
+const getGridKeys = function(params){
+  const { columns, rows } = params;
+
+  const keys = [];
+
+  _.range(rows).forEach((y)=>{
+    _.range(columns).forEach((x)=>{
+      const key = _coorToKey({x,y});
+      keys.push(key);
+    });
+  });
+
+  return keys;
+};
+
 export default {
   generateInitialGridState,
   getSuccessor,
   getStartCoordinate,
   getGoalCoordinate,
   isGoalState,
+  getGridKeys,
   coorToKey: _coorToKey,
   keyToCoor: _keyToCoor,
 };

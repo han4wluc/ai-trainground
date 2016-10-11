@@ -1,6 +1,5 @@
 
 import GridUtil from '../gridUtil';
-
 import chai from 'chai';
 const should = chai.should();
 
@@ -142,3 +141,23 @@ describe('GridUtil.getSuccessor', function(){
   });
 
 });
+
+describe('GridUtil.getGridKeys', function(){
+
+  it('should ', function(){
+
+    const expected = [
+      'x0y0','x1y0','x2y0',
+      'x0y1','x1y1','x2y1',
+      'x0y2','x1y2','x2y2',
+    ];
+
+    const actual = GridUtil.getGridKeys({columns:3,rows:3});
+
+    expected.should.deep.equal(actual);
+
+  });
+
+});
+
+

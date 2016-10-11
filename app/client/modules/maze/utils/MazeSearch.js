@@ -5,7 +5,6 @@ const {
   GridUtil
 } = Utils;
 
-
 const directionMax = function(input){
   let max = 0;
   for(let k in input){
@@ -18,7 +17,7 @@ const directionMax = function(input){
 
 const rnd = function(input){
   return Math.round(input * 100)/100;
-}
+};
 
 const addDirs = function(dir1, dir2, dir3){
   return {
@@ -30,6 +29,7 @@ const addDirs = function(dir1, dir2, dir3){
 };
 
 export default class MazeSearch {
+
   constructor(params) {
     const { mazeState, livingReward } = params;
     this._mazeState = mazeState;
@@ -38,16 +38,56 @@ export default class MazeSearch {
   }
 
   _expectMax(params){
-    const { cell, key:coordinateKey, mazeState, k, depth, decayRate, } = params;
-
-    // console.log('this._history', this._history);
+    const { cell, key:coordinateKey, mazeState, k, depth, decayRate} = params;
     if(_.has(this._history, coordinateKey+'_'+(depth+1))){
-      // console.log('aaa');
+      // return this._history[coordinateKey+'_'+(depth+1)];
+    }
+    this._iterations++;
+
+    if(!cell){
+      return 0;
+    }
+
+    if(cell.isGoal){
+      const rew = cell.reward - (decayRate * depth);
+      return cell.reward - (decayRate * depth);
+    }
+
+    if(depth >= k){
+      return 0;
+    }
+
+    const directions = MazeUtil.getAdjacentCoordiantes({coordinateKey:coordinateKey});
+
+    let self = this;
+    const expectedMaxes = Object.keys(directions).map((direction)=>{
+      const adjacentCoor = directions[direction];
+      const coorKey = GridUtil.coorToKey(adjacentCoor);
+      const expct = self._expectMax({
+        cell: mazeState[coorKey],
+        k: k,
+        depth: depth+1,
+        key: coorKey,
+        mazeState,
+        decayRate,
+      });
+      return expct;
+    });
+
+    const expct = Math.max(...expectedMaxes);
+    this._history[coordinateKey+'_'+(depth+1)] = expct;
+    return expct;
+
+  }
+
+  _expectMaxQValue(params){
+    const { cell, key:coordinateKey, mazeState, k, depth, decayRate} = params;
+
+    if(_.has(this._history, coordinateKey+'_'+(depth+1))){
       // return this._history[coordinateKey+'_'+(depth+1)];
     }
 
     this._iterations++;
-
 
     if(!cell){
       return {
@@ -56,12 +96,9 @@ export default class MazeSearch {
         top: 0,
         bottom: 0,
       };
-      // return 0;
     }
 
     if(cell.isGoal){
-      // utilities[coor] = cell.reward;
-      // console.log('decayRate * depth', decayRate,depth)
       const rew = cell.reward - (decayRate * depth);
       return {
         right: rew,
@@ -69,8 +106,8 @@ export default class MazeSearch {
         top: rew,
         bottom: rew,
       };
-      return cell.reward - (decayRate * depth);
     }
+
     if(depth >= k){
       return {
         right: 0,
@@ -78,16 +115,9 @@ export default class MazeSearch {
         top: 0,
         bottom: 0,
       };
-      return 0;
     }
 
-    // console.log('key', key);
     const directions = MazeUtil.getAdjacentCoordiantes({coordinateKey:coordinateKey});
-
-    // console.log('directions.right', directions.right);
-    // const rightKey = GridUtil.coorToKey(directions.right);
-    // const rightKey = GridUtil.coorToKey(directions.right);
-    // console.log('directions', directions);
 
     const probabilities = {};
     probabilities.top = ['top','left','right'];
@@ -105,9 +135,8 @@ export default class MazeSearch {
       const direc2 = probability[1];
       const direc3 = probability[2];
 
-      //possiblity1
       const coorKey1 = GridUtil.coorToKey(directions[direc1]);
-      const expct1 = self._expectMax({
+      const expct1 = self._expectMaxQValue({
         cell:mazeState[coorKey1],
         k: k,
         depth: depth+1,
@@ -117,7 +146,7 @@ export default class MazeSearch {
       });
 
       const coorKey2 = GridUtil.coorToKey(directions[direc2]);
-      const expct2 = self._expectMax({
+      const expct2 = self._expectMaxQValue({
         cell:mazeState[coorKey2],
         k: k,
         depth: depth+1,
@@ -127,7 +156,7 @@ export default class MazeSearch {
       });
 
       const coorKey3 = GridUtil.coorToKey(directions[direc3]);
-      const expct3 = self._expectMax({
+      const expct3 = self._expectMaxQValue({
         cell:mazeState[coorKey3],
         k: k,
         depth: depth+1,
@@ -136,32 +165,10 @@ export default class MazeSearch {
         decayRate,
       });
 
-
-      // console.log({
-      //   direction: key,
-      //   expct,
-      // });
-
-      // const res = {
-      //   right: 0,
-      //   left: 0,
-      //   top: 0,
-      //   bottom: 0,
-      // };
-
-      // return res;
-
       const expct = addDirs(expct1, expct2, expct3);
-
       this._history[coordinateKey+'_'+(depth+1)] = expct;
-
       return expct;
-
-      // return expct;
     });
-
-    // console.log('utilities', utilities);
-
 
     return {
       top: directionMax(utilities[0]),
@@ -169,27 +176,22 @@ export default class MazeSearch {
       bottom: directionMax(utilities[2]),
       right: directionMax(utilities[3]),
     };
-    // return utilities[0];
-
-    const max = Math.max(...utilities);
-    // console.log('max', max);
-    return Math.round((max) *10 )/10;
-    // console.log('expct', expct);
-    // expect max of cell in the right
-    // return 0;
   }
 
-  next(){
+  next(params){
+
+    const { useQvalue } = params;
 
     const mazeState = this._mazeState;
     const utilities = {};
-    // const key = 'x2y0';
-
 
     for(let key in this._mazeState){
       let cell = mazeState[key];
       if(!cell || cell.isWall){ continue; }
-      utilities[key] = this._expectMax({
+
+      const func = useQvalue ? this._expectMaxQValue.bind(this) : this._expectMax.bind(this);
+
+      utilities[key] = func({
         mazeState,
         cell,
         key:key,

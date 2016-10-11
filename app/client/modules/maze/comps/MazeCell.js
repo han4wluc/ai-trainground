@@ -1,20 +1,36 @@
 
 import React, { Component } from 'react';
 
+const directionDegreesMap = {
+  right: '0',
+  bottom: '90',
+  left: '180',
+  top: '270',
+};
+
 class Cell extends Component {
+
+  static propTypes = {
+    direction: React.PropTypes.string,
+    isGoal: React.PropTypes.bool,
+    isPlayer: React.PropTypes.bool,
+    isWall: React.PropTypes.bool,
+    qvalues: React.PropTypes.object,
+    reward: React.PropTypes.number,
+    style: React.PropTypes.object,
+    utility: React.PropTypes.object,
+  }
 
   _renderDirections(params){
 
     const {
       style,
-      utility,
+      qvalues,
     } = params;
-
-    if(!utility) { return null; }
 
     const {
       left, right, top, bottom
-    } = utility;
+    } = qvalues;
 
     const baseStyle = {
       position: 'absolute',
@@ -76,22 +92,24 @@ class Cell extends Component {
     );
   }
 
-  render(){
+  _renderPlayer(params){
+    const { direction } = params;
+    const degree = directionDegreesMap[direction];
+    return (
+      <img
+        style={{
+          position: 'absolute',
+          top: '25%',
+          left: '25%',
+          width: '50%',
+          transform: `rotate(${degree}deg)`,
+        }}
+        src='./app/static/images/pacman.png'
+      />
+    );
+  }
 
-    const {
-      color,
-      style,
-      // text,
-      children,
-      crossed,
-      utility,
-    } = this.props;
-
-    return this._renderDirections({
-      style,
-      utility,
-    });
-
+  _renderWall(){
     return (
       <div
         style={{
@@ -99,10 +117,55 @@ class Cell extends Component {
           alignItems: 'center',
           justifyContent: 'center',
           height: '100%',
-          ...style
+          backgroundColor: '#222'
+        }}
+      />
+    );
+  }
+
+  render(){
+
+    const {
+      utility,
+      isGoal,
+      reward,
+      isPlayer,
+      direction,
+      isWall,
+      style,
+      qvalues,
+    } = this.props;
+
+    const qvaluesCommp = qvalues ? this._renderDirections({
+      qvalues,
+    }) : null;
+
+    if(isWall){
+      return this._renderWall();
+    }
+
+    const sprite = isPlayer ? this._renderPlayer({direction}) : null;
+
+    let backgroundColor = '#ccc';
+    if(isGoal){
+      backgroundColor = reward >= 0 ? 'green' : 'red';
+    }
+
+    return (
+      <div
+        className={qvaluesCommp ? 'crossed' : undefined}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          backgroundColor,
+          ...style,
         }}
       >
-        {this.props.children}
+        {sprite}
+        {qvaluesCommp}
+        {utility}
       </div>
     );
 
