@@ -7,12 +7,30 @@ import _ from 'lodash';
 // const { keyDown } = Events;
 const { Setup } = Utils;
 const { CommonGrid } = Comps;
+import { MiniMazeCell } from './comps';
+import { MiniMazeSearch } from './utils';
+
+console.log('MiniMazeSearch', MiniMazeSearch);
 
 class MiniMazeContainer extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this._miniMazeSearch = new MiniMazeSearch();
+  }
+
   componentDidMount() {
+    const {
+      actions: { moveNext }
+    } = this.props;
+    const self = this;
     this._keyDownSubscription = Events.keyDown((direction)=>{
-      console.log('direction_1', direction);
+      // console.log('direction_1', direction);
+      moveNext({
+        mazeState: self.props.state.mazeState,
+        direction,
+      });
     });
   }
 
@@ -26,16 +44,11 @@ class MiniMazeContainer extends Component {
     const cells = [];
 
     for(let key in mazeState){
-      const { isWall } = mazeState[key];
-      const backgroundColor = isWall ? '#222' : '#ddd';
+      const cellState = mazeState[key];
       const comp = (
-        <div
-          style={{
-            height: '100%',
-            backgroundColor,
-          }}
-        >
-        </div>
+        <MiniMazeCell
+          {...cellState}
+        />
       );
       cells.push(comp);
     }
@@ -44,6 +57,7 @@ class MiniMazeContainer extends Component {
 
   render(){
     const {
+      actions: { resetMaze, updateMazeState },
       state: { mazeState },
     } = this.props;
     const cells = this._renderCells({mazeState});
@@ -57,6 +71,11 @@ class MiniMazeContainer extends Component {
           cells={cells}
           borderWidth={4}
         />
+        <button onClick={resetMaze}>reset</button>
+        <button onClick={()=>{
+          const { mazeState, reward } = this._miniMazeSearch.next();
+          updateMazeState({mazeState});
+        }}>next</button>
       </div>
     );
   }

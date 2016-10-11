@@ -44,6 +44,7 @@ const nextMove = function(params){
   const {
     mazeState,
     direction,
+    noise = true,
   } = params;
 
   const currentCoor = _.findKey(mazeState, { isPlayer: true });
@@ -53,6 +54,7 @@ const nextMove = function(params){
     return {
       mazeState,
       reward: 0,
+      gameEnded: true,
     };
   }
 
@@ -78,7 +80,7 @@ const nextMove = function(params){
 
   const newMazeState = _.cloneDeep(mazeState);
 
-  const actualDirection = getRandomDirection({direction});
+  const actualDirection = noise ? getRandomDirection({direction}) : direction;
 
   const newCoor = GridUtil.coorToKey(dirs[actualDirection]);
 

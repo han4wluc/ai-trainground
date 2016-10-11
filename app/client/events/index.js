@@ -17,6 +17,7 @@ const keyDown = function(action){
     .throttle((e) => Rx.Observable.interval(100))
     .subscribe((e) =>{
       e = e || window.event;
+      e.preventDefault();
       const { keyCode } = e;
       const direction = keyCodeMap[keyCode];
       // console.log('direction', direction);
