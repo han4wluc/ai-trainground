@@ -23,13 +23,14 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history}>
           <Route path="/" component={containers['nav']}>
-            <IndexRedirect to="/maze" />
+            <IndexRedirect to="/miniMaze" />
             <Route path="grid" component={containers['grid']}/>
             <Route path="nine" component={containers['nine']}/>
             <Route path="ttt" component={containers['ttt']}/>
             <Route path="border" component={containers['border']}/>
             <Route path="maze" component={containers['maze']}/>
             <Route path="mdp" component={containers['mdp']}/>
+            <Route path="miniMaze" component={containers['miniMaze']}/>
           </Route>
         </Router>
       </Provider>

@@ -6,6 +6,7 @@ import nav from './modules/nav/nav.reducer';
 import border from './modules/border/border.reducer';
 import maze from './modules/maze/maze.reducer';
 import mdp from './modules/mdp/mdp.reducer';
+import miniMaze from './modules/miniMaze/miniMaze.reducer';
 /**YEOMAN_HOOK_1**/
 
 export {
@@ -16,5 +17,6 @@ export {
   border,
   maze,
   mdp,
+  miniMaze,
   /**YEOMAN_HOOK_2**/
 };
