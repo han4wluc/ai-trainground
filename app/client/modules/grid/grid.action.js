@@ -1,10 +1,20 @@
 
 import Utils from '../../utils';
 const {
-  GridUtil
+  GridUtil, SearchTree
 } = Utils;
 
 import Grids from './grids';
+
+export function setGridState_(params){
+  const { gridState } = params;
+  return {
+    type: 'GRID_SET_STATE',
+    props: {
+      gridState,
+    }
+  };
+}
 
 export function setGridState(params){
   const { gridName, columns, rows } = params;
@@ -19,7 +29,16 @@ export function setGridState(params){
 }
 
 export function setResultTable(params) {
-  const { resultTable } = params;
+  const { gridState } = params;
+
+  const resultTable = ['BFS', 'DFS', 'greedy', 'uniform', 'astar'].map((strategy)=>{
+    const searchTree = new SearchTree({
+      gridState,
+      strategy,
+    });
+    return searchTree.computeSolution();
+  });
+
   return {
     type: 'GRID_UPDATE_RESULT_TABLE',
     props: {
@@ -49,18 +68,43 @@ export function updateCells(params){
   };
 }
 
-export function clearPath(){
+export function clearPath(params){
+  const { gridState } = params;
+
+  const newGridState = _.cloneDeep(gridState);
+  for (var key in newGridState){
+    const cell = newGridState[key];
+    cell.showDot = false;
+    cell.isHighlighted = false;
+  }
+
   return {
-    type: 'GRID_CLEAR_PATH',
+    type: 'GRID_SET_STATE',
+    props: {
+      gridState: newGridState,
+    }
   };
 }
 
 export function incrementCellCost(params){
-  const { x, y } = params;
+  const { x, y, gridState, searchTree } = params;
+
+  const newGridState = _.cloneDeep(gridState);
+
+  const key = GridUtil.coorToKey({x,y});
+  const { cost } = newGridState[key];
+  if(cost > 2){
+    newGridState[key].isWall = true;
+  } else {
+    newGridState[key].cost++;
+  }
+
+  searchTree.setGridState(newGridState);
+
   return {
-    type: 'GRID_INCREMENT_CELL_COST',
+    type: 'GRID_SET_STATE',
     props: {
-      key: `x${x}y${y}`,
+      gridState: newGridState,
     }
   };
 }
@@ -78,7 +122,6 @@ export function paintCells(params){
       }),
     }
   };
-
 }
 
 export function resetToInitialState(){

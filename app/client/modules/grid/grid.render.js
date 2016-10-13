@@ -56,7 +56,8 @@ const renderTable = function(params){
         <td>{expansions}</td>
         <td>{cost}</td>
         <td> <button onClick={()=>{
-          clearPath();
+          const { gridState } = this.props.state;
+          clearPath({gridState});
           updateCells({coordinates: path});
           paintCells({coordinates: path});
         }}>{'show'}</button> </td>

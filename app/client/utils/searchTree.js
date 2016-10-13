@@ -3,21 +3,6 @@ import _ from 'lodash';
 import GridUtil from './gridUtil';
 import * as Calc from './Calc';
 
-// const computeManhattanDistance = function(params){
-//   const { start, end } = params;
-//   const {
-//     x: sx,
-//     y: sy,
-//   } = start;
-//   const {
-//     x: ex,
-//     y: ey,
-//   } = end;
-//   const horizontalDistance = Math.abs(sx - ex);
-//   const verticalDistance = Math.abs(sy - ey);
-//   return horizontalDistance + verticalDistance;
-// };
-
 const computeCost = function(params){
   const {coordinate, gridState} = params;
   // console.log('coordinate', coordinate)
@@ -153,7 +138,6 @@ const strategies = {
     ];
 
   }
-
 };
 
 class SearchTree {
@@ -165,9 +149,15 @@ class SearchTree {
       strategy,
     } = props;
 
+    this._gridState = gridState;
+    this._strategyName = strategy;
     this.setStrategy({strategy});
     this._reset({gridState});
 
+  }
+
+  setGridState(gridState){
+    this._gridState = gridState;
   }
 
   _reset(params){
@@ -216,23 +206,27 @@ class SearchTree {
       cost,
       goalReached: true,
       path: path,
+      gridState,
       expansions: this._expansions,
     };
   }
 
-  _nextCoordinate(coordinate){
+  _nextCoordinate(params){
+
+    const {
+      gridState,
+    } = params;
+
     return {
       goalReached: false,
-      coordinate,
+      gridState,
+      // coordinate,
       // tree: this._tree,
       expansions: this._expansions,
     };
   }
 
-  next(params){
-    const {
-      gridState
-    } = params;
+  next(){
 
     this._expansions++;
 
@@ -240,21 +234,19 @@ class SearchTree {
       return this._nextExhausted.call(this);
     }
 
-    // console.log(this._queue)
-
     // expand the next node depending on the strategy
     let node;
     [node, this._queue] = this._strategy({
       list: this._queue,
-      goalCoordinate: GridUtil.getGoalCoordinate({gridState}),
-      gridState,
+      goalCoordinate: GridUtil.getGoalCoordinate({gridState:this._gridState}),
+      gridState:this._gridState,
     });
 
     const { coordinate } = node;
     const newPath = node.path.concat(coordinate);
 
-    if(GridUtil.isGoalState({gridState, coordinate})){
-      return this._nextGoalReached.call(this, {path:newPath,gridState});
+    if(GridUtil.isGoalState({gridState:this._gridState, coordinate})){
+      return this._nextGoalReached.call(this, {path:newPath,gridState:this._gridState});
     }
 
     this._visited.push({
@@ -262,7 +254,7 @@ class SearchTree {
       path: newPath
     });
 
-    const finges = GridUtil.getSuccessor({gridState, coordinate})
+    const finges = GridUtil.getSuccessor({gridState:this._gridState, coordinate})
       .map((f)=>{
         return {
           coordinate: f,
@@ -275,9 +267,39 @@ class SearchTree {
       .concat(finges)
       .filter((f)=> !_.find(visitedCoordinates, f.coordinate));
 
-    return this._nextCoordinate.call(this, coordinate);
+
+    const key = GridUtil.coorToKey(coordinate);
+    const newGridState = _.cloneDeep(this._gridState);
+    newGridState[key].showDot = true;
+    this._gridState = newGridState;
+
+    return {
+      goalReached: false,
+      gridState: this._gridState,
+      expansions: this._expansions,
+    };
+    // return this._nextCoordinate.call(this, coordinate);
 
   }
+
+  computeSolution(){
+    let res = {};
+    let i = 0;
+    while(!res.goalReached && i < 2000){
+      i++;
+      res = this.next();
+
+      if(res.goalReached){
+        return {
+          strategy: this._strategyName,
+          expansions: res.expansions,
+          cost: res.cost,
+          path: res.path,
+        };
+      }
+    }
+  }
+
 }
 
 export default SearchTree;

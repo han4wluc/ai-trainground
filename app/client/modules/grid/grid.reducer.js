@@ -53,34 +53,6 @@ export default function moduleName(state = initialState, action = {}){
     };
   }
 
-  if(action.type === 'GRID_CLEAR_PATH'){
-    const gridState = _.cloneDeep(state.gridState);
-    for (var key in gridState){
-      const cell = gridState[key];
-      cell.showDot = false;
-      cell.isHighlighted = false;
-    }
-    return {
-      ...state,
-      gridState,
-    };
-  }
-
-  if(action.type === 'GRID_INCREMENT_CELL_COST'){
-    const gridState = _.cloneDeep(state.gridState);
-    const cost = gridState[action.props.key].cost;
-    if(cost > 2){
-      gridState[action.props.key].isWall = true;
-    } else {
-      gridState[action.props.key].cost++;
-    }
-
-    return {
-      ...state,
-      gridState,
-    };
-  }
-
   if(action.type === 'GRID_PAINT_CELLS'){
     const gridState = _.cloneDeep(state.gridState);
     action.props.coordinates.forEach((c)=>{

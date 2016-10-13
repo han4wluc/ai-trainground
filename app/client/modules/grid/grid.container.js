@@ -31,12 +31,14 @@ class GridContainer extends Component {
 
   _reset() {
     const {
-      // resetToInitialState
       clearPath,
     } = this.props.actions;
-    // resetToInitialState();
-    clearPath();
-    this._initTree.call(this);
+    const { gridState } = this.props.state;
+    clearPath({gridState});
+    const self = this;
+    setTimeout(function(){
+      self._initTree.call(self);
+    },100);
   }
 
   _initTree(){
@@ -62,7 +64,8 @@ class GridContainer extends Component {
       },
       actions: {
         updateCell,
-        paintCells
+        paintCells,
+        setGridState_
       }
     } = this.props;
 
@@ -71,7 +74,7 @@ class GridContainer extends Component {
       this._searchTree.setStrategy({strategy});
     }
 
-    const res = this._searchTree.next({gridState});
+    const res = this._searchTree.next();
 
     if(res.goalReached){
       paintCells({coordinates: res.path.slice(1,-1)});
@@ -82,168 +85,29 @@ class GridContainer extends Component {
       return;
     }
 
-    updateCell(res.coordinate);
+    setGridState_({gridState:res.gridState});
+    // updateCell(res.coordinate);
 
     return;
   }
 
-  _onClickCell(params){
-    const {
-      incrementCellCost
-    } = this.props.actions;
-    const { x, y } = params;
+  // _onClickCell(params){
+  //   const {
+  //     incrementCellCost
+  //   } = this.props.actions;
+  //   const { x, y } = params;
 
-    incrementCellCost({x,y});
-  }
+  //   incrementCellCost({x,y});
+  // }
 
+  // computes solution for all algorithms and their performance
   _computeAll(){
     const {
       state: { gridState },
       actions: { setResultTable }
     } = this.props;
-
-    const resultTable = [];
-    ['BFS', 'DFS', 'greedy', 'uniform', 'astar'].forEach((strategy)=>{
-      const searchTree = new SearchTree({
-        gridState,
-        strategy,
-      });
-
-      let res = {};
-      let i = 0;
-      while(!res.goalReached && i < 1000){
-        i++;
-        res = searchTree.next({
-          gridState,
-        });
-
-        if(res.goalReached){
-          resultTable.push({
-            strategy,
-            expansions: res.expansions,
-            cost: res.cost,
-            path: res.path,
-          });
-        }
-      }
-    });
-
-    setResultTable({resultTable});
-
+    setResultTable({gridState});
   }
-
-  // _renderGridChoosers(){
-  //   const {
-  //     actions : {
-  //       setGridState,
-  //     }
-  //   } = this.props;
-
-  //   return (
-  //     <div style={{
-  //       display: 'flex',
-  //       flexDirection: 'row'
-  //     }}>
-
-  //       <Chooser
-  //         onClick={()=>{
-  //           setGridState({gridName:'grid_1',rows:5,columns:5})
-  //           let self = this;
-  //           setTimeout(function(){
-  //             self._computeAll.call(self);
-  //           },0)
-            
-  //         }}
-  //         text={'grid_1'}
-  //       />
-
-  //       <Chooser
-  //         onClick={()=>{
-  //           setGridState({gridName:'grid_2',rows:8,columns:8})
-  //           let self = this;
-  //           setTimeout(function(){
-  //             self._computeAll.call(self);
-  //           },0)
-  //         }}
-  //         text={'grid_2'}
-  //       />
-  //     </div>
-  //   );
-
-  // }
-
-  // _renderTable(){
-
-  //   const {
-  //     state: { resultTable },
-  //     actions: { paintCells, updateCells, clearPath }
-  //   } = this.props;
-
-  //   const tableRows = resultTable.map((row, i)=>{
-  //     const {
-  //       strategy, expansions, cost, path
-  //     } = row;
-  //     return (
-  //       <tr key={i}>
-  //         <td>{strategy}</td>
-  //         <td>{expansions}</td>
-  //         <td>{cost}</td>
-  //         <td> <button onClick={()=>{
-  //           clearPath();
-  //           updateCells({coordinates: path});
-  //           paintCells({coordinates: path});
-  //         }}>{'show'}</button> </td>
-  //       </tr>
-  //     );
-  //   });
-
-  //   return (
-  //     <table>
-  //       <thead>
-  //         <tr>
-  //           <th>{'Algorithm'}</th>
-  //           <th>{'Expansions'}</th>
-  //           <th>{'Cost'}</th>
-  //           <th>{'Path'}</th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {tableRows}
-  //       </tbody>
-  //     </table>
-  //   );
-  // }
-
-  // _renderCells(params){
-  //   const { rows,columns,gridState, onClick } = params;
-  //   return GridUtil.getGridKeys({rows,columns}).map((key)=>{
-  //     const { x, y } = GridUtil.keyToCoor({key});
-  //     return (
-  //       <GridCell
-  //         key={key}
-  //         onClick={onClick}
-  //         x={x}
-  //         y={y}
-  //         {...gridState[key]}
-  //       />
-  //     );
-  //   });
-  // }
-
-  // _renderButtons(){
-  //   return (
-  //     <div>
-  //       <button onClick={this._next.bind(this, {strategy:'BFS'})}>{'BFS'}</button>
-  //       <button onClick={this._next.bind(this, {strategy:'DFS'})}>{'DFS'}</button>
-  //       <button onClick={this._next.bind(this, {strategy:'greedy'})}>{'greedy'}</button>
-  //       <button onClick={this._next.bind(this, {strategy:'uniform'})}>{'uniform'}</button>
-  //       <button onClick={this._next.bind(this, {strategy:'astar'})}>{'astar'}</button>
-  //       <button onClick={this._reset.bind(this)}>{'reset'}</button>
-  //       <br/>
-  //       <button onClick={this._computeAll.bind(this)}>{'computall'}</button>
-  //     </div>
-  //   );
-  // }
 
   render(){
     const {
@@ -252,8 +116,18 @@ class GridContainer extends Component {
       rows,
     } = this.props.state;
 
+    const {
+      incrementCellCost
+    } = this.props.actions;
+
     const cells = GridRender.renderCells(
-      {gridState,columns,rows,onClick:this._onClickCell.bind(this)}
+      {gridState,columns,rows,onClick:(params)=>{
+        incrementCellCost({
+          ...params,
+          searchTree: this._searchTree,
+          gridState: this.props.state.gridState,
+        });
+      }}
     );
 
     return (

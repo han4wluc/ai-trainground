@@ -23,14 +23,14 @@ export default class GridCell extends Component {
     if(isWall){
       return 'black';
     }
-    if(isHighlighted){
-      return 'red';
-    }
     if(isStart){
       return 'blue';
     }
     if(isGoal){
       return 'green';
+    }
+    if(isHighlighted){
+      return 'red';
     }
     if(cost === 1){
       return '#ddd';
