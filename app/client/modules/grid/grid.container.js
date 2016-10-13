@@ -8,7 +8,8 @@ import _ from 'lodash';
 
 const { Setup, GridUtil, SearchTree } = Utils;
 
-const { Cell, Chooser, CommonGrid } = Comps;
+const { Chooser, CommonGrid } = Comps;
+import { GridCell } from './comps';
 
 class GridContainer extends Component {
 
@@ -213,63 +214,34 @@ class GridContainer extends Component {
 
   _renderCells(params){
     const { rows,columns,gridState, onClick } = params;
-    const cells = [];
-    _.range(rows).forEach((iy)=>{
-      _.range(columns).forEach((ix)=>{
-        const coor = `x${ix}y${iy}`;
-
-        // let backgroundColor = '#ccc';
-        const showDot = gridState[coor].showDot;
-
-        // let backgroundColor = gridState[coor].color || '#ccc';
-
-        let backgroundColor = '#ddd';
-        if(gridState[coor].cost === 1){
-          backgroundColor = '#ddd';
-        }
-        if(gridState[coor].cost === 2){
-          backgroundColor = '#ccc';
-        }
-        if(gridState[coor].cost === 3){
-          backgroundColor = '#bbb';
-        }
-
-        if(gridState[coor].color){
-          backgroundColor = gridState[coor].color;
-        }
-
-        if(gridState[coor].isWall){
-          backgroundColor = 'black';
-        }
-
-        if(gridState[coor].isHighlighted){
-          backgroundColor = 'red';
-        }
-
-        if(gridState[coor].isStart){
-          backgroundColor = 'blue';
-        }
-        if(gridState[coor].isGoal){
-          backgroundColor = 'green';
-        }
-
-
-        const cell = (
-          <Cell
-            key={`${iy}_${ix}`}
-            onClick={onClick}
-            x={ix}
-            y={iy}
-            showDot={showDot}
-            style={{
-              backgroundColor,
-            }}
-          />
-        );
-        cells.push(cell);
-      });
+    return GridUtil.getGridKeys({rows,columns}).map((key)=>{
+      const { x, y } = GridUtil.keyToCoor({key});
+      return (
+        <GridCell
+          key={key}
+          onClick={onClick}
+          x={x}
+          y={y}
+          {...gridState[key]}
+        />
+      );
     });
-    return cells;
+  }
+
+  _renderButtons(){
+    return (
+      <div>
+        <button onClick={this._next.bind(this, {strategy:'BFS'})}>{'BFS'}</button>
+        <button onClick={this._next.bind(this, {strategy:'DFS'})}>{'DFS'}</button>
+        <button onClick={this._next.bind(this, {strategy:'greedy'})}>{'greedy'}</button>
+        <button onClick={this._next.bind(this, {strategy:'uniform'})}>{'uniform'}</button>
+        <button onClick={this._next.bind(this, {strategy:'astar'})}>{'astar'}</button>
+        <button onClick={this._reset.bind(this)}>{'reset'}</button>
+
+        <br/>
+        <button onClick={this._computeAll.bind(this)}>{'computall'}</button>
+      </div>
+    );
   }
 
   render(){
@@ -281,13 +253,8 @@ class GridContainer extends Component {
 
     const cells = this._renderCells({gridState,columns,rows,onClick:this._onClickCell.bind(this)});
 
-    // cells
-
     return (
-      <div style={{
-        // display:'flex'
-        // display:'block'
-      }}>
+      <div>
         <div style={{
           display: 'flex'
         }}>
@@ -301,18 +268,7 @@ class GridContainer extends Component {
         </div>
 
         {this._renderGridChoosers.call(this)}
-
-        <div>
-          <button onClick={this._next.bind(this, {strategy:'BFS'})}>{'BFS'}</button>
-          <button onClick={this._next.bind(this, {strategy:'DFS'})}>{'DFS'}</button>
-          <button onClick={this._next.bind(this, {strategy:'greedy'})}>{'greedy'}</button>
-          <button onClick={this._next.bind(this, {strategy:'uniform'})}>{'uniform'}</button>
-          <button onClick={this._next.bind(this, {strategy:'astar'})}>{'astar'}</button>
-          <button onClick={this._reset.bind(this)}>{'reset'}</button>
-
-          <br/>
-          <button onClick={this._computeAll.bind(this)}>{'computall'}</button>
-        </div>
+        {this._renderButtons.call(this)}
         {this._renderTable.call(this)}
 
       </div>

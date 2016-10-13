@@ -12,18 +12,13 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-// const Container = containers['home'];
-// const Container = containers['nine'];
-// const Container = containers['ttt'];
-
-// export default
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
         <Router history={history}>
           <Route path="/" component={containers['nav']}>
-            <IndexRedirect to="/maze" />
+            <IndexRedirect to="/grid" />
             <Route path="grid" component={containers['grid']}/>
             <Route path="nine" component={containers['nine']}/>
             <Route path="ttt" component={containers['ttt']}/>
