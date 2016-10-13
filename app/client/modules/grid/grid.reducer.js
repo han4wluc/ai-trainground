@@ -8,10 +8,12 @@ const {
 
 import Grids from './grids';
 
+const GRID_1 = Grids.GRID_1;
+
 const initialState = {
-  columns: 5,
-  rows: 5,
-  gridState: Grids['grid_1'],
+  columns: GRID_1.columns,
+  rows: GRID_1.rows,
+  gridState: GRID_1.gridState,
   resultTable: []
 };
 
@@ -32,8 +34,6 @@ export default function moduleName(state = initialState, action = {}){
       showDot: true,
       // color: 'red'
     };
-
-    // console.log(gridState);
 
     return {
       ...state,

@@ -20,10 +20,6 @@ class GridContainer extends Component {
     state: React.PropTypes.object,
   }
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this._initTree.call(this);
     this._computeAll.call(this);
@@ -65,7 +61,7 @@ class GridContainer extends Component {
       actions: {
         updateCell,
         paintCells,
-        setGridState_
+        setGridState
       }
     } = this.props;
 
@@ -85,20 +81,10 @@ class GridContainer extends Component {
       return;
     }
 
-    setGridState_({gridState:res.gridState});
-    // updateCell(res.coordinate);
+    setGridState({gridState:res.gridState});
 
     return;
   }
-
-  // _onClickCell(params){
-  //   const {
-  //     incrementCellCost
-  //   } = this.props.actions;
-  //   const { x, y } = params;
-
-  //   incrementCellCost({x,y});
-  // }
 
   // computes solution for all algorithms and their performance
   _computeAll(){
@@ -110,44 +96,12 @@ class GridContainer extends Component {
   }
 
   render(){
-    const {
-      gridState,
-      columns,
-      rows,
-    } = this.props.state;
-
-    const {
-      incrementCellCost
-    } = this.props.actions;
-
-    const cells = GridRender.renderCells(
-      {gridState,columns,rows,onClick:(params)=>{
-        incrementCellCost({
-          ...params,
-          searchTree: this._searchTree,
-          gridState: this.props.state.gridState,
-        });
-      }}
-    );
-
     return (
       <div>
-        <div style={{
-          display: 'flex'
-        }}>
-          <CommonGrid
-            columns={columns}
-            rows={rows}
-            size={50}
-            cells={cells}
-            borderWidth={4}
-          />
-        </div>
-
+        {GridRender.renderGrid.call(this)}
         {GridRender.renderGridChoosers.call(this)}
         {GridRender.renderButtons.call(this)}
         {GridRender.renderTable.call(this)}
-
       </div>
     );
   }

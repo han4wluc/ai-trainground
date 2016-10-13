@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { GridCell } from './comps';
 import { Comps, Utils } from '../../';
 const {
-  Chooser
+  CommonGrid,
+  Chooser,
 } = Comps;
 const {
   GridUtil
@@ -24,7 +25,7 @@ const renderButtons = function(){
   );
 };
 
-const renderCells = function(params){
+const _renderCells = function(params){
   const { rows,columns,gridState, onClick } = params;
   return GridUtil.getGridKeys({rows,columns}).map((key)=>{
     const { x, y } = GridUtil.keyToCoor({key});
@@ -85,7 +86,7 @@ const renderTable = function(params){
 const renderGridChoosers = function(){
   const {
     actions : {
-      setGridState,
+      changeGrid,
     }
   } = this.props;
 
@@ -97,23 +98,23 @@ const renderGridChoosers = function(){
 
       <Chooser
         onClick={()=>{
-          setGridState({gridName:'grid_1',rows:5,columns:5})
+          changeGrid({gridName:'GRID_1'});
           let self = this;
           setTimeout(function(){
             self._computeAll.call(self);
-          },0)
-          
+          },0);
+
         }}
         text={'grid_1'}
       />
 
       <Chooser
         onClick={()=>{
-          setGridState({gridName:'grid_2',rows:8,columns:8})
+          changeGrid({gridName:'GRID_2'});
           let self = this;
           setTimeout(function(){
             self._computeAll.call(self);
-          },0)
+          },0);
         }}
         text={'grid_2'}
       />
@@ -122,9 +123,45 @@ const renderGridChoosers = function(){
 
 };
 
+const renderGrid = function(params){
+  const {
+    gridState,
+    columns,
+    rows,
+  } = this.props.state;
+
+  const {
+    incrementCellCost
+  } = this.props.actions;
+
+  const cells = _renderCells(
+    {gridState,columns,rows,onClick:(params)=>{
+      incrementCellCost({
+        ...params,
+        searchTree: this._searchTree,
+        gridState: this.props.state.gridState,
+      });
+    }}
+  );
+
+  return (
+    <div style={{
+      display: 'flex'
+    }}>
+      <CommonGrid
+        columns={columns}
+        rows={rows}
+        size={50}
+        cells={cells}
+        borderWidth={4}
+      />
+    </div>
+  );
+};
+
 export {
   renderButtons,
-  renderCells,
+  renderGrid,
   renderTable,
   renderGridChoosers,
 };

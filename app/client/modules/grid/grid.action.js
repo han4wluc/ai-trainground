@@ -6,7 +6,7 @@ const {
 
 import Grids from './grids';
 
-export function setGridState_(params){
+export function setGridState(params){
   const { gridState } = params;
   return {
     type: 'GRID_SET_STATE',
@@ -16,12 +16,18 @@ export function setGridState_(params){
   };
 }
 
-export function setGridState(params){
-  const { gridName, columns, rows } = params;
+export function changeGrid(params){
+  const { gridName } = params;
+  const grid = Grids[gridName];
+  const {
+    gridState,
+    columns,
+    rows,
+  } = grid;
   return {
     type: 'GRID_SET_STATE',
     props: {
-      gridState: Grids[gridName],
+      gridState,
       columns,
       rows,
     }
@@ -68,6 +74,9 @@ export function updateCells(params){
   };
 }
 
+/**
+ * Remove all dots and highlights in the grid
+ **/
 export function clearPath(params){
   const { gridState } = params;
 
@@ -86,6 +95,10 @@ export function clearPath(params){
   };
 }
 
+
+/**
+ * When Click at a gray cell, icrement cost, display darker gray
+ */
 export function incrementCellCost(params){
   const { x, y, gridState, searchTree } = params;
 
