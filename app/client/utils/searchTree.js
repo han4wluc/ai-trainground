@@ -157,7 +157,10 @@ class SearchTree {
   }
 
   setGridState(gridState){
+    // this._visited = [];
     this._gridState = gridState;
+    this._reset({gridState});
+    // console.log('serachTree setGridState', gridState)
   }
 
   _reset(params){
@@ -227,6 +230,8 @@ class SearchTree {
   }
 
   next(){
+
+    // console.log('this._gridState', Object.keys(this._gridState).length)
 
     this._expansions++;
 

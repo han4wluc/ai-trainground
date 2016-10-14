@@ -11,16 +11,39 @@ const {
 } = Utils;
 
 const renderButtons = function(){
+
+  const {
+    state: { gridState },
+    actions: { setResultTable, stepNext, clearPath }
+  } = this.props;
+
+  let self = this;
+  const buttons = ['BFS', 'DFS', 'greedy', 'uniform', 'astar'].map((strategy)=>{
+    return (
+      <button
+        key={strategy}
+        onClick={()=>{
+          stepNext({searchTree:self._searchTree,strategy});
+        }}
+      >
+        {strategy}
+      </button>
+    );
+  });
+
   return (
     <div>
-      <button onClick={this._next.bind(this, {strategy:'BFS'})}>{'BFS'}</button>
-      <button onClick={this._next.bind(this, {strategy:'DFS'})}>{'DFS'}</button>
-      <button onClick={this._next.bind(this, {strategy:'greedy'})}>{'greedy'}</button>
-      <button onClick={this._next.bind(this, {strategy:'uniform'})}>{'uniform'}</button>
-      <button onClick={this._next.bind(this, {strategy:'astar'})}>{'astar'}</button>
-      <button onClick={this._reset.bind(this)}>{'reset'}</button>
+      {buttons}
+      <button onClick={clearPath.bind(null,{
+        gridState:this.props.state.gridState,
+        searchTree: this._searchTree,
+      })}>{'reset'}</button>
       <br/>
-      <button onClick={this._computeAll.bind(this)}>{'computall'}</button>
+      <button
+        onClick={setResultTable.bind(null,{gridState})}
+      >
+        {'computall'}
+      </button>
     </div>
   );
 };
@@ -58,7 +81,7 @@ const renderTable = function(params){
         <td>{cost}</td>
         <td> <button onClick={()=>{
           const { gridState } = this.props.state;
-          clearPath({gridState});
+          clearPath({gridState,searchTree:this._searchTree});
           updateCells({coordinates: path});
           paintCells({coordinates: path});
         }}>{'show'}</button> </td>
@@ -84,40 +107,31 @@ const renderTable = function(params){
 };
 
 const renderGridChoosers = function(){
+
   const {
     actions : {
       changeGrid,
     }
   } = this.props;
 
+  const gridChoosers = ['GRID_1', 'GRID_2'].map((gridName)=>{
+    return (
+      <Chooser
+        key={gridName}
+        onClick={()=>{
+          changeGrid({gridName:gridName,searchTree:this._searchTree});
+        }}
+        text={gridName}
+      />
+    );
+  });
+
   return (
     <div style={{
       display: 'flex',
       flexDirection: 'row'
     }}>
-
-      <Chooser
-        onClick={()=>{
-          changeGrid({gridName:'GRID_1'});
-          let self = this;
-          setTimeout(function(){
-            self._computeAll.call(self);
-          },0);
-
-        }}
-        text={'grid_1'}
-      />
-
-      <Chooser
-        onClick={()=>{
-          changeGrid({gridName:'GRID_2'});
-          let self = this;
-          setTimeout(function(){
-            self._computeAll.call(self);
-          },0);
-        }}
-        text={'grid_2'}
-      />
+      {gridChoosers}
     </div>
   );
 
