@@ -186,7 +186,6 @@ class SearchTree extends BaseGrid{
     });
   }
 
-
   /**
    * Get goal coordiante.
    * @return goal coordinate
@@ -209,9 +208,7 @@ class SearchTree extends BaseGrid{
     const goalCoordinate = this._getGoalCoordinate();
 
     return _.isEqual(goalCoordinate, coordinate);
-
   }
-
 
   _reset(params){
     const {
@@ -227,7 +224,6 @@ class SearchTree extends BaseGrid{
     }];
     this._visited = [];
   }
-
 
   _nextExhausted(){
     return {
@@ -344,10 +340,6 @@ class SearchTree extends BaseGrid{
     };
     // return this._nextCoordinate.call(this, coordinate);
 
-  }
-
-  getGridKeys(){
-    return Object.keys(this._gridState);
   }
 
   computeSolution(){

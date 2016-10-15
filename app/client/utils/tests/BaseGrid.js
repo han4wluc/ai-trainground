@@ -66,3 +66,23 @@ describe('BaseGrid._getCoordinateWith', function(){
 
 });
 
+describe('BaseGrid._getGridKeys', function(){
+
+  it('should return true', function(){
+    const gridState = {
+      x0y0: {}, x1y0: {},
+      x0y1: {}, x1y1: {},
+    };
+    const baseGrid = new BaseGrid({
+      gridState,
+    });
+
+    const expectedKeys = ['x0y0', 'x1y0', 'x0y1', 'x1y1'];
+    const actualKeys = baseGrid._getGridKeys();
+
+    expectedKeys.should.deep.equal(actualKeys);
+
+  });
+
+});
+

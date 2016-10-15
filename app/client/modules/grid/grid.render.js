@@ -51,7 +51,7 @@ const renderButtons = function(){
 const _renderCells = function(params){
   const { gridState, onClick, searchTree } = params;
   // return GridUtil.getGridKeys({rows,columns}).map((key)=>{
-  return searchTree.getGridKeys().map((key)=>{
+  return searchTree._getGridKeys().map((key)=>{
     const { x, y } = SearchTree.keyToCoor({key});
     return (
       <GridCell

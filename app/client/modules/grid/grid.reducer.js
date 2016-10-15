@@ -1,19 +1,17 @@
 
 import _ from 'lodash';
 import { Utils } from '../../.';
+// import Grids from './grids';
 
-// const {
-//   GridUtil
-// } = Utils;
-
-import Grids from './grids';
-
-const GRID_1 = Grids.GRID_1;
+// const GRID_1 = Grids.GRID_1;
 
 const initialState = {
-  columns: GRID_1.columns,
-  rows: GRID_1.rows,
-  gridState: GRID_1.gridState,
+  // columns: GRID_1.columns,
+  // rows: GRID_1.rows,
+  // gridState: GRID_1.gridState,
+  columns: 0,
+  rows: 0,
+  gridState: {},
   resultTable: []
 };
 

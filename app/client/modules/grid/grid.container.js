@@ -5,6 +5,7 @@ import * as gridActions from './grid.action';
 import * as GridRender from './grid.render';
 import { Utils, Comps, } from '../../';
 import { GridCell } from './comps';
+import Grids from './grids';
 
 const { Setup, SearchTree } = Utils;
 
@@ -19,21 +20,21 @@ class GridContainer extends Component {
 
   constructor(props) {
     super(props);
+    this._setup.call(this);
+  }
+
+  async _setup(){
     const {
       state: { gridState },
+      actions: { changeGrid, computeAndDisplay },
     } = this.props;
     this._searchTree = new SearchTree({
       gridState,
       strategy: 'BFS',
     });
-  }
 
-  componentDidMount() {
-    const {
-      state: { gridState },
-      actions: { computeAndDisplay }
-    } = this.props;
-    computeAndDisplay({gridState});
+    await changeGrid({gridName:'GRID_1',searchTree:this._searchTree});
+    computeAndDisplay({gridState:this.props.state.gridState});
   }
 
   render(){

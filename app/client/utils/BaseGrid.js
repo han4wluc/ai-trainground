@@ -73,6 +73,10 @@ class BaseGrid {
     // };
   }
 
+  _getGridKeys(){
+    return Object.keys(this._gridState);
+  }
+
 }
 
 export default BaseGrid;
