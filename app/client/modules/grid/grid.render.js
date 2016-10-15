@@ -7,14 +7,14 @@ const {
   Chooser,
 } = Comps;
 const {
-  GridUtil
+  SearchTree
 } = Utils;
 
 const renderButtons = function(){
 
   const {
     state: { gridState },
-    actions: { setResultTable, stepNext, clearPath }
+    actions: { computeAndDisplay, stepNext, clearPath }
   } = this.props;
 
   let self = this;
@@ -40,7 +40,7 @@ const renderButtons = function(){
       })}>{'reset'}</button>
       <br/>
       <button
-        onClick={setResultTable.bind(null,{gridState})}
+        onClick={computeAndDisplay.bind(null,{gridState})}
       >
         {'computall'}
       </button>
@@ -49,9 +49,10 @@ const renderButtons = function(){
 };
 
 const _renderCells = function(params){
-  const { rows,columns,gridState, onClick } = params;
-  return GridUtil.getGridKeys({rows,columns}).map((key)=>{
-    const { x, y } = GridUtil.keyToCoor({key});
+  const { gridState, onClick, searchTree } = params;
+  // return GridUtil.getGridKeys({rows,columns}).map((key)=>{
+  return searchTree.getGridKeys().map((key)=>{
+    const { x, y } = SearchTree.keyToCoor({key});
     return (
       <GridCell
         key={key}
@@ -148,8 +149,10 @@ const renderGrid = function(params){
     incrementCellCost
   } = this.props.actions;
 
-  const cells = _renderCells(
-    {gridState,columns,rows,onClick:(params)=>{
+  const cells = _renderCells({
+    gridState,
+    searchTree: this._searchTree,
+    onClick:(params)=>{
       incrementCellCost({
         ...params,
         searchTree: this._searchTree,

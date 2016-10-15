@@ -2,9 +2,9 @@
 import _ from 'lodash';
 import { Utils } from '../../.';
 
-const {
-  GridUtil
-} = Utils;
+// const {
+//   GridUtil
+// } = Utils;
 
 import Grids from './grids';
 

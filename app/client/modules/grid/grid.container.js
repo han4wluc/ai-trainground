@@ -6,7 +6,7 @@ import * as GridRender from './grid.render';
 import { Utils, Comps, } from '../../';
 import { GridCell } from './comps';
 
-const { Setup, GridUtil, SearchTree } = Utils;
+const { Setup, SearchTree } = Utils;
 
 const { Chooser, CommonGrid } = Comps;
 
@@ -17,18 +17,23 @@ class GridContainer extends Component {
     state: React.PropTypes.object,
   }
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     const {
       state: { gridState },
-      actions: { setResultTable }
     } = this.props;
-
     this._searchTree = new SearchTree({
       gridState,
       strategy: 'BFS',
     });
+  }
 
-    setResultTable({gridState});
+  componentDidMount() {
+    const {
+      state: { gridState },
+      actions: { computeAndDisplay }
+    } = this.props;
+    computeAndDisplay({gridState});
   }
 
   render(){

@@ -1,18 +1,15 @@
 
+import Grids from './grids';
 import Utils from '../../utils';
 const {
-  GridUtil, SearchTree
+  SearchTree,
 } = Utils;
 
-import Grids from './grids';
-
 const setGridState = function(params){
-  const { gridState } = params;
   return {
     type: 'GRID_SET_STATE',
     props: {
       ...params,
-      // gridState,
     }
   };
 };
@@ -30,23 +27,12 @@ const changeGrid = function(params){
 
   return async (dispatch) => {
     dispatch(setGridState({gridState:gridState,columns,rows}));
-    dispatch(setResultTable({gridState:gridState}));
+    dispatch(computeAndDisplay({gridState:gridState}));
     return Promise.resolve();
   };
-
-  // setResultTable
-
-  // return {
-  //   type: 'GRID_SET_STATE',
-  //   props: {
-  //     gridState,
-  //     columns,
-  //     rows,
-  //   }
-  // };
 };
 
-const setResultTable = function(params) {
+const computeAndDisplay = function(params) {
   const { gridState } = params;
 
   const resultTable = ['BFS', 'DFS', 'greedy', 'uniform', 'astar'].map((strategy)=>{
@@ -77,7 +63,7 @@ const updateCell = function(params) {
 
 const updateCells = function(params){
   const { coordinates } = params;
-  const keys = coordinates.map((coor)=>GridUtil.coorToKey(coor));
+  const keys = coordinates.map((coor)=>SearchTree.coorToKey(coor));
   return {
     type: 'GRID_UPDATE_CELLS',
     props: {
@@ -118,7 +104,7 @@ const incrementCellCost = function(params){
 
   const newGridState = _.cloneDeep(gridState);
 
-  const key = GridUtil.coorToKey({x,y});
+  const key = SearchTree.coorToKey({x,y});
   const { cost } = newGridState[key];
   if(cost > 2){
     newGridState[key].isWall = true;
@@ -190,6 +176,6 @@ export {
   clearPath,
   updateCells,
   updateCell,
-  setResultTable,
+  computeAndDisplay,
   changeGrid,
 };
