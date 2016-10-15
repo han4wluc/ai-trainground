@@ -1,7 +1,7 @@
 
 import Utils from '../../utils';
 const {
-  GridUtil
+  SearchTree
 }  = Utils;
 
 export default {
@@ -9,7 +9,7 @@ export default {
     columns: 5,
     rows: 5,
     gridState: {
-      ...GridUtil.generateInitialGridState({columns:5,rows:5}),
+      ...SearchTree.generateInitialGridState({columns:5,rows:5}),
       'x1y1': {
         isStart: true,
         cost: 0,
@@ -24,7 +24,7 @@ export default {
     columns: 8,
     rows: 8,
     gridState: {
-      ...GridUtil.generateInitialGridState({columns:8,rows:8}),
+      ...SearchTree.generateInitialGridState({columns:8,rows:8}),
       'x1y2': {
         isStart: true,
         cost: 0,

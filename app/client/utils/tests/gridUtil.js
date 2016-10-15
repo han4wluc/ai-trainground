@@ -32,7 +32,6 @@ describe('GridUtil.generateInitialGridState', function(){
       x0y2: {}, x1y2: {}, x2y2: {}, x3y2: {},
       x0y3: {}, x1y3: {}, x2y3: {}, x3y3: {},
     };
-    // console.log(gridState);
     Object.keys(gridState).should.deep.equal(Object.keys(expectedState));
 
   });

@@ -1,12 +1,13 @@
 
 import _ from 'lodash';
-import GridUtil from './gridUtil';
+// import GridUtil from './gridUtil';
 import * as Calc from './Calc';
+import BaseGrid from './BaseGrid';
 
 const computeCost = function(params){
   const {coordinate, gridState} = params;
   // console.log('coordinate', coordinate)
-  const key = GridUtil.coorToKey(coordinate);
+  const key = SearchTree.coorToKey(coordinate);
   const cost = gridState[key].cost;
   return cost;
 };
@@ -140,61 +141,39 @@ const strategies = {
   }
 };
 
-class SearchTree {
 
-  static keyToCoor(params){
-    const { key } = params;
-    const r = /x(\d+)y(\d+)/g;
-    const match = r.exec(key);
-    const x = parseInt(match[1],10);
-    const y = parseInt(match[2],10);
-    return { x, y };
-  }
 
-  static coorToKey(params){
-    const { x, y } = params;
-    return `x${x}y${y}`;
+class SearchTree extends BaseGrid{
+
+  static generateInitialGridState(params){
+    const { rows, columns } = params;
+    const gridState = {};
+
+    _.range(rows).forEach((y)=>{
+      _.range(columns).forEach((x)=>{
+        gridState[BaseGrid.coorToKey({x,y})] = {
+          cost: 1,
+        };
+      });
+    });
+
+    return gridState;
   }
 
   constructor(props) {
-
+    super(props);
     const {
-      gridState,
+      // gridState,
       strategy,
     } = props;
 
     // console.log(SearchTree.coorToKey({x:1,y:2}));
 
-    this._gridState = gridState;
+    // this._gridState = gridState;
     this._strategyName = strategy;
     this.setStrategy({strategy});
-    this._reset({gridState});
+    this._reset({gridState:this._gridState});
 
-  }
-
-  /**
-   * Get adjacent coordinates of a cell. Excluding walls.
-   * @param coordinate
-   * @return possible coordinates
-   */
-  _getSuccessor(params){
-    const {
-      coordinate,
-    } = params;
-
-    const gridState = this._gridState;
-
-    const {x,y} = coordinate;
-
-    const left =   { x:x-1, y};
-    const right =  { x:x+1, y};
-    const bottom = { x, y:y-1};
-    const top =    { x, y:y+1};
-
-    const finges = [left,right,bottom,top].filter((d)=>{
-      return gridState[SearchTree.coorToKey(d)] && !gridState[SearchTree.coorToKey(d)].isWall;
-    });
-    return finges;
   }
 
   /**
@@ -202,25 +181,20 @@ class SearchTree {
    * @return start coordinate
    */
   _getStartCoordinate(){
-    for (var key in this._gridState){
-      const cell = this._gridState[key];
-      if(cell.isStart){
-        return SearchTree.keyToCoor({key});
-      }
-    }
+    return this._getCoordinateWith({
+      propName: 'isStart',
+    });
   }
+
 
   /**
    * Get goal coordiante.
    * @return goal coordinate
    */
   _getGoalCoordinate(){
-    for (var key in this._gridState){
-      const cell = this._gridState[key];
-      if(cell.isGoal){
-        return SearchTree.keyToCoor({key});
-      }
-    }
+    return this._getCoordinateWith({
+      propName: 'isGoal',
+    });
   }
 
   /**
@@ -231,15 +205,11 @@ class SearchTree {
     const {
       coordinate,
     } = params;
-    const gridState = this._gridState;
 
-    const { x, y } = coordinate;
-    const key = SearchTree.coorToKey({x,y});
+    const goalCoordinate = this._getGoalCoordinate();
 
-    if(gridState[key].isGoal){
-      return true;
-    }
-    return false;
+    return _.isEqual(goalCoordinate, coordinate);
+
   }
 
 
@@ -348,7 +318,7 @@ class SearchTree {
       path: newPath
     });
 
-    const finges = this._getSuccessor({coordinate})
+    const finges = this._getAdjacentCells({coordinate,excludeWalls:true})
       .map((f)=>{
         return {
           coordinate: f,

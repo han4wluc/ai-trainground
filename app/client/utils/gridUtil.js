@@ -70,6 +70,7 @@ const isGoalState = function(params){
   if(gridState[key].isGoal){
     return true;
   }
+
   return false;
 
 };
