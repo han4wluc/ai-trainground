@@ -5,7 +5,7 @@ const {
   SearchTree,
 } = Utils;
 
-const setGridState = function(params){
+const setState = function(params){
   return {
     type: 'GRID_SET_STATE',
     props: {
@@ -14,6 +14,9 @@ const setGridState = function(params){
   };
 };
 
+/**
+ * Change the grid to one of the preconstructed grids
+ */
 const changeGrid = function(params){
   const { gridName, searchTree } = params;
   const grid = Grids[gridName];
@@ -23,15 +26,21 @@ const changeGrid = function(params){
     rows,
   } = grid;
 
-  searchTree.setGridState(gridState);
+  searchTree.setGridState({gridState});
 
   return async (dispatch) => {
-    dispatch(setGridState({gridState:gridState,columns,rows}));
+    dispatch(clearPath({gridState,searchTree}));
+    dispatch(setState({gridState,columns,rows}));
     dispatch(computeAndDisplay({gridState:gridState}));
     return Promise.resolve();
   };
+
 };
 
+/**
+ * Compute various alorithm strategies,
+ * Display each expansion, cost, path for each algorithm.
+ */
 const computeAndDisplay = function(params) {
   const { gridState } = params;
 
@@ -43,54 +52,24 @@ const computeAndDisplay = function(params) {
     return searchTree.computeSolution();
   });
 
-  return {
-    type: 'GRID_UPDATE_RESULT_TABLE',
-    props: {
-      resultTable,
-    }
-  };
+  return setState({resultTable});
+
 };
 
-const updateCell = function(params) {
-  const { x, y } = params;
-  return {
-    type: 'GRID_UPDATE_CELL',
-    props: {
-      key: `x${x}y${y}`,
-    }
-  };
-};
-
-const updateCells = function(params){
-  const { coordinates } = params;
-  const keys = coordinates.map((coor)=>SearchTree.coorToKey(coor));
-  return {
-    type: 'GRID_UPDATE_CELLS',
-    props: {
-      keys,
-    }
-  };
-};
 
 /**
- * Remove all dots and highlights in the grid
+ * Remove all dots and highlights on the grid
  **/
 const clearPath = function(params){
   const { gridState, searchTree } = params;
 
-  const newGridState = _.cloneDeep(gridState);
-  for (var key in newGridState){
-    const cell = newGridState[key];
-    cell.showDot = false;
-    cell.isHighlighted = false;
-  }
-
-  searchTree.setGridState(newGridState);
+  searchTree.reset();
 
   return {
     type: 'GRID_SET_STATE',
     props: {
-      gridState: newGridState,
+      highlighted: [],
+      visited: [],
     }
   };
 };
@@ -112,7 +91,7 @@ const incrementCellCost = function(params){
     newGridState[key].cost++;
   }
 
-  searchTree.setGridState(newGridState);
+  searchTree.setGridState({gridState:newGridState,doReset:false});
 
   return {
     type: 'GRID_SET_STATE',
@@ -122,20 +101,6 @@ const incrementCellCost = function(params){
   };
 };
 
-const paintCells = function(params){
-  const {
-    coordinates
-  } = params;
-
-  return {
-    type: 'GRID_PAINT_CELLS',
-    props: {
-      coordinates: coordinates.map((c)=>{
-        return `x${c.x}y${c.y}`;
-      }),
-    }
-  };
-};
 
 const stepNext = function(params){
   const {
@@ -150,32 +115,24 @@ const stepNext = function(params){
   const res = searchTree.next();
 
   if(res.goalReached){
-    return paintCells({coordinates: res.path.slice(1,-1)});
+    // return paintCells({coordinates: res.path.slice(1,-1)});
+    const highlighted = res.path.slice(1,-1).map((c)=>SearchTree.coorToKey(c));
+    return setState({highlighted,});
   }
 
   if(res.exhausted){
     return {};
   }
 
-  return setGridState({gridState:res.gridState});
+  return setState({gridState:res.gridState,visited:res.visited});
 
-};
-
-const resetToInitialState = function (){
-  return {
-    type: 'GRID_RESET_TO_INITIAL_STATE',
-  };
 };
 
 export {
-  setGridState,
-  resetToInitialState,
+  setState,
   stepNext,
-  paintCells,
   incrementCellCost,
   clearPath,
-  updateCells,
-  updateCell,
   computeAndDisplay,
   changeGrid,
 };

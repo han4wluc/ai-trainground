@@ -172,7 +172,10 @@ class SearchTree extends BaseGrid{
     // this._gridState = gridState;
     this._strategyName = strategy;
     this.setStrategy({strategy});
-    this._reset({gridState:this._gridState});
+
+    this.reset = this._reset;
+
+    this._reset();
 
   }
 
@@ -210,10 +213,11 @@ class SearchTree extends BaseGrid{
     return _.isEqual(goalCoordinate, coordinate);
   }
 
-  _reset(params){
-    const {
-      gridState
-    } = params;
+
+
+
+
+  _reset(){
 
     this._expansions = 0;
 
@@ -247,11 +251,14 @@ class SearchTree extends BaseGrid{
     // console.log('costs', costs);
     // console.log('GOAL REACHED', this._expansions, cost);
 
+    const visited = this._visited.map((v)=>SearchTree.coorToKey(v.coordinate));
+
     return {
       cost,
       goalReached: true,
       path: path,
       gridState,
+      visited,
       expansions: this._expansions,
     };
   }
@@ -272,12 +279,16 @@ class SearchTree extends BaseGrid{
   }
 
 
-  setGridState(gridState){
+  setGridState({gridState, doReset=true}){
     // this._visited = [];
     this._gridState = gridState;
-    this._reset({gridState});
+
+    if(doReset){
+      this._reset({gridState});
+    }
     // console.log('serachTree setGridState', gridState)
   }
+
 
   setStrategy(params){
     const { strategy } = params;
@@ -303,6 +314,12 @@ class SearchTree extends BaseGrid{
     });
 
     const { coordinate } = node;
+
+    const { isWall } = this._gridState[SearchTree.coorToKey(coordinate)];
+    if(isWall){
+      return this.next();
+    }
+
     const newPath = node.path.concat(coordinate);
 
     if(this._isGoalState({coordinate})){
@@ -329,13 +346,16 @@ class SearchTree extends BaseGrid{
 
 
     const key = SearchTree.coorToKey(coordinate);
-    const newGridState = _.cloneDeep(this._gridState);
-    newGridState[key].showDot = true;
-    this._gridState = newGridState;
+    // const newGridState = _.cloneDeep(this._gridState);
+    // newGridState[key].showDot = true;
+    // this._gridState = newGridState;
+
+    // console.log('visitedCoordinates', visitedCoordinates);
 
     return {
       goalReached: false,
       gridState: this._gridState,
+      visited: visitedCoordinates.map((c)=>SearchTree.coorToKey(c)),
       expansions: this._expansions,
     };
     // return this._nextCoordinate.call(this, coordinate);
@@ -355,6 +375,7 @@ class SearchTree extends BaseGrid{
           expansions: res.expansions,
           cost: res.cost,
           path: res.path,
+          visited: this._visited.map((v)=>SearchTree.coorToKey(v.coordinate)),
         };
       }
     }

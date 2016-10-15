@@ -49,10 +49,12 @@ const renderButtons = function(){
 };
 
 const _renderCells = function(params){
-  const { gridState, onClick, searchTree } = params;
-  // return GridUtil.getGridKeys({rows,columns}).map((key)=>{
+  const { gridState, onClick, searchTree, highlighted, visited } = params;
+
   return searchTree._getGridKeys().map((key)=>{
     const { x, y } = SearchTree.keyToCoor({key});
+    const isHighlighted = _.includes(highlighted, key);
+    const showDow = _.includes(visited, key);
     return (
       <GridCell
         key={key}
@@ -60,6 +62,8 @@ const _renderCells = function(params){
         x={x}
         y={y}
         {...gridState[key]}
+        isHighlighted={isHighlighted}
+        showDot={showDow}
       />
     );
   });
@@ -68,12 +72,12 @@ const _renderCells = function(params){
 const renderTable = function(params){
   const {
     state: { resultTable },
-    actions: { paintCells, updateCells, clearPath }
+    actions: { setState }
   } = this.props;
 
   const tableRows = resultTable.map((row, i)=>{
     const {
-      strategy, expansions, cost, path
+      strategy, expansions, cost, path, visited
     } = row;
     return (
       <tr key={i}>
@@ -82,9 +86,7 @@ const renderTable = function(params){
         <td>{cost}</td>
         <td> <button onClick={()=>{
           const { gridState } = this.props.state;
-          clearPath({gridState,searchTree:this._searchTree});
-          updateCells({coordinates: path});
-          paintCells({coordinates: path});
+          setState({visited,highlighted:path.slice(1,-1).map((c)=>SearchTree.coorToKey(c))});
         }}>{'show'}</button> </td>
       </tr>
     );
@@ -143,6 +145,8 @@ const renderGrid = function(params){
     gridState,
     columns,
     rows,
+    highlighted,
+    visited,
   } = this.props.state;
 
   const {
@@ -152,6 +156,8 @@ const renderGrid = function(params){
   const cells = _renderCells({
     gridState,
     searchTree: this._searchTree,
+    highlighted,
+    visited,
     onClick:(params)=>{
       incrementCellCost({
         ...params,

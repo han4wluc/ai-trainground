@@ -25,15 +25,14 @@ class GridContainer extends Component {
 
   async _setup(){
     const {
-      state: { gridState },
       actions: { changeGrid, computeAndDisplay },
     } = this.props;
+
     this._searchTree = new SearchTree({
-      gridState,
-      strategy: 'BFS',
+      gridState: {},
     });
 
-    await changeGrid({gridName:'GRID_1',searchTree:this._searchTree});
+    await changeGrid({gridName:'GRID_1',searchTree: this._searchTree}, );
     computeAndDisplay({gridState:this.props.state.gridState});
   }
 
