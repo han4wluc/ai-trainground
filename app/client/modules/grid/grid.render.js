@@ -48,8 +48,9 @@ const renderButtons = function(){
   );
 };
 
-const _renderCells = function(params){
-  const { gridState, onClick, searchTree, highlighted, visited } = params;
+const _renderCells = function({
+  gridState, onClick, searchTree, highlighted, visited
+}){
 
   return searchTree._getGridKeys().map((key)=>{
     const { x, y } = SearchTree.keyToCoor({key});
@@ -140,7 +141,7 @@ const renderGridChoosers = function(){
 
 };
 
-const renderGrid = function(params){
+const renderGrid = function(){
   const {
     gridState,
     columns,

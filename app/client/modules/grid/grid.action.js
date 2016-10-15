@@ -17,8 +17,7 @@ const setState = function(params){
 /**
  * Change the grid to one of the preconstructed grids
  */
-const changeGrid = function(params){
-  const { gridName, searchTree } = params;
+const changeGrid = function({ gridName, searchTree }){
   const grid = Grids[gridName];
   const {
     gridState,
@@ -41,15 +40,14 @@ const changeGrid = function(params){
  * Compute various alorithm strategies,
  * Display each expansion, cost, path for each algorithm.
  */
-const computeAndDisplay = function(params) {
-  const { gridState } = params;
+const computeAndDisplay = function({ gridState }) {
 
   const resultTable = ['BFS', 'DFS', 'greedy', 'uniform', 'astar'].map((strategy)=>{
     const searchTree = new SearchTree({
       gridState,
       strategy,
     });
-    return searchTree.computeSolution();
+    return searchTree.computeSolution({strategy});
   });
 
   return setState({resultTable});
@@ -60,8 +58,7 @@ const computeAndDisplay = function(params) {
 /**
  * Remove all dots and highlights on the grid
  **/
-const clearPath = function(params){
-  const { gridState, searchTree } = params;
+const clearPath = function({ gridState, searchTree }){
 
   searchTree.reset();
 
@@ -77,9 +74,9 @@ const clearPath = function(params){
 
 /**
  * When Click at a gray cell, icrement cost, display darker gray
+ * If cost > 2, change to wall
  */
-const incrementCellCost = function(params){
-  const { x, y, gridState, searchTree } = params;
+const incrementCellCost = function({ x, y, gridState, searchTree }){
 
   const newGridState = _.cloneDeep(gridState);
 
@@ -102,17 +99,9 @@ const incrementCellCost = function(params){
 };
 
 
-const stepNext = function(params){
-  const {
-    strategy,
-    searchTree,
-  } = params;
+const stepNext = function({ strategy, searchTree }){
 
-  if(strategy){
-    searchTree.setStrategy({strategy});
-  }
-
-  const res = searchTree.next();
+  const res = searchTree.next({strategy});
 
   if(res.goalReached){
     // return paintCells({coordinates: res.path.slice(1,-1)});
