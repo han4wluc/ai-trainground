@@ -78,12 +78,14 @@ class SearchTree extends BaseGrid{
    */
   _reset(){
     const start = this._getStartCoordinate();
+    const end = this._getGoalCoordinate();
     this._expansions = 0;
     this._visited = [];
     this._queue = [{
       coordinate: start,
       path: [],
       cost: this._getCost({coordinate:start}),
+      heuristic: GridStrategies.computeManhattanDistance({start,end}),
     }];
   }
 
@@ -135,12 +137,8 @@ class SearchTree extends BaseGrid{
 
     // if goal is reached, return info including cost and path
     if(this._isGoalState({coordinate})){
-      let cost = 0;
-      newPath.forEach((coordinate)=>{
-        cost = cost + this._getCost({coordinate});
-      });
       return {
-        cost,
+        cost: node.cost,
         goalReached: true,
         path: newPath,
         gridState: this._gridState,
@@ -158,10 +156,15 @@ class SearchTree extends BaseGrid{
     // get new leaves
     const finges = this._getAdjacentCells({coordinate,excludeWalls:true})
       .map((f)=>{
+        const heuristic = GridStrategies.computeManhattanDistance({
+          start:f,
+          end:this._getGoalCoordinate()
+        });
         return {
           coordinate: f,
           path: newPath,
-          cost: this._getCost({coordinate:f})
+          cost: node.cost + this._getCost({coordinate:f}),
+          heuristic,
         };
       });
 

@@ -6,6 +6,27 @@ import * as GridStrategies from '../GridStrategies';
 const should = chai.should();
 
 describe('GridStrategies._computeManhattanDistance', function(){
+
+  it('should return 0', function(){
+    let start;
+    const end   = { x:2, y:2 };
+
+    const actual = GridStrategies._computeManhattanDistance({start,end});
+    const expected = 0;
+    actual.should.equal(expected);
+
+  });
+
+  it('should return 0', function(){
+    const start = { x:1, y:1 };
+    let end;
+
+    const actual = GridStrategies._computeManhattanDistance({start,end});
+    const expected = 0;
+    actual.should.equal(expected);
+
+  });
+
   it('should return correct diagonal distance', function(){
     const start = { x:1, y:1 };
     const end   = { x:2, y:2 };
@@ -65,37 +86,37 @@ describe('GridStrategies.DFS', function(){
 
 describe('GridStrategies.greedy', function(){
   it('should do greedy', function(){
-    const node1 = { coordinate: { x:0, y:0 } };
-    const node2 = { coordinate: { x:1, y:0 } };
-    const node3 = { coordinate: { x:0, y:1 } };
+    const node1 = { heuristic: 1 };
+    const node2 = { heuristic: 0 };
+    const node3 = { heuristic: 2 };
     const finges = [node1, node2, node3];
-    const goalCoordinate = { x:1, y:1 };
-    const [actualNode, actualFinges] = GridStrategies.greedy({finges, goalCoordinate});
+    const [actualNode, actualFinges] = GridStrategies.greedy({finges});
     node2.should.deep.equal(actualNode);
+    [node1,node3].should.deep.equal(actualFinges);
   });
 });
 
 describe('GridStrategies.uniform', function(){
   it('should do uniform', function(){
-    const node1 = { coordinate: { x:0, y:0 }, cost: 2 };
-    const node2 = { coordinate: { x:1, y:0 }, cost: 1 };
-    const node3 = { coordinate: { x:0, y:1 }, cost: 3 };
+    const node1 = { cost: 2 };
+    const node2 = { cost: 1 };
+    const node3 = { cost: 3 };
     const finges = [node1, node2, node3];
-    const goalCoordinate = { x:1, y:1 };
     const [actualNode, actualFinges] = GridStrategies.uniform({finges});
     node2.should.deep.equal(actualNode);
+    [node1,node3].should.deep.equal(actualFinges);
   });
 });
 
 describe('GridStrategies.astar', function(){
   it('should do astar', function(){
-    const node1 = { coordinate: { x:0, y:0 }, cost: 2 }; // distance 2
-    const node2 = { coordinate: { x:1, y:0 }, cost: 1 }; // distance 1
-    const node3 = { coordinate: { x:0, y:1 }, cost: 3 }; // distance 1
+    const node1 = { heuristic: 2, cost: 2 }; // total 4
+    const node2 = { heuristic: 1, cost: 1 }; // total 2
+    const node3 = { heuristic: 1, cost: 3 }; // total 4
     const finges = [node1, node2, node3];
-    const goalCoordinate = { x:1, y:1 };
-    const [actualNode, actualFinges] = GridStrategies.uniform({finges});
+    const [actualNode, actualFinges] = GridStrategies.astar({finges});
     node2.should.deep.equal(actualNode);
+    [node1,node3].should.deep.equal(actualFinges);
   });
 });
 

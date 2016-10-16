@@ -2,8 +2,8 @@
 import BaseGrid from './BaseGrid';
 import SearchTree from './SearchTree';
 
-const _computeManhattanDistance = function(params){
-  const { start, end } = params;
+const _computeManhattanDistance = function({ start, end }){
+  if(!start || !end){ return 0; }
   const {
     x: sx,
     y: sy,
@@ -37,13 +37,10 @@ const DFS = function({ finges }){
 /**
  * Greedy search, go for the node with lowest heuristic
  */
-const greedy = function({ finges, goalCoordinate }){
+const greedy = function({ finges }){
 
-  const heuristics = finges.map((q, i) => {
-    return _computeManhattanDistance({
-      start: q.coordinate,
-      end: goalCoordinate
-    });
+  const heuristics = finges.map((cell, i) => {
+    return cell.heuristic;
   });
   const min = Math.min(...heuristics);
   const minIndex = heuristics.indexOf(min);
@@ -80,13 +77,9 @@ const uniform = function({ finges }){
 /**
  * A* Search, combine cost and heuristic.
  */
-const astar = function({ finges, gridState, goalCoordinate }){
+const astar = function({ finges }){
   const heuristicsCosts = finges.map((cell, i) => {
-    const distance = _computeManhattanDistance({
-      start: cell.coordinate,
-      end: goalCoordinate
-    });
-    return distance + cell.cost;
+    return cell.heuristic + cell.cost;
   });
 
   const min = Math.min(...heuristicsCosts);
@@ -96,14 +89,17 @@ const astar = function({ finges, gridState, goalCoordinate }){
   return [
     node,
     [
-      ...finges.slice(0,index),
-      ...finges.slice(index+1,finges.length)
+      ...finges.slice(0,minIndex),
+      ...finges.slice(minIndex+1,finges.length)
     ]
   ];
 };
 
+const computeManhattanDistance = _computeManhattanDistance;
+
 export {
   _computeManhattanDistance,
+  computeManhattanDistance,
   BFS,
   DFS,
   greedy,
