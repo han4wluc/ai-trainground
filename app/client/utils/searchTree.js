@@ -1,6 +1,5 @@
 
 import _ from 'lodash';
-import * as Calc from './Calc';
 import BaseGrid from './BaseGrid';
 import * as GridStrategies from './GridStrategies';
 

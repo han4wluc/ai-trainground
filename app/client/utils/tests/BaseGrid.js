@@ -10,7 +10,7 @@ describe('BaseGrid.keyToCoor', function(){
   it('should return correct coordinate', function(){
     const expected = { x:2, y:3};
     const actual = BaseGrid.keyToCoor({key:'x2y3'});
-    expected.should.deep.equal(actual);
+    actual.should.deep.equal(expected);
   });
 });
 
@@ -18,7 +18,7 @@ describe('BaseGrid.coorToKey', function(){
   it('should return correct key', function(){
     const expected = 'x2y3';
     const actual = BaseGrid.coorToKey({x:2,y:3});
-    expected.should.deep.equal(actual);
+    actual.should.deep.equal(expected);
   });
 });
 
@@ -37,7 +37,7 @@ describe('BaseGrid constructor', function(){
     const baseGrid = new BaseGrid({
       gridState,
     });
-    gridState.should.deep.equal(baseGrid._gridState);
+    baseGrid._gridState.should.deep.equal(gridState);
   });
 
 });
@@ -60,7 +60,7 @@ describe('BaseGrid._getCoordinateWith', function(){
 
     const expectedCoordinate = {x:1,y:0};
     const actualCoordinate = baseGrid._getCoordinateWith({propName: 'isStart'});
-    expectedCoordinate.should.deep.equal(expectedCoordinate);
+    actualCoordinate.should.deep.equal(expectedCoordinate);
 
   });
 
@@ -80,7 +80,7 @@ describe('BaseGrid._getGridKeys', function(){
     const expectedKeys = ['x0y0', 'x1y0', 'x0y1', 'x1y1'];
     const actualKeys = baseGrid._getGridKeys();
 
-    expectedKeys.should.deep.equal(actualKeys);
+    actualKeys.should.deep.equal(expectedKeys);
 
   });
 

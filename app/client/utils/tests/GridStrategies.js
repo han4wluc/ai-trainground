@@ -1,6 +1,5 @@
 
 
-import * as Calc from '../Calc';
 import chai from 'chai';
 import * as GridStrategies from '../GridStrategies';
 const should = chai.should();
@@ -13,7 +12,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
 
     const actual = GridStrategies._computeManhattanDistance({start,end});
     const expected = 0;
-    actual.should.equal(expected);
+    expected.should.equal(actual);
 
   });
 
@@ -23,7 +22,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
 
     const actual = GridStrategies._computeManhattanDistance({start,end});
     const expected = 0;
-    actual.should.equal(expected);
+    expected.should.equal(actual);
 
   });
 
@@ -33,7 +32,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
 
     const actual = GridStrategies._computeManhattanDistance({start,end});
     const expected = 2;
-    expected.should.equal(actual);
+    actual.should.equal(expected);
 
   });
 
@@ -43,7 +42,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
 
     const actual = GridStrategies._computeManhattanDistance({start,end});
     const expected = 1;
-    expected.should.equal(actual);
+    actual.should.equal(expected);
   });
 
   it('should return correct horizontal distance', function(){
@@ -52,7 +51,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
 
     const actual = GridStrategies._computeManhattanDistance({start,end});
     const expected = 1;
-    expected.should.equal(actual);
+    actual.should.equal(expected);
   });
 
   it('should return distance 0', function(){
@@ -61,7 +60,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
 
     const actual = GridStrategies._computeManhattanDistance({start,end});
     const expected = 0;
-    expected.should.equal(actual);
+    actual.should.equal(expected);
 
   });
 });
@@ -70,8 +69,8 @@ describe('GridStrategies.BFS', function(){
   it('should do FIFO', function(){
     const finges = [1,2,3];
     const [actualNode, actualFinges] = GridStrategies.BFS({finges});
-    (1).should.equal(actualNode);
-    [2,3].should.deep.equal(actualFinges);
+    actualNode.should.equal(1);
+    actualFinges.should.deep.equal([2,3]);
   });
 });
 
@@ -79,8 +78,8 @@ describe('GridStrategies.DFS', function(){
   it('should do FILO', function(){
     const finges = [1,2,3];
     const [actualNode, actualFinges] = GridStrategies.DFS({finges});
-    (3).should.equal(actualNode);
-    [1,2].should.deep.equal(actualFinges);
+    (actualNode).should.equal(3);
+    actualFinges.should.deep.equal([1,2]);
   });
 });
 
@@ -91,8 +90,8 @@ describe('GridStrategies.greedy', function(){
     const node3 = { heuristic: 2 };
     const finges = [node1, node2, node3];
     const [actualNode, actualFinges] = GridStrategies.greedy({finges});
-    node2.should.deep.equal(actualNode);
-    [node1,node3].should.deep.equal(actualFinges);
+    actualNode.should.deep.equal(node2);
+    actualFinges.should.deep.equal([node1,node3]);
   });
 });
 
@@ -103,8 +102,8 @@ describe('GridStrategies.uniform', function(){
     const node3 = { cost: 3 };
     const finges = [node1, node2, node3];
     const [actualNode, actualFinges] = GridStrategies.uniform({finges});
-    node2.should.deep.equal(actualNode);
-    [node1,node3].should.deep.equal(actualFinges);
+    actualNode.should.deep.equal(node2);
+    actualFinges.should.deep.equal([node1,node3]);
   });
 });
 
@@ -115,8 +114,8 @@ describe('GridStrategies.astar', function(){
     const node3 = { heuristic: 1, cost: 3 }; // total 4
     const finges = [node1, node2, node3];
     const [actualNode, actualFinges] = GridStrategies.astar({finges});
-    node2.should.deep.equal(actualNode);
-    [node1,node3].should.deep.equal(actualFinges);
+    actualNode.should.deep.equal(node2);
+    actualFinges.should.deep.equal([node1,node3]);
   });
 });
 

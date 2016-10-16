@@ -1,5 +1,5 @@
 
-import SearchTree from '../SearchTree';
+import SearchTree from '../searchTree';
 import chai from 'chai';
 const should = chai.should();
 
@@ -26,7 +26,7 @@ describe('SearchTree.generateInitialGridState', function(){
 
     const actualKeys = Object.keys(actualGridState);
 
-    expectedKeys.should.deep.equal(actualKeys);
+    actualKeys.should.deep.equal(expectedKeys);
 
   });
 });
@@ -52,7 +52,7 @@ describe('SearchTree._getStartCoordinate', function(){
     const actualCoordinate = searchTree._getStartCoordinate();
 
     const expectedCoordinate = { x: 3, y: 2};
-    expectedCoordinate.should.deep.equal(actualCoordinate);
+    actualCoordinate.should.deep.equal(expectedCoordinate);
 
   });
 
@@ -75,7 +75,7 @@ describe('SearchTree._getGoalCoordinate', function(){
     const actualCoordinate = searchTree._getGoalCoordinate();
 
     const expectedCoordinate = { x: 3, y: 2};
-    expectedCoordinate.should.deep.equal(actualCoordinate);
+    actualCoordinate.should.deep.equal(expectedCoordinate);
 
   });
 
@@ -97,7 +97,7 @@ describe('SearchTree._isGoalState', function(){
 
     const coordinate = { x:3, y:2 };
     const actual = searchTree._isGoalState({coordinate});
-    true.should.equal(actual);
+    actual.should.equal(true);
 
   });
 
@@ -115,7 +115,7 @@ describe('SearchTree._isGoalState', function(){
 
     const coordinate = { x:2, y:2 };
     const actual = searchTree._isGoalState({coordinate});
-    false.should.equal(actual);
+    actual.should.equal(false);
 
   });
 
@@ -134,7 +134,7 @@ describe('SearchTree._getCost', function(){
     });
     let coordinate;
     const actual = searchTree._getCost({ coordinate });
-    (0).should.equal(actual);
+    actual.should.equal(0);
   });
 
   it('should return 1', function(){
@@ -147,7 +147,7 @@ describe('SearchTree._getCost', function(){
     });
     const coordinate = {x:1,y:1};
     const actual = searchTree._getCost({ coordinate });
-    (1).should.equal(actual);
+    actual.should.equal(1);
   });
 
 });
