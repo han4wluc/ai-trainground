@@ -2,145 +2,7 @@
 import _ from 'lodash';
 import * as Calc from './Calc';
 import BaseGrid from './BaseGrid';
-
-const computeCost = function(params){
-  const {coordinate, gridState} = params;
-  // console.log('coordinate', coordinate)
-  const key = SearchTree.coorToKey(coordinate);
-  const cost = gridState[key].cost;
-  return cost;
-};
-
-const mapCosts = function(gridState, l){
-  let cost = 0;
-  const { coordinate, path }=l;
-  cost = cost + computeCost({coordinate, gridState});
-  let cost2 = 0;
-  path.forEach((p)=>{
-    cost2 = cost2 + computeCost({coordinate:p, gridState});
-  });
-  return cost + cost2;
-};
-
-const strategies = {
-
-  /**
-   * Breadth First Search, use a queue. First In First Out
-   */
-  BFS: function({ finges }){
-    const node = finges[0];
-    return [node, finges.slice(1,finges.length)];
-  },
-
-  /**
-   * Depth First Search, use a stack. First In Last Out
-   */
-  DFS: function({ finges }){
-    const length = finges.length;
-    const node = finges[length-1];
-    return [node, finges.slice(0,finges.length-1)];
-  },
-
-  /**
-   * Greedy search, go for the node with lowest heuristic
-   */
-  greedy: function({ finges, goalCoordinate }){
-
-    let index = 0;
-    let value = undefined;
-
-    finges.forEach((q, i)=>{
-      const distance = Calc.computeManhattanDistance({
-        start: q.coordinate,
-        end: goalCoordinate
-      });
-      if(value === undefined || distance < value){
-        value = distance;
-        index = i;
-      }
-    });
-
-    const node = finges[index];
-    return [
-      node,
-      [
-        ...finges.slice(0,index),
-        ...finges.slice(index+1,finges.length)
-      ]
-    ];
-  },
-
-  /**
-   * Uniform Search, go for the node with lowest cost
-   */
-  uniform: function({ finges, gridState }){
-    const costs = finges.map(mapCosts.bind(null,gridState));
-
-    let index = 0;
-    let value = undefined;
-    costs.forEach((c, i)=>{
-      if( value === undefined || c < value){
-        value = c;
-        index = i;
-      }
-    });
-
-    const node = finges[index];
-    return [
-      node,
-      [
-        ...finges.slice(0,index),
-        ...finges.slice(index+1,finges.length)
-      ]
-    ];
-
-  },
-
-  /**
-   * A* Search, combine cost and heuristic.
-   */
-  astar: function({ finges, gridState, goalCoordinate }){
-
-    const distances = finges.map((l)=>{
-      return Calc.computeManhattanDistance({
-        start: l.coordinate,
-        end: goalCoordinate
-      });
-    });
-
-    // console.log('distances', distances);
-
-    const costs = finges.map(mapCosts.bind(null,gridState));
-
-    // console.log('costs', costs);
-
-    const heuristics = distances.map((d,i)=>{
-      const c = costs[i];
-      return d + c;
-    });
-
-    let index = 0;
-    let value = undefined;
-    heuristics.forEach((h, i)=>{
-      if(value === undefined || h < value){
-        index = i;
-        value = h;
-      }
-    });
-
-    const node = finges[index];
-    return [
-      node,
-      [
-        ...finges.slice(0,index),
-        ...finges.slice(index+1,finges.length)
-      ]
-    ];
-
-  }
-};
-
-
+import * as GridStrategies from './GridStrategies';
 
 class SearchTree extends BaseGrid{
 
@@ -189,6 +51,7 @@ class SearchTree extends BaseGrid{
    * @return goal coordinate
    */
   _getCost({ coordinate }){
+    if(!coordinate){ return 0; }
     const key = SearchTree.coorToKey(coordinate);
     const cost = this._gridState[key].cost;
     return cost;
@@ -220,6 +83,7 @@ class SearchTree extends BaseGrid{
     this._queue = [{
       coordinate: start,
       path: [],
+      cost: this._getCost({coordinate:start}),
     }];
   }
 
@@ -240,7 +104,7 @@ class SearchTree extends BaseGrid{
   next({ strategy }){
 
     let node;
-    const algorithmFunction = strategies[strategy];
+    const algorithmFunction = GridStrategies[strategy];
 
     // no more expandable nodes. return search has no solution.
     if(this._queue.length === 0){
@@ -296,7 +160,8 @@ class SearchTree extends BaseGrid{
       .map((f)=>{
         return {
           coordinate: f,
-          path: newPath
+          path: newPath,
+          cost: this._getCost({coordinate:f})
         };
       });
 

@@ -64,7 +64,7 @@ describe('GridStrategies.DFS', function(){
 });
 
 describe('GridStrategies.greedy', function(){
-  it('should do DFS', function(){
+  it('should do greedy', function(){
     const node1 = { coordinate: { x:0, y:0 } };
     const node2 = { coordinate: { x:1, y:0 } };
     const node3 = { coordinate: { x:0, y:1 } };
@@ -75,5 +75,28 @@ describe('GridStrategies.greedy', function(){
   });
 });
 
+describe('GridStrategies.uniform', function(){
+  it('should do uniform', function(){
+    const node1 = { coordinate: { x:0, y:0 }, cost: 2 };
+    const node2 = { coordinate: { x:1, y:0 }, cost: 1 };
+    const node3 = { coordinate: { x:0, y:1 }, cost: 3 };
+    const finges = [node1, node2, node3];
+    const goalCoordinate = { x:1, y:1 };
+    const [actualNode, actualFinges] = GridStrategies.uniform({finges});
+    node2.should.deep.equal(actualNode);
+  });
+});
+
+describe('GridStrategies.astar', function(){
+  it('should do astar', function(){
+    const node1 = { coordinate: { x:0, y:0 }, cost: 2 }; // distance 2
+    const node2 = { coordinate: { x:1, y:0 }, cost: 1 }; // distance 1
+    const node3 = { coordinate: { x:0, y:1 }, cost: 3 }; // distance 1
+    const finges = [node1, node2, node3];
+    const goalCoordinate = { x:1, y:1 };
+    const [actualNode, actualFinges] = GridStrategies.uniform({finges});
+    node2.should.deep.equal(actualNode);
+  });
+});
 
 

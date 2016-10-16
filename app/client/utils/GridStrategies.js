@@ -17,25 +17,6 @@ const _computeManhattanDistance = function(params){
   return horizontalDistance + verticalDistance;
 };
 
-const computeCost = function(params){
-  const {coordinate, gridState} = params;
-  // console.log('coordinate', coordinate)
-  const key = SearchTree.coorToKey(coordinate);
-  const cost = gridState[key].cost;
-  return cost;
-};
-
-const mapCosts = function(gridState, l){
-  let cost = 0;
-  const { coordinate, path }=l;
-  cost = cost + computeCost({coordinate, gridState});
-  let cost2 = 0;
-  path.forEach((p)=>{
-    cost2 = cost2 + computeCost({coordinate:p, gridState});
-  });
-  return cost + cost2;
-};
-
 /**
  * Breadth First Search, use a queue. First In First Out
  */
@@ -79,55 +60,39 @@ const greedy = function({ finges, goalCoordinate }){
 /**
  * Uniform Search, go for the node with lowest cost
  */
-const uniform = function({ finges, gridState }){
-  const costs = finges.map(mapCosts.bind(null,gridState));
-
-  let index = 0;
-  let value = undefined;
-  costs.forEach((c, i)=>{
-    if( value === undefined || c < value){
-      value = c;
-      index = i;
-    }
+const uniform = function({ finges }){
+  const costs = finges.map((cell, i) => {
+    return cell.cost;
   });
+  const min = Math.min(...costs);
+  const minIndex = costs.indexOf(min);
 
-  const node = finges[index];
+  const node = finges[minIndex];
   return [
     node,
     [
-      ...finges.slice(0,index),
-      ...finges.slice(index+1,finges.length)
+      ...finges.slice(0,minIndex),
+      ...finges.slice(minIndex+1,finges.length)
     ]
   ];
-
 };
 
 /**
  * A* Search, combine cost and heuristic.
  */
 const astar = function({ finges, gridState, goalCoordinate }){
-  const distances = finges.map((l)=>{
-    return Calc.computeManhattanDistance({
-      start: l.coordinate,
+  const heuristicsCosts = finges.map((cell, i) => {
+    const distance = _computeManhattanDistance({
+      start: cell.coordinate,
       end: goalCoordinate
     });
-  });
-  const costs = finges.map(mapCosts.bind(null,gridState));
-  const heuristics = distances.map((d,i)=>{
-    const c = costs[i];
-    return d + c;
+    return distance + cell.cost;
   });
 
-  let index = 0;
-  let value = undefined;
-  heuristics.forEach((h, i)=>{
-    if(value === undefined || h < value){
-      index = i;
-      value = h;
-    }
-  });
+  const min = Math.min(...heuristicsCosts);
+  const minIndex = heuristicsCosts.indexOf(min);
+  const node = finges[minIndex];
 
-  const node = finges[index];
   return [
     node,
     [

@@ -42,7 +42,8 @@ const changeGrid = function({ gridName, searchTree }){
  */
 const computeAndDisplay = function({ gridState }) {
 
-  const resultTable = ['BFS', 'DFS', 'greedy', 'uniform', 'astar'].map((strategy)=>{
+  // const resultTable = ['BFS', 'DFS', 'greedy', 'uniform', 'astar'].map((strategy)=>{
+  const resultTable = ['greedy'].map((strategy)=>{
     const searchTree = new SearchTree({
       gridState,
       strategy,

@@ -124,6 +124,19 @@ describe('SearchTree._isGoalState', function(){
 
 describe('SearchTree._getCost', function(){
 
+  it('should return 0', function(){
+    const gridState = {
+      x0y0: {}, x1y0: {},
+      x0y1: {}, x1y1: {cost:1},
+    };
+    const searchTree = new SearchTree({
+      gridState,
+    });
+    let coordinate;
+    const actual = searchTree._getCost({ coordinate });
+    (0).should.equal(actual);
+  });
+
   it('should return 1', function(){
     const gridState = {
       x0y0: {}, x1y0: {},
