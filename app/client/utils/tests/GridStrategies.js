@@ -4,13 +4,13 @@ import chai from 'chai';
 import * as GridStrategies from '../GridStrategies';
 const should = chai.should();
 
-describe('GridStrategies._computeManhattanDistance', function(){
+describe('GridStrategies.computeManhattanDistance', function(){
 
   it('should return 0', function(){
     let start;
     const end   = { x:2, y:2 };
 
-    const actual = GridStrategies._computeManhattanDistance({start,end});
+    const actual = GridStrategies.computeManhattanDistance({start,end});
     const expected = 0;
     expected.should.equal(actual);
 
@@ -20,7 +20,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
     const start = { x:1, y:1 };
     let end;
 
-    const actual = GridStrategies._computeManhattanDistance({start,end});
+    const actual = GridStrategies.computeManhattanDistance({start,end});
     const expected = 0;
     expected.should.equal(actual);
 
@@ -30,7 +30,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
     const start = { x:1, y:1 };
     const end   = { x:2, y:2 };
 
-    const actual = GridStrategies._computeManhattanDistance({start,end});
+    const actual = GridStrategies.computeManhattanDistance({start,end});
     const expected = 2;
     actual.should.equal(expected);
 
@@ -40,7 +40,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
     const start = { x:1, y:1 };
     const end   = { x:1, y:2 };
 
-    const actual = GridStrategies._computeManhattanDistance({start,end});
+    const actual = GridStrategies.computeManhattanDistance({start,end});
     const expected = 1;
     actual.should.equal(expected);
   });
@@ -49,7 +49,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
     const start = { x:1, y:1 };
     const end   = { x:2, y:1 };
 
-    const actual = GridStrategies._computeManhattanDistance({start,end});
+    const actual = GridStrategies.computeManhattanDistance({start,end});
     const expected = 1;
     actual.should.equal(expected);
   });
@@ -58,7 +58,7 @@ describe('GridStrategies._computeManhattanDistance', function(){
     const start = { x:1, y:1 };
     const end   = { x:1, y:1 };
 
-    const actual = GridStrategies._computeManhattanDistance({start,end});
+    const actual = GridStrategies.computeManhattanDistance({start,end});
     const expected = 0;
     actual.should.equal(expected);
 

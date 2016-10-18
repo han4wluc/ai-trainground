@@ -1,8 +1,8 @@
 
 import BaseGrid from './BaseGrid';
-import SearchTree from './SearchTree';
+import SearchTree from './searchTree';
 
-const _computeManhattanDistance = function({ start, end }){
+const computeManhattanDistance = function({ start, end }){
   if(!start || !end){ return 0; }
   const {
     x: sx,
@@ -95,10 +95,8 @@ const astar = function({ finges }){
   ];
 };
 
-const computeManhattanDistance = _computeManhattanDistance;
 
 export {
-  _computeManhattanDistance,
   computeManhattanDistance,
   BFS,
   DFS,
