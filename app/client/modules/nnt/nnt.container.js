@@ -13,12 +13,17 @@ class NntContainer extends Component {
 
   _renderTasks({tasks,submissionRequestAction}){
     return tasks.map((task, i)=>{
+      const marginTop = i === 0 ? 0 : 16;
       return (
         <Task
           key={`Task${i}`}
+          editorId={`Task${i}`}
           index={i}
           {...task}
           submissionRequestAction={submissionRequestAction}
+          style={{
+            marginTop,
+          }}
         />
       );
     });
@@ -27,9 +32,6 @@ class NntContainer extends Component {
   render(){
 
     const {
-      textValue,
-      response,
-      message,
       tasks,
     } = this.props.state;
 
@@ -41,6 +43,7 @@ class NntContainer extends Component {
 
     return (
       <div style={{flex:1}}>
+        <h1> {'Linear Regression'} </h1>
         {tasksComps}
       </div>
     );

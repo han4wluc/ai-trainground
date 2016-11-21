@@ -15,7 +15,8 @@ export default class Chooser extends Component {
   }
 
   componentDidMount() {
-    this.editor = ace.edit("editor");
+    const { editorId } = this.props;
+    this.editor = ace.edit(editorId);
     this.editor.setTheme("ace/theme/monokai");
     this.editor.getSession().setMode("ace/mode/python");       
   }
@@ -27,6 +28,7 @@ export default class Chooser extends Component {
     const {
       submissionRequestAction,
       index,
+      url,
     } = this.props;
 
     // console.log('submissionRequestAction', submissionRequestAction)
@@ -34,6 +36,7 @@ export default class Chooser extends Component {
     submissionRequestAction({
       textValue: this.editor.getValue(),
       index,
+      url,
     });
   }
 
@@ -47,10 +50,15 @@ export default class Chooser extends Component {
       status,
       statusMessage,
       url,
+      editorId,
+      style,
     } = this.props;
 
     return (
-      <div style={{flex:1}}>
+      <div style={{
+        flex:1,
+        ...style,
+      }}>
         <div
           style={{
             display: 'flex',
@@ -88,10 +96,10 @@ export default class Chooser extends Component {
             }}
           >
           <div
-            id="editor"
+            id={editorId}
             style={{
               flex:1,
-              height: '100px',
+              height: '200px',
             }}
           >{codePlaceholder}</div>
 
@@ -102,7 +110,7 @@ export default class Chooser extends Component {
           style={{
             display: 'flex',
             flex: 1,
-            height: '200px',
+            height: '100px',
           }}
         >
           <div>

@@ -12,7 +12,7 @@ export function updateTextValue({ textValue }) {
   };
 }
 
-export function submissionRequestAction({ textValue, index }){
+export function submissionRequestAction({ textValue, index, url }){
   // const {
   //   state,
   // } = params;
@@ -22,7 +22,7 @@ export function submissionRequestAction({ textValue, index }){
     // console.log('bbbbb')
     // console.log('getState', getState);
     // return await submissionRequest();
-    const res = await submissionRequest({textValue});
+    const res = await submissionRequest({textValue, url});
     console.log('res', res);
 
     const { tasks } = getState().nnt;

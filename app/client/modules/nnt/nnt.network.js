@@ -1,7 +1,7 @@
 
 import request from 'browser-request';
 
-const submissionRequest = function({ textValue }){
+const submissionRequest = function({ textValue, url }){
   return new Promise((resolve, reject) => {
     request({
       method: 'POST',
@@ -9,7 +9,8 @@ const submissionRequest = function({ textValue }){
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
-      url: 'http://localhost:3000',
+      url,
+      // url: 'http://localhost:3000',
       body: {
         inpt: textValue
       },
