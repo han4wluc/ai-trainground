@@ -18,7 +18,7 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history}>
           <Route path="/" component={containers['nav']}>
-            <IndexRedirect to="/grid" />
+            <IndexRedirect to="/nnt" />
             <Route path="grid" component={containers['grid']}/>
             <Route path="nine" component={containers['nine']}/>
             <Route path="ttt" component={containers['ttt']}/>
@@ -26,6 +26,8 @@ class App extends Component {
             <Route path="maze" component={containers['maze']}/>
             <Route path="mdp" component={containers['mdp']}/>
             <Route path="miniMaze" component={containers['miniMaze']}/>
+            <Route path="nn" component={containers['nn']}/>
+            <Route path="nnt" component={containers['nnt']}/>
           </Route>
         </Router>
       </Provider>

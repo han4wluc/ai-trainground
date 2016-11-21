@@ -25,6 +25,11 @@ class NavContainer extends Component {
         <Link to="/mdp">mdp</Link>
         {'   '}
         <Link to="/miniMaze">miniMaze</Link>
+        {'   '}
+        <Link to="/nn">Neural Network</Link>
+        {'   '}
+        <Link to="/nnt">Practice</Link>
+        <br/>
         <br/>
         <br/>
 

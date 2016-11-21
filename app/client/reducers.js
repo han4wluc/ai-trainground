@@ -7,6 +7,8 @@ import border from './modules/border/border.reducer';
 import maze from './modules/maze/maze.reducer';
 import mdp from './modules/mdp/mdp.reducer';
 import miniMaze from './modules/miniMaze/miniMaze.reducer';
+import nn from './modules/nn/nn.reducer';
+import nnt from './modules/nnt/nnt.reducer';
 /**YEOMAN_HOOK_1**/
 
 export {
@@ -18,5 +20,7 @@ export {
   maze,
   mdp,
   miniMaze,
+  nn,
+  nnt,
   /**YEOMAN_HOOK_2**/
 };
