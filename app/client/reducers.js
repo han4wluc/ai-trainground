@@ -8,14 +8,8 @@ import maze from './modules/maze/maze.reducer';
 import mdp from './modules/mdp/mdp.reducer';
 import miniMaze from './modules/miniMaze/miniMaze.reducer';
 import nn from './modules/nn/nn.reducer';
-// import nnt from './modules/nnt/nnt.reducer';
-import * as nnt from './modules/nnt/reducers';
-
-const {
-  nntLinearRegression,
-  nntLogisticRegression,
-} = nnt;
-
+import pracLinReg from './modules/pracLinReg/pracLinReg.reducer';
+import pracLogReg from './modules/pracLogReg/pracLogReg.reducer';
 /**YEOMAN_HOOK_1**/
 
 export {
@@ -28,8 +22,7 @@ export {
   mdp,
   miniMaze,
   nn,
-  // nnt,
-  nntLinearRegression,
-  nntLogisticRegression,
+  pracLinReg,
+  pracLogReg,
   /**YEOMAN_HOOK_2**/
 };

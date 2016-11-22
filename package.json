@@ -15,7 +15,7 @@
   "scripts": {
     "test": "mocha ./app/tests.js",
     "dev": "webpack-dev-server --config webpack.client.config.js --hot --host 0.0.0.0",
-    "flask": "python app/server/flask_one/index.py",
+    "flask": "python ./flask/index.py",
     "test-flask": "python -m unittest discover -p \"test_*.py\"",
     "build": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --config webpack.client.config.js"
   },
@@ -26,6 +26,7 @@
     "json-loader": "^0.5.4",
     "mathjs": "^3.7.0",
     "radium": "^0.17.1",
+    "raw-loader": "^0.5.1",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-redux": "^4.4.0",

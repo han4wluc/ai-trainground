@@ -8,8 +8,8 @@ import maze from './modules/maze/maze.container';
 import mdp from './modules/mdp/mdp.container';
 import miniMaze from './modules/miniMaze/miniMaze.container';
 import nn from './modules/nn/nn.container';
-// import nnt from './modules/nnt/nnt.container';
-import * as nnt from './modules/nnt/containers';
+import pracLinReg from './modules/pracLinReg/pracLinReg.container';
+import pracLogReg from './modules/pracLogReg/pracLogReg.container';
 /**YEOMAN_HOOK_1**/
 
 export default {
@@ -22,6 +22,8 @@ export default {
   mdp,
   miniMaze,
   nn,
-  nnt,
+  // nnt,
+  pracLinReg,
+  pracLogReg,
   /**YEOMAN_HOOK_2**/
 };
