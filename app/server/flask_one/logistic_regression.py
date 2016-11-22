@@ -21,7 +21,10 @@ def test_sigmoid(sigmoid):
   np.testing.assert_almost_equal(sigmoid(z), expected, decimal=4)
 
 
-def test_compute_cost(self):
+
+
+
+def test_compute_cost(compute_cost):
   X = np.array([[8, 1, 6],
                 [3, 5, 7],
                 [4, 9, 2],
@@ -41,7 +44,7 @@ def test_compute_cost(self):
   expectedTheta = np.array([[1.7760],
                             [2.3988],
                             [1.9464]])
-  actualJ = cost_function(X, y, theta)
+  actualJ = compute_cost(X, y, theta)
   # [actualJ, actualTheta] = LR.costFunction(X, y, theta)
   np.testing.assert_almost_equal(actualJ, expectedJ, decimal=4)
   # np.testing.assert_almost_equal(actualTheta, expectedTheta, decimal=4)

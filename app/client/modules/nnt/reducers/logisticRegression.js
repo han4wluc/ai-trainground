@@ -1,20 +1,29 @@
 
 const tasks = [{
+  title: 'Sigmoid',
+  description: 'description',
+  formula: 'g(z) = \\frac{1}{1+e^{-z}}',
+  codePlaceholder: `def sigmoid(z):
+  return # Your Code Here`,
+  url: 'http://localhost:3000/logistic-regression/sigmoid',
+  status: 'Waiting',
+  statusMessage: '',
+}, {
   title: 'Hypothesis',
   description: 'description',
-  formula: 'h_\\theta(x) = \\theta x',
+  formula: 'h_\\theta(x) = \\frac{1}{1+e^{-\\Theta^{T}x}}',
   codePlaceholder: `def hypothesis(X, theta):
   return # Your Code Here`,
-  url: 'http://localhost:3000/linear-regression/hypothesis',
+  url: 'http://localhost:3000/logistic-regression/hypothesis',
   status: 'Waiting',
   statusMessage: '',
 }, {
   title: 'Cost Function',
   description: 'description',
-  formula: 'J(\\Theta) = \\frac{1}{2m}\\sum_{i=1}^{m}(h_\\theta(x^{(i)})-y^{(i)})^{2}',
+  formula: 'J(\\theta) = -\\frac{1}{m}[\\sum_{i=1}^{m}y^{(i)}log(h_\\theta(x^{(i)}))+(1-y^{(i)})log (1-h_\\theta(x^{(i)}))]',
   codePlaceholder: `def compute_cost(X, y, theta):
   return # Your Code Here`,
-  url: 'http://localhost:3000/linear-regression/compute-cost',
+  url: 'http://localhost:3000/logistic-regression/compute-cost',
   status: 'Waiting',
   statusMessage: '',
 }, {

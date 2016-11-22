@@ -22,3 +22,4 @@ Work on progress
 * `npm run dev`
 * open your browser at `http://localhost:8080/webpack-dev-server/`
 
+* `npm run flask` to start the flask server
