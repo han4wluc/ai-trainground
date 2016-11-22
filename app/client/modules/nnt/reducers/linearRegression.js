@@ -53,14 +53,14 @@ const initialState = {
 
 export default function moduleName(state = initialState, action = {}){
 
-  if(action.type === 'NNT_SET_STATE'){
+  if(action.type === 'NNT_LINEAR_REGRESSION_SET_STATE'){
     return {
       ...state,
       ...action.props,
     };
   }
 
-  if(action.type === 'NNT_RESET_TO_INITIAL_STATE'){
+  if(action.type === 'NNT_LINEAR_REGRESSION_RESET_TO_INITIAL_STATE'){
     return initialState;
   }
 

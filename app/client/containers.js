@@ -8,7 +8,8 @@ import maze from './modules/maze/maze.container';
 import mdp from './modules/mdp/mdp.container';
 import miniMaze from './modules/miniMaze/miniMaze.container';
 import nn from './modules/nn/nn.container';
-import nnt from './modules/nnt/nnt.container';
+// import nnt from './modules/nnt/nnt.container';
+import * as nnt from './modules/nnt/containers';
 /**YEOMAN_HOOK_1**/
 
 export default {

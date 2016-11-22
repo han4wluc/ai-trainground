@@ -3,56 +3,33 @@ import {
   submissionRequest
 } from './nnt.network';
 
-export function updateTextValue({ textValue }) {
-  return {
-    type: 'NNT_SET_STATE',
-    props: {
-      textValue,
-    }
-  };
-}
-
-export function submissionRequestAction({ textValue, index, url }){
-  // const {
-  //   state,
-  // } = params;
-  // console.log('aaaaa')
+export function submissionRequestAction({ textValue, index, url, name, baseAction }){
 
   return async (dispatch, getState) => {
-    // console.log('bbbbb')
-    // console.log('getState', getState);
-    // return await submissionRequest();
     const res = await submissionRequest({textValue, url});
-    console.log('res', res);
 
-    const { tasks } = getState().nnt;
+    const { tasks } = getState()[name];
     tasks[index].statusMessage = res.message;
 
     if(res.success === true){
-      console.log('aaaaa')
+      // console.log('aaaaa')
       tasks[index].status = 'CORRECT';
       dispatch({
-        type: 'NNT_SET_STATE',
+        type: `${baseAction}_SET_STATE`,
         props: {
           tasks,
-          // response: 'CORRECT',
-          // message: res.message,
         }
       });
     } else {
-      console.log('bbbbb');
+      // console.log('bbbbb', `${baseAction}_SET_STATE`);
       tasks[index].status = 'WRONG';
       dispatch({
-        type: 'NNT_SET_STATE',
+        type: `${baseAction}_SET_STATE`,
         props: {
           tasks,
-          // response: 'WRONG',
-          // message: res.message,
         }
       });
     }
 
-
-    // return Promise.resolve(res);
   };
 }

@@ -1,23 +1,25 @@
 
 import React, { Component } from 'react';
-import * as nntActions from './nnt.action';
-import { Utils, } from '../../';
+import * as nntActions from '../nnt.action';
+import { Utils, } from '../../../';
 
 import {
   Task
-} from './comps';
+} from '../comps';
 
 const { Setup } = Utils;
 
 class NntContainer extends Component {
 
-  _renderTasks({tasks,submissionRequestAction}){
+  _renderTasks({tasks,submissionRequestAction, name, baseAction}){
     return tasks.map((task, i)=>{
       const marginTop = i === 0 ? 0 : 16;
       return (
         <Task
           key={`Task${i}`}
           editorId={`Task${i}`}
+          name={name}
+          baseAction={baseAction}
           index={i}
           {...task}
           submissionRequestAction={submissionRequestAction}
@@ -39,7 +41,12 @@ class NntContainer extends Component {
       submissionRequestAction,
     } = this.props.actions;
 
-    const tasksComps = this._renderTasks({tasks,submissionRequestAction});
+    const tasksComps = this._renderTasks({
+      tasks,
+      submissionRequestAction,
+      name: 'nntLinearRegression',
+      baseAction: 'NNT_LINEAR_REGRESSION',
+    });
 
     return (
       <div style={{flex:1}}>
@@ -50,4 +57,4 @@ class NntContainer extends Component {
   }
 }
 
-export default Setup.customConnect('nnt', nntActions, NntContainer);
+export default Setup.customConnect('nntLinearRegression', nntActions, NntContainer);

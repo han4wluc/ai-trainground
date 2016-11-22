@@ -42,12 +42,12 @@ def route_linear_compute_cost():
 """
 Logistic Regression
 """
-@app.route('logistic-regression/hypothesis', methods = ['POST'])
+@app.route('/logistic-regression/hypothesis', methods = ['POST'])
 def route_logistic_hypothesis():
   inpt = request.json[u'inpt']
   return perform_test(inpt, logistic_regression.test_sigmoid, 'sigmoid')
 
-@app.route('logistic-regression/compute-cost', methods = ['POST'])
+@app.route('/logistic-regression/compute-cost', methods = ['POST'])
 def route_logistic_compute_cost():
   inpt = request.json[u'inpt']
   return perform_test(inpt, logistic_regression.test_compute_cost, 'compute_cost')

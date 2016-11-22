@@ -29,14 +29,20 @@ export default class Chooser extends Component {
       submissionRequestAction,
       index,
       url,
+      name,
+      baseAction,
     } = this.props;
 
     // console.log('submissionRequestAction', submissionRequestAction)
+
+    console.log('name1', name);
 
     submissionRequestAction({
       textValue: this.editor.getValue(),
       index,
       url,
+      name,
+      baseAction,
     });
   }
 

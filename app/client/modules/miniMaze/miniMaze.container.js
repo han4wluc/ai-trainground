@@ -4,13 +4,10 @@ import * as miniMazeActions from './miniMaze.action';
 import { Utils, Comps, Events } from '../../';
 import _ from 'lodash';
 
-// const { keyDown } = Events;
 const { Setup } = Utils;
 const { CommonGrid } = Comps;
 import { MiniMazeCell } from './comps';
 import { MiniMazeSearch } from './utils';
-
-console.log('MiniMazeSearch', MiniMazeSearch);
 
 class MiniMazeContainer extends Component {
 

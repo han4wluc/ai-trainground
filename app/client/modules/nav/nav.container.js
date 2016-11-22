@@ -28,7 +28,9 @@ class NavContainer extends Component {
         {'   '}
         <Link to="/nn">Neural Network</Link>
         {'   '}
-        <Link to="/nnt">Practice</Link>
+        <Link to="/nnt/linear-regression">Linear Regression</Link>
+        {'   '}
+        <Link to="/nnt/logistic-regression">Logistic Regression</Link>
         <br/>
         <br/>
         <br/>

@@ -18,7 +18,7 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history}>
           <Route path="/" component={containers['nav']}>
-            <IndexRedirect to="/nnt" />
+            <IndexRedirect to="/nnt/linear-regression" />
             <Route path="grid" component={containers['grid']}/>
             <Route path="nine" component={containers['nine']}/>
             <Route path="ttt" component={containers['ttt']}/>
@@ -27,7 +27,8 @@ class App extends Component {
             <Route path="mdp" component={containers['mdp']}/>
             <Route path="miniMaze" component={containers['miniMaze']}/>
             <Route path="nn" component={containers['nn']}/>
-            <Route path="nnt" component={containers['nnt']}/>
+            <Route path="nnt/linear-regression" component={containers['nnt']['LinearRegression']}/>
+            <Route path="nnt/logistic-regression" component={containers['nnt']['LogisticRegression']}/>
           </Route>
         </Router>
       </Provider>
