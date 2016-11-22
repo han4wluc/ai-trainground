@@ -21,30 +21,40 @@ const tasks = [{
   title: 'Cost Function With Regularization',
   description: 'description',
   formula: 'J(\\theta) = \\frac{1}{2m}[\\sum_{i=1}^{m}(h_\\theta(x^{(i)})-y^{(i)})^{2} + \\lambda\\sum_{i=1}^{n}\\theta_j^{2} ]',
-  codePlaceholder: `def compute_cost_with_reg(X, y, theta, reg_lambda):
+  codePlaceholder: `def compute_cost_reg(X, y, theta, reg_lambda):
   return # Your Code Here`,
-  url: 'http://localhost:3000',
+  url: 'http://localhost:3000/linear-regression/compute-cost-reg',
+  status: 'Waiting',
+  statusMessage: '',
+}, {
+  title: 'Gradient',
+  description: 'description',
+  formula: 'Gradient = \\frac{1}{m}\\sum_{i=1}^{m}(h_\\theta(x^{(i)})-y^{(i)})x_j^{(i)}',
+  codePlaceholder: `def compute_gradient(X, y, theta):
+  return # Your Code Here`,
+  url: 'http://localhost:3000/linear-regression/compute-gradient',
+  status: 'Waiting',
+  statusMessage: '',
+}, {
+  title: 'Gradient with Regularization',
+  description: 'description',
+  formula: 'Gradient = \\frac{1}{m}[\\sum_{i=1}^{m}(h_\\theta(x^{(i)})-y^{(i)})x_j^{(i)} + \\lambda \\theta_j]',
+  codePlaceholder: `def compute_gradient_reg(X, y, theta, reg_lambda):
+  return # Your Code Here`,
+  url: 'http://localhost:3000/linear-regression/compute-gradient-reg',
   status: 'Waiting',
   statusMessage: '',
 }, {
   title: 'Gradient Descent',
   description: 'description',
-  formula: '\\theta_j := \\theta_j - \\alpha\\frac{1}{m}\\sum_{i=1}^{m}(h_\\theta(x^{(i)})-y^{(i)})x_j^{(i)}',
-  codePlaceholder: `def gradient_descent(X, y, theta, alpha):
+  formula: '\\theta_j := \\theta_j - \\alpha[\\frac{1}{m}\\sum_{i=1}^{m}(h_\\theta(x^{(i)})-y^{(i)})x_j^{(i)} + \\lambda \\theta_j]',
+  codePlaceholder: `def gradient_descent_reg(X, y, theta, reg_lambda, alpha):
   return # Your Code Here`,
-  url: 'http://localhost:3000',
-  status: 'Waiting',
-  statusMessage: '',
-}, {
-  title: 'Gradient Descent With Regularization',
-  description: 'description',
-  formula: '\\theta_j := \\theta_j(1 - \\alpha\\frac{\\lambda}{m}) - \\alpha\\frac{1}{m}\\sum_{i=1}^{m}(h_\\theta(x^{(i)})-y^{(i)})x_j^{(i)}',
-  codePlaceholder: `def gradient_descent_reg(X, y, theta, alpha, reg_lambda):
-  return # Your Code Here`,
-  url: 'http://localhost:3000',
+  url: 'http://localhost:3000/linear-regression/gradient-descent',
   status: 'Waiting',
   statusMessage: '',
 }];
+
 
 
 const initialState = {

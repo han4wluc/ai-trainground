@@ -2,8 +2,8 @@ from flask import Flask, request
 from flask_cors import CORS, cross_origin
 import json
 import numpy as np
-import linear_regression
-import logistic_regression
+import test_cases.linear_regression as linear_regression
+import test_cases.logistic_regression as logistic_regression
 
 app = Flask(__name__)
 CORS(app)
@@ -36,7 +36,25 @@ def route_linear_compute_cost():
   inpt = request.json[u'inpt']
   return perform_test(inpt, linear_regression.test_compute_cost, 'compute_cost')
 
+@app.route('/linear-regression/compute-cost-reg', methods = ['POST'])
+def route_linear_compute_cost_reg():  
+  inpt = request.json[u'inpt']
+  return perform_test(inpt, linear_regression.test_compute_cost_reg, 'compute_cost_reg')
 
+@app.route('/linear-regression/compute-gradient', methods = ['POST'])
+def route_linear_compute_gradient():  
+  inpt = request.json[u'inpt']
+  return perform_test(inpt, linear_regression.test_compute_gradient, 'compute_gradient')
+
+@app.route('/linear-regression/compute-gradient-reg', methods = ['POST'])
+def route_linear_compute_gradient_reg():  
+  inpt = request.json[u'inpt']
+  return perform_test(inpt, linear_regression.test_compute_gradient_reg, 'compute_gradient_reg')
+
+@app.route('/linear-regression/gradient-descent', methods = ['POST'])
+def route_linear_gradient_descent():  
+  inpt = request.json[u'inpt']
+  return perform_test(inpt, linear_regression.test_gradient_descent, 'gradient_descent')
 
 
 """
@@ -51,8 +69,6 @@ def route_logistic_hypothesis():
 def route_logistic_compute_cost():
   inpt = request.json[u'inpt']
   return perform_test(inpt, logistic_regression.test_compute_cost, 'compute_cost')
-
-
 
 
 

@@ -30,7 +30,7 @@ const tasks = [{
   title: 'Cost Function With Regularization',
   description: 'description',
   formula: 'J(\\theta) = \\frac{1}{2m}[\\sum_{i=1}^{m}(h_\\theta(x^{(i)})-y^{(i)})^{2} + \\lambda\\sum_{i=1}^{n}\\theta_j^{2} ]',
-  codePlaceholder: `def compute_cost_with_reg(X, y, theta, reg_lambda):
+  codePlaceholder: `def compute_cost_reg(X, y, theta, reg_lambda):
   return # Your Code Here`,
   url: 'http://localhost:3000',
   status: 'Waiting',
@@ -48,7 +48,7 @@ const tasks = [{
   title: 'Gradient Descent With Regularization',
   description: 'description',
   formula: '\\theta_j := \\theta_j(1 - \\alpha\\frac{\\lambda}{m}) - \\alpha\\frac{1}{m}\\sum_{i=1}^{m}(h_\\theta(x^{(i)})-y^{(i)})x_j^{(i)}',
-  codePlaceholder: `def gradient_descent_reg(X, y, theta, alpha, reg_lambda):
+  codePlaceholder: `def gradient_descent(X, y, theta, reg_lambda, alpha, num_iters):
   return # Your Code Here`,
   url: 'http://localhost:3000',
   status: 'Waiting',
