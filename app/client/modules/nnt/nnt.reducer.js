@@ -5,7 +5,7 @@ const tasks = [{
   formula: 'h_\\theta(x) = \\theta x',
   codePlaceholder: `def hypothesis(X, theta):
   return # Your Code Here`,
-  url: 'http://localhost:3000/hypothesis',
+  url: 'http://localhost:3000/linear-regression/hypothesis',
   status: 'Waiting',
   statusMessage: '',
 }, {
@@ -14,7 +14,7 @@ const tasks = [{
   formula: 'J(\\Theta) = \\frac{1}{2m}\\sum_{i=1}^{m}(h_\\theta(x^{(i)})-y^{(i)})^{2}',
   codePlaceholder: `def compute_cost(X, y, theta):
   return # Your Code Here`,
-  url: 'http://localhost:3000/compute-cost',
+  url: 'http://localhost:3000/linear-regression/compute-cost',
   status: 'Waiting',
   statusMessage: '',
 }, {
