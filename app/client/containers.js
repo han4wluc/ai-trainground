@@ -10,6 +10,7 @@ import miniMaze from './modules/miniMaze/miniMaze.container';
 import nn from './modules/nn/nn.container';
 import pracLinReg from './modules/pracLinReg/pracLinReg.container';
 import pracLogReg from './modules/pracLogReg/pracLogReg.container';
+import pracNeuNet from './modules/pracNeuNet/pracNeuNet.container';
 /**YEOMAN_HOOK_1**/
 
 export default {
@@ -25,5 +26,6 @@ export default {
   // nnt,
   pracLinReg,
   pracLogReg,
+  pracNeuNet,
   /**YEOMAN_HOOK_2**/
 };

@@ -1,12 +1,12 @@
 
 import React, { Component } from 'react';
-import * as pracLogRegActions from './pracLogReg.action';
-import { Utils, } from '../..';
+import * as pracNeuNetActions from './pracNeuNet.action';
+import { Utils, } from '../../';
 import { PracRenders } from '../../renders';
 
 const { Setup } = Utils;
 
-class PracLogRegContainer extends Component {
+class PracNeuNetContainer extends Component {
 
   render(){
     const {
@@ -20,18 +20,17 @@ class PracLogRegContainer extends Component {
     const tasksComps = PracRenders.renderTasks({
       tasks,
       submissionRequestAction,
-      name: 'pracLogReg',
-      baseAction: 'PRACLOGREG',
+      name: 'pracNeuNet',
+      baseAction: 'PRACNEUNET',
     });
-
 
     return (
       <div style={{flex:1}}>
-        <h1> {'Logistic Regression'} </h1>
+        <h1> {'Neural Networks'} </h1>
         {tasksComps}
       </div>
     );
   }
 }
 
-export default Setup.customConnect('pracLogReg', pracLogRegActions, PracLogRegContainer);
+export default Setup.customConnect('pracNeuNet', pracNeuNetActions, PracNeuNetContainer);

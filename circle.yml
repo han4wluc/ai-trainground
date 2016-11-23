@@ -1,0 +1,9 @@
+machine:
+  post:
+    - pyenv global 2.7.9
+dependencies:
+  override:
+    - pip install -r ./flask/requirements.txt
+test:
+  override:
+    - ./flask/tests.sh

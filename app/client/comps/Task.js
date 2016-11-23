@@ -88,7 +88,7 @@ export default class Chooser extends Component {
               {description}
             </p>
             <img
-              src={`http://latex.codecogs.com/gif.latex?{${formula}}`}
+              src={`http://latex.codecogs.com/gif.latex?${formula}`}
               border="0"
             />
           </div>

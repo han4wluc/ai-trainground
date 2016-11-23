@@ -18,7 +18,7 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history}>
           <Route path="/" component={containers['nav']}>
-            <IndexRedirect to="/pracLinReg" />
+            <IndexRedirect to="/pracNeuNet" />
             <Route path="grid" component={containers['grid']}/>
             <Route path="nine" component={containers['nine']}/>
             <Route path="ttt" component={containers['ttt']}/>
@@ -29,6 +29,7 @@ class App extends Component {
             <Route path="nn" component={containers['nn']}/>
             <Route path="pracLinReg" component={containers['pracLinReg']}/>
             <Route path="pracLogReg" component={containers['pracLogReg']}/>
+            <Route path="pracNeuNet" component={containers['pracNeuNet']}/>
           </Route>
         </Router>
       </Provider>

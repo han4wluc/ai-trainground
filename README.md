@@ -23,3 +23,4 @@ Work on progress
 * open your browser at `http://localhost:8080/webpack-dev-server/`
 
 * `npm run flask` to start the flask server
+* `npm run test-flask` to run flask test suite

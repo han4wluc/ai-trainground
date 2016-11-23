@@ -31,6 +31,8 @@ class NavContainer extends Component {
         <Link to="/pracLinReg">pracLinReg</Link>
         {'   '}
         <Link to="/pracLogReg">pracLogReg</Link>
+        {'   '}
+        <Link to="/pracNeuNet">Neural Network</Link>
 
         <br/>
         <br/>
