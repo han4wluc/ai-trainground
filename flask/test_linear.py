@@ -51,7 +51,7 @@ def gradient_descent(X, y, theta, reg_lambda, alpha, num_iters):
   return [theta, costs]
 
 
-class TestMyTests(unittest.TestCase):
+class LinearRegression(unittest.TestCase):
 
   def test_hypothesis(self):
     linear_regression.test_hypothesis(hypothesis)

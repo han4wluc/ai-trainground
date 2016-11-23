@@ -58,7 +58,7 @@ def gradient_descent(X, y, theta, reg_lambda, alpha, num_iters):
 
   return [theta, costs]
 
-class TestMyTests(unittest.TestCase):
+class LogisticRegression(unittest.TestCase):
 
   def test_sigmoid(self):
     logistic_regression.test_sigmoid(sigmoid)
