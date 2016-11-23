@@ -1,6 +1,6 @@
 machine:
-  post:
-    - pyenv global 2.7.9
+  python:
+    version: 2.7.6
 dependencies:
   override:
     - pip install -r ./flask/requirements.txt
