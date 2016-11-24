@@ -52,7 +52,7 @@ def backward_propagation(X, y, w1, b1, w2, b2, alpha, reg_lambda):
   delta2 = np.dot(delta3, w2.T) *( dsigmoid(a2) )
   # delta1 = np.dot(delta2.T, w1.T) * dsigmoid(a1)
 
-  dW2 = np.dot(a2.T, delta3) + reg_lambda * w2
+  dW2 = np.dot(a2.T, delta3) + reg_lambda * w2    #####
   dB2 = np.sum(delta3, axis=0, keepdims=True)
 
   dW1 = np.dot(a1.T, delta2) + reg_lambda * w1

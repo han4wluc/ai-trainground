@@ -22,7 +22,7 @@ const tasks = [{
   title: 'Cost Function',
   description: 'description',
   formula: '{J(\\Theta) = -\\frac{1}{m}[\\sum_{m}^{i=1}\\sum_{k=1}^{K}y_k^{(i)}log(h_\\Theta(x^{(i)}))_k + (1 - y_k^{(i)} log(1 - (h_\\Theta(x^{(i)}))_k)] + \\frac{\\lambda}{2m}\\sum_{l=1}^{L-1}\\sum_{i=1}^{s_l}\\sum_{j=1}^{s_l+1}(\\Theta_{ji}^{(l)})^2}',
-  codePlaceholder: compute_cost_reg,
+  codePlaceholder: startcode.compute_cost_reg,
   url: 'http://localhost:3000/neural-network/compute-cost',
   status: 'Waiting',
   statusMessage: '',

@@ -18,6 +18,9 @@ Work on progress
 
 
 ## How to use
+
+* `npm i -g webpack-dev-server`
+
 * `npm install`
 
 * `npm run dev`
